@@ -10,23 +10,14 @@
       font-size: 1.4rem;
     }
 
-    pre {
-      width: 60ch;
-      height: 4ch;
-    }
-
-    .container {
+    #mainCanvas {
       display: grid;
+      >  .canvasLayer {
+        grid-column: 1;
+        grid-row: 1;
+      }
     }
-
-    .box {
-      grid-column: 1;
-      grid-row: 1;
-    }
-
-    .lowerbox {}
-
-    .topbox {
+    .activeLayer {
       color: gold;
     }
   </style>
@@ -35,7 +26,8 @@
 
     const s = {
       layers: [],
-      currentLayer: 0
+      currentLayer: null,
+      container: null
     }
 
     const setLineWidth = (input) => {
@@ -52,10 +44,8 @@
 
     const addLayer = () => {
       console.log("making layer")
-      const parent = document.getElementById('mainCanvas')
       const newLayer = document.createElement("pre")
-      newLayer.contentEditable = true
-      parent.appendChild(newLayer)
+      newLayer.classList.add("canvasLayer")
       let baseText = ""
       for (let i = 0; i < 20; i += 1) {
         baseText += "\n"
@@ -69,16 +59,33 @@
           reverseHistory: []
         }
       )
+      s.currentLayer = s.layers.length - 1
+      layerCount.innerHTML = s.layers.length
+      stackLayers()
+    }
+
+    const stackLayers = () => {
+      while (s.container.children.length > 0) {
+        s.container.children[0].remove()
+      }
+      s.layers.forEach((layer, layerIndex) => {
+        if (layerIndex != s.currentLayer) {
+          s.container.appendChild(s.layers[layerIndex].el)
+          s.layers[layerIndex].el.classList.remove("activeLayer")
+          s.layers[layerIndex].el.contentEditable = false
+        }
+      })
+      s.container.appendChild(
+        s.layers[s.currentLayer].el
+      )
+      s.layers[s.currentLayer].el.classList.add("activeLayer")
+      s.layers[s.currentLayer].el.contentEditable = true
     }
 
     const init = () => {
+      s.container = document.getElementById("mainCanvas")
       addLayerButton.addEventListener("click", addLayer)
       addLayer()
-      /*
-    forwardlayer.addEventListener("click", forwardLayer)
-    backlayer.addEventListener("click", backLayer) 
-    document.addEventListener("keydown", watchKeys)
-      */
     }
 
     document.addEventListener("DOMContentLoaded", init)
@@ -89,17 +96,13 @@
 <body>
 
   <button id="addLayerButton">Add Layer</button>
-
-  <div>LAYER: <span id="ln">1</span></div>
-
+  <div>LAYER: <span id="layerCount">0</span></div>
   <p>
     <button id="forwardlayer">Forward Layer</button><br />
     <button id="backlayer">Back Layer</button>
   </p>
 
-  <div id="mainCanvas">
-
-  </div>
+  <div id="mainCanvas"></div>
 
 </body>
 
