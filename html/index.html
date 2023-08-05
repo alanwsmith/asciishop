@@ -66,18 +66,18 @@ x + "                                                                           
     }
 
     const backLayer = () => {
-      if (layerNumber == 5) {
-        layerNumber = 1
+      if (layerNumber == 1) {
+        layerNumber = 5
       } else {
-        layerNumber += 1
+        layerNumber -= 1
       }
       ln.innerHTML = layerNumber
       const l = []
+      l.push(setLayerLines(l5.innerText))
       l.push(setLayerLines(l1.innerText))
       l.push(setLayerLines(l2.innerText))
       l.push(setLayerLines(l3.innerText))
       l.push(setLayerLines(l4.innerText))
-      l.push(setLayerLines(l5.innerText))
       l1.innerText = l[0]
       l2.innerText = l[1]
       l3.innerText = l[2]
@@ -122,7 +122,7 @@ x + "                                                                           
 
   <div class="container">
     <div class="box lowerbox">
-      <pre id="l1">
+      <pre id="l5">
                                      ---------              ---------
                                    //- . . . -\\          //- . . . -\\
                                   //- .       -\\  ----  //-       . -\\
@@ -162,7 +162,7 @@ x + "                                                                           
         </pre>
     </div>
     <div class="box lowerbox">
-      <pre id="l2">
+      <pre id="l4">
                                      ---------              ---------
                                    //- . . . -\\          //- . . . -\\
                                   //- .       -\\  ----  //-       . -\\
@@ -238,7 +238,7 @@ x + "                                                                           
         </pre>
     </div>
     <div class="box lowerbox">
-      <pre id="l4">
+      <pre id="l2">
                                      ---------              ---------
                                    //- . . . -\\          //- . . . -\\
                                   //- .       -\\  ----  //-       . -\\
@@ -277,7 +277,7 @@ x + "                                                                           
         </pre>
     </div>
     <div class="box topbox">
-      <pre id="l5" contenteditable="true">
+      <pre id="l1" contenteditable="true">
                                      ---------              ---------
                                    //- . . . -\\          //- . . . -\\
                                   //- .       -\\  ----  //-       . -\\
