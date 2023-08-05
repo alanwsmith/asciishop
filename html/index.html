@@ -82,10 +82,31 @@
       s.layers[s.currentLayer].el.contentEditable = true
     }
 
+    const forwardLayer = () => {
+      if (s.currentLayer == s.layers.length - 1) {
+        s.currentLayer = 0
+      } else {
+        s.currentLayer += 1
+      }
+      stackLayers()
+    }
+
+    const backLayer = () => {
+      if (s.currentLayer == 0) {
+        s.currentLayer = s.layers.length - 1
+      } else {
+        s.currentLayer -= 1
+      }
+      stackLayers()
+    }
+
+
     const init = () => {
       s.container = document.getElementById("mainCanvas")
       addLayerButton.addEventListener("click", addLayer)
       addLayer()
+      backButton.addEventListener("click", backLayer)
+      forwardButton.addEventListener("click", forwardLayer)
     }
 
     document.addEventListener("DOMContentLoaded", init)
@@ -98,8 +119,8 @@
   <button id="addLayerButton">Add Layer</button>
   <div>LAYER: <span id="layerCount">0</span></div>
   <p>
-    <button id="forwardlayer">Forward Layer</button><br />
-    <button id="backlayer">Back Layer</button>
+    <button id="forwardButton">Forward Layer</button><br />
+    <button id="backButton">Back Layer</button>
   </p>
 
   <div id="mainCanvas"></div>
