@@ -24,6 +24,9 @@
     *, *::before, *::after {
       margin: 0;
     }
+    .selected {
+      background-color: gold;
+    }
 
 
   </style>
@@ -34,23 +37,26 @@
       layers: [],
       cols: 10,
       rows: 10,
-      activeLayer: null
+      current: { l: null, r: null, c: null }
     }
 
     const addLayer = () => {
       console.log("adding layer")
       // pull layer number before adding to match 0 index
-      s.activeLayer = s.layers.length;
+      s.current.l = s.layers.length;
       const newLayer = document.createElement("div")
-      newLayer.id = `layer_${s.activeLayer}`
+      newLayer.id = `layer_${s.current.l}`
       newLayer.classList.add("layer")
       const lHolder = []
       for (let c = 0; c < s.cols; c += 1) {
         const cHolder = []
         for (let r = 0; r < s.rows; r += 1) {
           const newPixel = document.createElement("pre")
-          newPixel.id = `pixel_${c}_${r}`
+          newPixel.dataset.l = s.current.l
+          newPixel.dataset.r = r
+          newPixel.dataset.c = c
           newPixel.innerHTML = "."
+          newPixel.addEventListener("click", selectPixelFromClick)
           newLayer.appendChild(newPixel)
           cHolder.push(".")
         }
@@ -58,7 +64,23 @@
       }
       s.layers.push(lHolder)
       s.wrap.appendChild(newLayer)
+
+      if (s.current.r === null) {
+        s.current.r = 0
+      }
+      if (s.current.c === null) {
+        s.current.c = 0
+      }
     }
+
+    const selectPixelFromClick = (event) => {
+      s.current.l = event.srcElement.dataset.l
+      s.current.r = event.srcElement.dataset.r
+      s.current.c = event.srcElement.dataset.c
+      console.log(s.current)
+    }
+
+
 
     const init = () => {
       s.wrap = document.getElementById("bg")
