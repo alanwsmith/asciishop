@@ -41,41 +41,44 @@
     const setLineWidth = (input) => {
       const currentLines = input.split("\n")
       const updatedLines = currentLines.map((x) => {
-        return x + "                                                                                                                "
-      })                                                                            
+        const initialLength = x.length
+        for (let i = initialLength; i < 60; i += 1) {
+          x = x + " "
+        }
+        return x
+      })
       return updatedLines.join("\n")
     }
 
     const addLayer = () => {
-        console.log("making layer")
-        const parent = document.getElementById('mainCanvas')
-        const newLayer = document.createElement("pre")
-        newLayer.contentEditable = true
-        parent.appendChild(newLayer)
-        let baseText = ""
-        for (let i = 0; i < 50; i += 1) {
-          baseText += "\n"
+      console.log("making layer")
+      const parent = document.getElementById('mainCanvas')
+      const newLayer = document.createElement("pre")
+      newLayer.contentEditable = true
+      parent.appendChild(newLayer)
+      let baseText = ""
+      for (let i = 0; i < 20; i += 1) {
+        baseText += "\n"
+      }
+      newLayer.innerText = setLineWidth(baseText)
+      s.layers.push(
+        {
+          el: newLayer,
+          text: baseText,
+          history: [],
+          reverseHistory: []
         }
-        newLayer.innerText = setLineWidth(baseText)
-        s.layers.push(
-          {
-            el: newLayer,
-            text: baseText,
-            history: [],
-            reverseHistory: []
-          }
-        )
+      )
     }
 
     const init = () => {
-        addLayerButton.addEventListener("click", addLayer) 
-        addLayer()
-
-        /*
-      forwardlayer.addEventListener("click", forwardLayer)
-      backlayer.addEventListener("click", backLayer) 
-      document.addEventListener("keydown", watchKeys)
-        */
+      addLayerButton.addEventListener("click", addLayer)
+      addLayer()
+      /*
+    forwardlayer.addEventListener("click", forwardLayer)
+    backlayer.addEventListener("click", backLayer) 
+    document.addEventListener("keydown", watchKeys)
+      */
     }
 
     document.addEventListener("DOMContentLoaded", init)
@@ -85,14 +88,14 @@
 
 <body>
 
-    <button id="addLayerButton">Add Layer</button>
+  <button id="addLayerButton">Add Layer</button>
 
-    <div>LAYER: <span id="ln">1</span></div>
+  <div>LAYER: <span id="ln">1</span></div>
 
-    <p>
+  <p>
     <button id="forwardlayer">Forward Layer</button><br />
-  <button id="backlayer">Back Layer</button>
-    </p>
+    <button id="backlayer">Back Layer</button>
+  </p>
 
   <div id="mainCanvas">
 
