@@ -7,10 +7,78 @@
     body {
       background-color: #000;
       color: #777;
+      font-size: 0.7rem;
+    }
+    pre {
+      width: 60ch;
+      height: 4ch;
+    }
+
+    .container {
+      display: grid;
+    }
+
+    .box {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .lowerbox {
+    }
+
+    .topbox {
+      color: gold;
+    }
+
   </style>
+
+
+<script>
+    const swapLayers = () => {
+      const l = []
+      l.push(l2.innerText)
+      l.push(l3.innerText)
+      l.push(l4.innerText)
+      l.push(l5.innerText)
+      l.push(l1.innerText)
+
+      l1.innerText = l[0]
+      l2.innerText = l[1]
+      l3.innerText = l[2]
+      l4.innerText = l[3]
+      l5.innerText = l[4]
+    }
+
+    const init = () => {
+      swaplayers.addEventListener("click", swapLayers)
+    //   l1.addEventListener("input", saveStuff)
+      //l2.addEventListener("input", saveStuff)
+      // l3.addEventListener("input", saveStuff)
+      // l4.addEventListener("input", saveStuff)
+      // l5.addEventListener("input", saveStuff)
+    }
+    document.addEventListener("DOMContentLoaded", init)
+
+
+
+</script>
+
 </head>
 
+
 <body>
+    <div class="container">
+      <div class="box lowerbox"><pre id="l1">h</pre></div>
+      <div class="box lowerbox"><pre id="l2"> e</pre></div>
+      <div class="box lowerbox"><pre id="l3">  l</pre></div>
+      <div class="box lowerbox"><pre id="l4">   l</pre></div>
+      <div class="box topbox" contenteditable="true"><pre id="l5">    o</pre></div>
+    </div>
+
+    <button id="swaplayers">Swap Layers</button>
+
+
+
 <pre id="bg">
       
          ---------              ---------
@@ -43,8 +111,5 @@
 
 </pre>
     <p><input type="checkbox" id="bgon" checked></p>
-
-
 </body>
-
 </html>
