@@ -93,6 +93,15 @@ x + "                                                                           
       localStorage.setItem("l5", l5.innerText);
     }
 
+    const watchKeys = (event) => {
+      if (event.code == "MetaLeft") {
+        forwardLayer()
+      } else if(event.code = "ControlLeft") {
+        backLayer()
+      }
+    }
+
+
     const init = () => {
       forwardlayer.addEventListener("click", forwardLayer)
       backlayer.addEventListener("click", backLayer)
@@ -104,8 +113,12 @@ x + "                                                                           
       l4.innerText = localStorage.getItem("l4")
       l5.innerText = localStorage.getItem("l5")
 
+      document.addEventListener("keydown", watchKeys)
     }
+
+
     document.addEventListener("DOMContentLoaded", init)
+
 
   </script>
 
