@@ -33,121 +33,154 @@
 
 
   <script>
-    let layerNumber = 1
 
-    let undoer = [[], [], [], [], [], []]
-
-    const setLayerLines = (input) => {
-      const baseLines = input.split("\n")
-      const updatedLines = baseLines.map((x) => 
-x + "                                                                                                                                               "
-      )
-      return updatedLines.join("\n")
+    const s = {
+      layers: []
     }
 
-    const forwardLayer = () => {
-      if (layerNumber == 5) {
-        layerNumber = 1
-      } else {
-        layerNumber += 1
-      }
-      ln.innerHTML = layerNumber
-      const l = []
-      l.push(setLayerLines(l2.innerText))
-      l.push(setLayerLines(l3.innerText))
-      l.push(setLayerLines(l4.innerText))
-      l.push(setLayerLines(l5.innerText))
-      l.push(setLayerLines(l1.innerText))
-      l1.innerText = l[0]
-      l2.innerText = l[1]
-      l3.innerText = l[2]
-      l4.innerText = l[3]
-      l5.innerText = l[4]
+
+    // let layerNumber = 1
+
+    // let undoer = [[], [], [], [], [], []]
+
+//     const setLayerLines = (input) => {
+//       const baseLines = input.split("\n")
+//       const updatedLines = baseLines.map((x) => 
+// x + "                                                                                                                                               "
+//       )
+//       return updatedLines.join("\n")
+//     }
+
+    // const forwardLayer = () => {
+    //   if (layerNumber == 5) {
+    //     layerNumber = 1
+    //   } else {
+    //     layerNumber += 1
+    //   }
+    //   ln.innerHTML = layerNumber
+    //   const l = []
+    //   l.push(setLayerLines(l2.innerText))
+    //   l.push(setLayerLines(l3.innerText))
+    //   l.push(setLayerLines(l4.innerText))
+    //   l.push(setLayerLines(l5.innerText))
+    //   l.push(setLayerLines(l1.innerText))
+    //   l1.innerText = l[0]
+    //   l2.innerText = l[1]
+    //   l3.innerText = l[2]
+    //   l4.innerText = l[3]
+    //   l5.innerText = l[4]
+    // }
+
+    // const backLayer = () => {
+    //   if (layerNumber == 1) {
+    //     layerNumber = 5
+    //   } else {
+    //     layerNumber -= 1
+    //   }
+    //   ln.innerHTML = layerNumber
+    //   const l = []
+    //   l.push(setLayerLines(l5.innerText))
+    //   l.push(setLayerLines(l1.innerText))
+    //   l.push(setLayerLines(l2.innerText))
+    //   l.push(setLayerLines(l3.innerText))
+    //   l.push(setLayerLines(l4.innerText))
+    //   l1.innerText = l[0]
+    //   l2.innerText = l[1]
+    //   l3.innerText = l[2]
+    //   l4.innerText = l[3]
+    //   l5.innerText = l[4]
+    // }
+
+    // const saveStuff = (event) => {
+    //   localStorage.setItem("l1", l1.innerText);
+    //   localStorage.setItem("l2", l2.innerText);
+    //   localStorage.setItem("l3", l3.innerText);
+    //   localStorage.setItem("l4", l4.innerText);
+    //   localStorage.setItem("l5", l5.innerText);
+    //   console.log("SAVING")
+    //   if (layerNumber == 1) {
+    //     undoer[1].push(l1.innerText)
+    //   } else if (layerNumber == 2) {
+    //     undoer[2].push(l2.innerText)
+    //   } else if (layerNumber == 3) {
+    //     undoer[3].push(l3.innerText)
+    //   } else if (layerNumber == 4) {
+    //     undoer[4].push(l4.innerText)
+    //   } else if (layerNumber == 5) {
+    //     undoer[5].push(l5.innerText)
+    //   }
+    // }
+
+    // const doUndo = (event) => {
+    //   console.log("undiding")
+    //   if (undoer[layerNumber].length > 0) {
+    //     console.log("asdf")
+    //   if (layerNumber == 1) {
+    //     l1.innerText = undoer[1].pop()
+    //   } else if (layerNumber == 2) {
+    //     l2.innerText = undoer[2].pop()
+    //   } else if (layerNumber == 3) {
+    //     l3.innerText = undoer[3].pop()
+    //   } else if (layerNumber == 4) {
+    //     l4.innerText = undoer[4].pop()
+    //   } else if (layerNumber == 5) {
+    //     l5.innerText = undoer[5].pop()
+    //   }
+    //   }
+    // }
+
+    // const watchKeys = (event) => {
+    //    // console.log(event)
+    //   if (event.code == "MetaLeft") {
+    //     forwardLayer()
+    //   } else if(event.code == "ControlLeft") {
+    //     backLayer()
+    //    } else if(event.code == "Escape") {
+    //      doUndo()
+    //    }
+    // }
+
+
+    const setLineWidth = (input) => {
+      const currentLines = input.split("\n")
+      const updatedLines = currentLines.map((x) => {
+        return x + "                                                                                                                "
+      })                                                                            
     }
 
-    const backLayer = () => {
-      if (layerNumber == 1) {
-        layerNumber = 5
-      } else {
-        layerNumber -= 1
-      }
-      ln.innerHTML = layerNumber
-      const l = []
-      l.push(setLayerLines(l5.innerText))
-      l.push(setLayerLines(l1.innerText))
-      l.push(setLayerLines(l2.innerText))
-      l.push(setLayerLines(l3.innerText))
-      l.push(setLayerLines(l4.innerText))
-      l1.innerText = l[0]
-      l2.innerText = l[1]
-      l3.innerText = l[2]
-      l4.innerText = l[3]
-      l5.innerText = l[4]
-    }
 
-    const saveStuff = (event) => {
-      localStorage.setItem("l1", l1.innerText);
-      localStorage.setItem("l2", l2.innerText);
-      localStorage.setItem("l3", l3.innerText);
-      localStorage.setItem("l4", l4.innerText);
-      localStorage.setItem("l5", l5.innerText);
+    const addLayer = () => {
+        console.log("making layer")
 
-      console.log("SAVING")
+        const parent = document.getElementById('mainCanvas')
+        const newLayer = document.createElement("pre")
+        newLayer.innerText = "asdf"
+        newLayer.contentEditable = true
+        parent.appendChild(newLayer)
 
-      if (layerNumber == 1) {
-        undoer[1].push(l1.innerText)
-      } else if (layerNumber == 2) {
-        undoer[2].push(l2.innerText)
-      } else if (layerNumber == 3) {
-        undoer[3].push(l3.innerText)
-      } else if (layerNumber == 4) {
-        undoer[4].push(l4.innerText)
-      } else if (layerNumber == 5) {
-        undoer[5].push(l5.innerText)
-      }
-    }
-
-    const doUndo = (event) => {
-      console.log("undiding")
-      if (undoer[layerNumber].length > 0) {
-        console.log("asdf")
-
-      if (layerNumber == 1) {
-        l1.innerText = undoer[1].pop()
-      } else if (layerNumber == 2) {
-        l2.innerText = undoer[2].pop()
-      } else if (layerNumber == 3) {
-        l3.innerText = undoer[3].pop()
-      } else if (layerNumber == 4) {
-        l4.innerText = undoer[4].pop()
-      } else if (layerNumber == 5) {
-        l5.innerText = undoer[5].pop()
-      }
-
-      }
-    }
-
-    const watchKeys = (event) => {
-       // console.log(event)
-      if (event.code == "MetaLeft") {
-        forwardLayer()
-      } else if(event.code == "ControlLeft") {
-        backLayer()
-       } else if(event.code == "Escape") {
-         doUndo()
-       }
+        let baseText = ""
+        for (let i = 0; i < 50; i += 1) {
+          baseText += "\n"
+        }
+        baseText = setLineWidth(baseText)
+        s.layers.push(
+          {
+            el: newLayer,
+            text: baseText,
+            history: [],
+            reverseHistory: []
+          }
+        )
     }
 
     const init = () => {
+
+        addLayerButton.addEventListener("click", addLayer) 
+        /*
       forwardlayer.addEventListener("click", forwardLayer)
-      backlayer.addEventListener("click", backLayer)
-      l5.addEventListener("input", saveStuff)
-      l1.innerText = localStorage.getItem("l1")
-      l2.innerText = localStorage.getItem("l2")
-      l3.innerText = localStorage.getItem("l3")
-      l4.innerText = localStorage.getItem("l4")
-      l5.innerText = localStorage.getItem("l5")
+      backlayer.addEventListener("click", backLayer) 
       document.addEventListener("keydown", watchKeys)
+        */
     }
 
     document.addEventListener("DOMContentLoaded", init)
@@ -157,6 +190,8 @@ x + "                                                                           
 
 <body>
 
+    <button id="addLayerButton">Add Layer</button>
+
     <div>LAYER: <span id="ln">1</span></div>
 
     <p>
@@ -164,200 +199,8 @@ x + "                                                                           
   <button id="backlayer">Back Layer</button>
     </p>
 
-  <div class="container">
-    <div class="box lowerbox">
-      <pre id="l5">
-                                     ---------              ---------
-                                   //- . . . -\\          //- . . . -\\
-                                  //- .       -\\  ----  //-       . -\\
-                                 //-            ----------            -\\
-                                 \-                                    -/
-                                  \\       //                \\       //
-                                   \\      //                \\      //
-                                    ||        ()          ()        ||
-                                    ||                              ||
-                                    ||\-                          -/||
-                                     |-\-       /'______'\       -/-|
-                                      \\--     /  --  --  \     --//
-                                       /\\--\\              //--//\
-                                      /      \\--  ----  --//      \
-                                 //----         _  ----  _          ----\\
-                                                 ________   
+  <div id="mainCanvas">
 
-
-
-
-
-
-                            /-\
-                            |  .|
-                            ---/
-                                          
-
-                                  
-                                       
-                                   /  . . . . . . . . . . . . . . . .  \
-                                  /  . . . . . . . . . . . . . . . . .  \
-                                  |   . . . . . . . . . . . . . . . . . |
-                                  |_____________________________________|
-
-
-
-        </pre>
-    </div>
-    <div class="box lowerbox">
-      <pre id="l4">
-                                     ---------              ---------
-                                   //- . . . -\\          //- . . . -\\
-                                  //- .       -\\  ----  //-       . -\\
-                                 //-            ----------            -\\
-                                 \-                                    -/
-                                  \\       //                \\       //
-                                   \\      //                \\      //
-                                    ||        ()          ()        ||
-                                    ||                              ||
-                                    ||\-                          -/||
-                                     |-\-       /'______'\       -/-|
-                                      \\--     /  --  --  \     --//
-                                       /\\--\\              //--//\
-                                      /      \\--  ----  --//      \
-                                 //----         _  ----  _          ----\\
-                                                 ________   
-
-
-
-
-
-
-                            /-\
-                            |  .|
-                            ---/
-                                          
-
-                                  
-                                       
-                                   /  . . . . . . . . . . . . . . . .  \
-                                  /  . . . . . . . . . . . . . . . . .  \
-                                  |   . . . . . . . . . . . . . . . . . |
-                                  |_____________________________________|
-
-        </pre>
-    </div>
-    <div class="box lowerbox">
-      <pre id="l3">
-                                     ---------              ---------
-                                   //- . . . -\\          //- . . . -\\
-                                  //- .       -\\  ----  //-       . -\\
-                                 //-            ----------            -\\
-                                 \-                                    -/
-                                  \\       //                \\       //
-                                   \\      //                \\      //
-                                    ||        ()          ()        ||
-                                    ||                              ||
-                                    ||\-                          -/||
-                                     |-\-       /'______'\       -/-|
-                                      \\--     /  --  --  \     --//
-                                       /\\--\\              //--//\
-                                      /      \\--  ----  --//      \
-                                 //----         _  ----  _          ----\\
-                                                 ________   
-
-
-
-
-
-
-                            /-\
-                            |  .|
-                            ---/
-                                          
-
-                                  
-                                       
-                                   /  . . . . . . . . . . . . . . . .  \
-                                  /  . . . . . . . . . . . . . . . . .  \
-                                  |   . . . . . . . . . . . . . . . . . |
-                                  |_____________________________________|
-
-        </pre>
-    </div>
-    <div class="box lowerbox">
-      <pre id="l2">
-                                     ---------              ---------
-                                   //- . . . -\\          //- . . . -\\
-                                  //- .       -\\  ----  //-       . -\\
-                                 //-            ----------            -\\
-                                 \-                                    -/
-                                  \\       //                \\       //
-                                   \\      //                \\      //
-                                    ||        ()          ()        ||
-                                    ||                              ||
-                                    ||\-                          -/||
-                                     |-\-       /'______'\       -/-|
-                                      \\--     /  --  --  \     --//
-                                       /\\--\\              //--//\
-                                      /      \\--  ----  --//      \
-                                 //----         _  ----  _          ----\\
-                                                 ________   
-
-
-
-
-
-
-                            /-\
-                            |  .|
-                            ---/
-                                          
-
-                                  
-                                       
-                                   /  . . . . . . . . . . . . . . . .  \
-                                  /  . . . . . . . . . . . . . . . . .  \
-                                  |   . . . . . . . . . . . . . . . . . |
-                                  |_____________________________________|
-
-
-        </pre>
-    </div>
-    <div class="box topbox">
-      <pre id="l1" contenteditable="true">
-                                     ---------              ---------
-                                   //- . . . -\\          //- . . . -\\
-                                  //- .       -\\  ----  //-       . -\\
-                                 //-            ----------            -\\
-                                 \-                                    -/
-                                  \\       //                \\       //
-                                   \\      //                \\      //
-                                    ||        ()          ()        ||
-                                    ||                              ||
-                                    ||\-                          -/||
-                                     |-\-       /'______'\       -/-|
-                                      \\--     /  --  --  \     --//
-                                       /\\--\\              //--//\
-                                      /      \\--  ----  --//      \
-                                 //----         _  ----  _          ----\\
-                                                 ________   
-
-
-
-
-
-
-                            /-\
-                            |  .|
-                            ---/
-                                          
-
-                                  
-                                       
-                                   /  . . . . . . . . . . . . . . . .  \
-                                  /  . . . . . . . . . . . . . . . . .  \
-                                  |   . . . . . . . . . . . . . . . . . |
-                                  |_____________________________________|
-
-        </pre>
-    </div>
   </div>
 
 </body>
