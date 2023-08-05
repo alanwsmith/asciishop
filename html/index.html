@@ -12,9 +12,12 @@
 
     #mainCanvas {
       display: grid;
+        user-select: none;
       >  .canvasLayer {
         grid-column: 1;
         grid-row: 1;
+        font-family: monospace;
+        user-select: none;
       }
     }
     .activeLayer {
@@ -35,7 +38,7 @@
       const updatedLines = currentLines.map((x) => {
         const initialLength = x.length
         for (let i = initialLength; i < 60; i += 1) {
-          x = x + " "
+          x = x + "&nbsp;"
         }
         return x
       })
@@ -50,7 +53,7 @@
       for (let i = 0; i < 20; i += 1) {
         baseText += "\n"
       }
-      newLayer.innerText = setLineWidth(baseText)
+      newLayer.innerHTML = setLineWidth(baseText)
       s.layers.push(
         {
           el: newLayer,
@@ -100,6 +103,10 @@
       stackLayers()
     }
 
+    const reporter = () => {
+      const theStuffInBlue= window.getSelection()
+      console.log(theStuffInBlue)
+    }
 
     const init = () => {
       s.container = document.getElementById("mainCanvas")
@@ -107,6 +114,7 @@
       addLayer()
       backButton.addEventListener("click", backLayer)
       forwardButton.addEventListener("click", forwardLayer)
+      document.addEventListener("keypress", reporter)
     }
 
     document.addEventListener("DOMContentLoaded", init)
@@ -122,7 +130,6 @@
     <button id="forwardButton">Forward Layer</button><br />
     <button id="backButton">Back Layer</button>
   </p>
-
   <div id="mainCanvas"></div>
 
 </body>
