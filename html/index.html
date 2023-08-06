@@ -39,7 +39,9 @@
     }
 
     .pixel {
-      min-width: 1ch max-width: 1ch
+      min-width: 1.1ch;
+      max-width: 1.1ch;
+      min-height: 1.1em;
     }
   </style>
 
@@ -80,7 +82,7 @@
           newPixel.dataset.l = s.current.l
           newPixel.dataset.r = r
           newPixel.dataset.c = c
-          newPixel.innerHTML = "&nbsp;"
+          newPixel.innerHTML = ""
           newPixel.addEventListener("click", selectPixelFromClick)
           newLayer.appendChild(newPixel)
           cHolder.push(newPixel)
