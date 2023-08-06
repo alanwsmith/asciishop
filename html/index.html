@@ -10,6 +10,7 @@
       font-family: monospace;
       line-height: 2rem;
       color: #777;
+      caret-color: transparent;
     }
 
     #bg {
@@ -23,9 +24,6 @@
       width: 10ch;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       user-select: none;
-      > pre {
-        outline: 1px solid #111;
-      }
     }
 
     .activeLayer {
@@ -42,6 +40,14 @@
       min-width: 1.1ch;
       max-width: 1.1ch;
       min-height: 1.1em;
+    }
+
+    .inactivePixel {
+      outline: 1px solid #111;
+    }
+
+    .activePixel {
+      outline: 1px solid blue;
     }
   </style>
 
@@ -62,6 +68,7 @@
       rows: 10,
       current: {l: null, r: null, c: null},
       layerEls: [],
+      showGrid: 1,
     }
 
     const addLayer = () => {
@@ -105,7 +112,13 @@
       for (let l = 0; l < s.layers.length; l += 1) {
         for (let c = 0; c < s.cols; c += 1) {
           for (let r = 0; r < s.rows; r += 1) {
-            s.layers[l][c][r].classList.remove("selectedPixel")
+            s.layers[l][c][r].classList.remove("activePixel")
+            if (s.showGrid == 1) {
+              s.layers[l][c][r].classList.add("inactivePixel")
+            }
+            else {
+              s.layers[l][c][r].classList.remove("inactivePixel")
+            }
           }
         }
         if (l == s.current.l) {
@@ -114,8 +127,8 @@
           s.layerEls[l].classList.remove("activeLayer")
         }
       }
-    }
 
+    }
 
     const selectPixelFromClick = (event) => {
       setStyles()
@@ -129,10 +142,11 @@
       s.current.l = event.srcElement.dataset.l
       s.current.r = event.srcElement.dataset.r
       s.current.c = event.srcElement.dataset.c
-      event.srcElement.classList.add("selectedPixel")
+      if (s.showGrid == 1) {
+      event.srcElement.classList.add("activePixel")
+      }
       console.log(s.current)
     }
-
 
     const moveForwardLayer = () => {
       if (s.current.l == s.layers.length - 1) {
@@ -152,12 +166,23 @@
       setStyles()
     }
 
+    const toggleGrid = () => {
+      if (s.showGrid == 1) {
+        s.showGrid = 0
+        toggleGridButton.innerHTML = "Show Grid"
+      } else {
+        s.showGrid = 1
+        toggleGridButton.innerHTML = "Hide Grid"
+      }
+      setStyles()
+    }
 
     const init = () => {
       s.wrap = document.getElementById("bg")
       addLayerButton.addEventListener("click", addLayer)
       forwardLayerButton.addEventListener("click", moveForwardLayer)
       backLayerButton.addEventListener("click", moveBackLayer)
+      toggleGridButton.addEventListener("click", toggleGrid)
       addLayer()
     }
 
@@ -170,8 +195,9 @@
 <body>
   <div class="wrapper">
     <button id="addLayerButton">Add Layer</button>
-      <button id="forwardLayerButton">Forward Layer</button>
-      <button id="backLayerButton">Back Layer</button>
+    <button id="forwardLayerButton">Forward Layer</button>
+    <button id="backLayerButton">Back Layer</button>
+    <button id="toggleGridButton">Hide Grid</button>
     <div id="bg"></div>
   </div>
 </body>
