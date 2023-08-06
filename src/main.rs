@@ -8,7 +8,7 @@ use std::fs;
 async fn main() {
     let app = Router::new()
         .route("/", get(handler))
-        .route("/test", get(test_page))
+        // .route("/test", get(test_page))
         .layer(LiveReloadLayer::new());
     let _ = axum::Server::bind(&"0.0.0.0:3100".parse().unwrap())
         .serve(app.into_make_service())
@@ -19,10 +19,11 @@ async fn handler() -> Html<String> {
     let base = fs::read_to_string("html/index.html").unwrap();
     Html(base)
 }
-async fn test_page() -> Html<String> {
-    let base = fs::read_to_string("html/test.html").unwrap();
-    Html(base)
-}
+
+// async fn test_page() -> Html<String> {
+//     let base = fs::read_to_string("html/test.html").unwrap();
+//     Html(base)
+// }
 
 // #[tokio::main]
 //
