@@ -38,20 +38,12 @@
       margin: 0;
     }
 
-    /*
-    .selectedPixel {
-      outline: 1px gold solid;
-    }
-    */
-
     .pixel {
       min-width: 1ch max-width: 1ch
     }
   </style>
 
   <script>
-
-
     const focusOnClick = (event) => {
       event.srcElement.contentEditable = true
       const selection = window.getSelection();
@@ -123,7 +115,6 @@
     }
 
 
-
     const selectPixelFromClick = (event) => {
       setStyles()
       event.srcElement.contentEditable = true
@@ -138,15 +129,36 @@
       s.current.c = event.srcElement.dataset.c
       event.srcElement.classList.add("selectedPixel")
       console.log(s.current)
+    }
 
+
+    const moveForwardLayer = () => {
+      if (s.current.l == s.layers.length - 1) {
+        s.current.l = 0
+      } else {
+        s.current.l += 1
+      }
+      setStyles()
+    }
+
+    const moveBackLayer = () => {
+      if (s.current.l == 0) {
+        s.current.l = s.layers.length - 1
+      } else {
+        s.current.l -= 1
+      }
+      setStyles()
     }
 
 
     const init = () => {
       s.wrap = document.getElementById("bg")
       addLayerButton.addEventListener("click", addLayer)
+      forwardLayerButton.addEventListener("click", moveForwardLayer)
+      backLayerButton.addEventListener("click", moveBackLayer)
       addLayer()
     }
+
     document.addEventListener("DOMContentLoaded", init)
 
   </script>
@@ -156,6 +168,8 @@
 <body>
   <div class="wrapper">
     <button id="addLayerButton">Add Layer</button>
+      <button id="forwardLayerButton">Forward Layer</button>
+      <button id="backLayerButton">Back Layer</button>
     <div id="bg"></div>
   </div>
 </body>
