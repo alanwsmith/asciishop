@@ -53,18 +53,24 @@
     #chars {
       display: flex;
       flex-wrap: wrap;
+    }
 
-      >.char {
-        padding: 0.3rem;
-        outline: 1px solid green;
-        width: 1.4em;
-        text-align: center;
-      }
+    .char {
+      padding: 0.3rem;
+      outline: 1px solid green;
+      width: 1.4em;
+      text-align: center;
     }
 
     .wrapper {
       width: 800px;
       border: 1px solid red;
+    }
+
+
+    .holder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
   </style>
 
@@ -79,6 +85,7 @@
       layerEls: [],
       showGrid: 1,
       wasdNav: 1,
+      freqChars: [],
     }
 
     const addLayer = () => {
@@ -242,7 +249,6 @@
       selectPixelFromClick({
         srcElement: s.layers[s.current.l][s.current.c][s.current.r]
       })
-
     }
 
 
@@ -286,13 +292,30 @@
       s.layers[s.current.l][s.current.c][s.current.r].focus()
     }
 
-
     const addCharacter = (event) => {
-      console.log(event.srcElement.innerHTML)
-      s.layers[s.current.l][s.current.c][s.current.r].innerHTML = event.srcElement.innerHTML
+      const char = event.srcElement.innerHTML
+      console.log(char)
+      s.layers[s.current.l][s.current.c][s.current.r].innerHTML = char
       s.layers[s.current.l][s.current.c][s.current.r].focus()
+      s.freqChars.unshift(char)
+      renderFreqChars()
     }
 
+    const renderFreqChars = () => {
+      console.log(s.freqChars)
+      while (freqChars.children.length > 0) {
+        freqChars.children[0].remove()
+      }
+      for (let c = 0; c < 30; c += 1) {
+        if (s.freqChars[c]) {
+          const newFreqChar = document.createElement("pre")
+          newFreqChar.classList.add("char")
+          newFreqChar.innerHTML = s.freqChars[c]
+          newFreqChar.addEventListener("click", addCharacter)
+          freqChars.appendChild(newFreqChar)
+        }
+      }
+    }
 
     const init = () => {
       s.wrap = document.getElementById("bg")
@@ -301,17 +324,13 @@
       backLayerButton.addEventListener("click", moveBackLayer)
       toggleGridButton.addEventListener("click", toggleGrid)
       toggleWASDButton.addEventListener("click", toggleWASD)
-
       const chars = document.getElementsByClassName("char")
       for (c = 0; c < chars.length; c += 1) {
         chars[c].addEventListener("click", addCharacter)
       }
-
       addLayer()
       renderLayers()
-
       dt.innerHTML = new Date()
-
     }
 
     document.addEventListener("DOMContentLoaded", init)
@@ -330,7 +349,10 @@
     <button id="toggleGridButton">Hide Grid</button>
     <button id="toggleWASDButton">Turn WASD Nav Off</button>
     <div id="currentLayerDisplay">Current Layer: 1</div>
-    <div id="bg"></div>
+    <div class="holder">
+      <div id="bg"></div>
+      <div id="freqChars">----</div>
+    </div>
 
     <div id="chars">
       <pre class="char">&#x00C1;</pre>
