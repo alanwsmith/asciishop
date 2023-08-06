@@ -5,9 +5,10 @@
   <title>ASCII Art Maker</title>
   <style>
     body {
+      font-size: 2rem;
       background-color: black;
       font-family: monospace;
-      line-height: 0.8rem;
+      line-height: 2rem;
       color: #777;
     }
 
@@ -22,6 +23,13 @@
       width: 10ch;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       user-select: none;
+      > pre {
+        outline: 1px solid #111;
+      }
+    }
+
+    .activeLayer {
+      color: gold;
     }
 
     *,
@@ -30,9 +38,11 @@
       margin: 0;
     }
 
-    .selected {
-      background-color: gold;
+    /*
+    .selectedPixel {
+      outline: 1px gold solid;
     }
+    */
 
     .pixel {
       min-width: 1ch max-width: 1ch
@@ -42,12 +52,22 @@
   <script>
 
 
+    const focusOnClick = (event) => {
+      event.srcElement.contentEditable = true
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      const range = document.createRange()
+      range.selectNodeContents(event.srcElement)
+      selection.addRange(range)
+    }
+
     const s = {
       bg: null,
       layers: [],
       cols: 10,
       rows: 10,
-      current: {l: null, r: null, c: null}
+      current: {l: null, r: null, c: null},
+      layerEls: [],
     }
 
     const addLayer = () => {
@@ -57,6 +77,8 @@
       const newLayer = document.createElement("div")
       newLayer.id = `layer_${s.current.l}`
       newLayer.classList.add("layer")
+      newLayer.classList.add("activeLayer")
+      s.layerEls.push(newLayer);
       const lHolder = []
       for (let c = 0; c < s.cols; c += 1) {
         const cHolder = []
@@ -66,10 +88,10 @@
           newPixel.dataset.l = s.current.l
           newPixel.dataset.r = r
           newPixel.dataset.c = c
-          newPixel.innerHTML = "."
+          newPixel.innerHTML = "&nbsp;"
           newPixel.addEventListener("click", selectPixelFromClick)
           newLayer.appendChild(newPixel)
-          cHolder.push(".")
+          cHolder.push(newPixel)
         }
         lHolder.push(cHolder)
       }
@@ -82,16 +104,41 @@
       if (s.current.c === null) {
         s.current.c = 0
       }
+      setStyles()
     }
 
+    const setStyles = () => {
+      for (let l = 0; l < s.layers.length; l += 1) {
+        for (let c = 0; c < s.cols; c += 1) {
+          for (let r = 0; r < s.rows; r += 1) {
+            s.layers[l][c][r].classList.remove("selectedPixel")
+          }
+        }
+        if (l == s.current.l) {
+          s.layerEls[l].classList.add("activeLayer")
+        } else {
+          s.layerEls[l].classList.remove("activeLayer")
+        }
+      }
+    }
+
+
+
     const selectPixelFromClick = (event) => {
-      event.srcElement.classList.add("selected")
+      setStyles()
       event.srcElement.contentEditable = true
-      event.srcElement.focus({focuseVisible: false})
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      const range = document.createRange()
+      range.selectNodeContents(event.srcElement)
+      selection.addRange(range)
+      event.srcElement.focus({focusVisible: false})
       s.current.l = event.srcElement.dataset.l
       s.current.r = event.srcElement.dataset.r
       s.current.c = event.srcElement.dataset.c
+      event.srcElement.classList.add("selectedPixel")
       console.log(s.current)
+
     }
 
 
@@ -107,8 +154,10 @@
 </head>
 
 <body>
-  <button id="addLayerButton">Add Layer</button>
-  <div id="bg"></div>
+  <div class="wrapper">
+    <button id="addLayerButton">Add Layer</button>
+    <div id="bg"></div>
+  </div>
 </body>
 
 </html>
