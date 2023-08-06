@@ -172,6 +172,7 @@
         srcElement: s.layers[s.current.l][s.current.c][s.current.r]
       })
       renderLayers()
+      s.layers[s.current.l][s.current.c][s.current.r].focus()
     }
 
     const moveBackLayer = () => {
@@ -186,6 +187,7 @@
         srcElement: s.layers[s.current.l][s.current.c][s.current.r]
       })
       renderLayers()
+      s.layers[s.current.l][s.current.c][s.current.r].focus()
     }
 
     const reactToKeys = (event) => {
@@ -270,6 +272,7 @@
       selectPixelFromClick({
         srcElement: s.layers[s.current.l][s.current.c][s.current.r]
       })
+      s.layers[s.current.l][s.current.c][s.current.r].focus()
     }
 
     const toggleWASD = () => {
@@ -280,11 +283,14 @@
         s.wasdNav = 1
         toggleWASDButton.innerHTML = "Turn WASD Nav Off"
       }
+      s.layers[s.current.l][s.current.c][s.current.r].focus()
     }
 
 
     const addCharacter = (event) => {
       console.log(event.srcElement.innerHTML)
+      s.layers[s.current.l][s.current.c][s.current.r].innerHTML = event.srcElement.innerHTML
+      s.layers[s.current.l][s.current.c][s.current.r].focus()
     }
 
 
