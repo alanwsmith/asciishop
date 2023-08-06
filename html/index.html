@@ -69,6 +69,7 @@
       current: {l: 0, r: 0, c: 0},
       layerEls: [],
       showGrid: 1,
+      wasdNav: 1,
     }
 
     const addLayer = () => {
@@ -91,7 +92,7 @@
           newPixel.dataset.c = c
           newPixel.innerHTML = ""
           newPixel.addEventListener("click", selectPixelFromClick)
-          newPixel.addEventListener("keyup", reactToKeys)
+          newPixel.addEventListener("keydown", reactToKeys)
           newLayer.appendChild(newPixel)
           cHolder.push(newPixel)
         }
@@ -167,44 +168,60 @@
     }
 
     const reactToKeys = (event) => {
+      console.log(event)
       if (event.code === "ArrowLeft") {
         if (s.current.r != 0) {
           s.current.r = s.current.r - 1
-          selectPixelFromClick({
-            srcElement: s.layers[s.current.l][s.current.c][s.current.r]
-          })
         }
       }
       else if (event.code === "ArrowRight") {
         if (s.current.r < s.layers[0][0].length - 1) {
-          console.log(s.current.r)
           s.current.r += 1
-          console.log(s.current.r)
-          selectPixelFromClick({
-            srcElement: s.layers[s.current.l][s.current.c][s.current.r]
-          })
         }
       }
       else if (event.code === "ArrowUp") {
         if (s.current.c != 0) {
           s.current.c -= 1
-          selectPixelFromClick({
-            srcElement: s.layers[s.current.l][s.current.c][s.current.r]
-          })
         }
-
       }
       else if (event.code === "ArrowDown") {
         if (s.current.c < s.layers[0].length - 1) {
           s.current.c += 1
-          selectPixelFromClick({
-            srcElement: s.layers[s.current.l][s.current.c][s.current.r]
-          })
         }
+      } 
+      if (event.code === "KeyA" && s.wasdNav === 1) {
+        event.preventDefault()
+        if (s.current.r != 0) {
+          s.current.r = s.current.r - 1
+        }
+      }
+      else if (event.code === "KeyD" && s.wasdNav === 1) {
+        event.preventDefault()
+        if (s.current.r < s.layers[0][0].length - 1) {
+          s.current.r += 1
+        }
+      } 
+      else if (event.code === "KeyW" && s.wasdNav === 1) {
+        event.preventDefault()
+        if (s.current.c != 0) {
+          s.current.c -= 1
+        }
+      }
+      else if (event.code === "KeyS" && s.wasdNav === 1) {
+        event.preventDefault()
+        if (s.current.c < s.layers[0].length - 1) {
+          s.current.c += 1
+        }
+      } 
 
-      } else {
+      else {
 
       }
+
+      selectPixelFromClick({
+        srcElement: s.layers[s.current.l][s.current.c][s.current.r]
+      })
+
     }
 
     const toggleGrid = () => {
@@ -218,12 +235,23 @@
       setStyles()
     }
 
+    const toggleWASD = () => {
+      if (s.wasdNav == 1) {
+        s.wasdNav = 0
+        toggleGridButton.innerHTML = "Turn WASD Nav On"
+      } else {
+        s.wasdNav = 1
+        toggleGridButton.innerHTML = "Turn WASD Nav Off"
+      }
+    }
+
     const init = () => {
       s.wrap = document.getElementById("bg")
       addLayerButton.addEventListener("click", addLayer)
       forwardLayerButton.addEventListener("click", moveForwardLayer)
       backLayerButton.addEventListener("click", moveBackLayer)
       toggleGridButton.addEventListener("click", toggleGrid)
+      toggleWASDButton.addEventListener("click", toggleWASD)
       addLayer()
     }
 
@@ -239,6 +267,7 @@
     <button id="forwardLayerButton">Forward Layer</button>
     <button id="backLayerButton">Back Layer</button>
     <button id="toggleGridButton">Hide Grid</button>
+    <button id="toggleWASDButton">Turn WASD Nav Off</button>
     <div id="bg"></div>
   </div>
 </body>
