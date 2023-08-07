@@ -69,7 +69,6 @@
       border: 1px solid red;
     }
 
-
     .holder {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -90,6 +89,7 @@
 
     const addLayer = () => {
       console.log("adding layer")
+      s.current.t = s.tables.length;
       const newTable = document.createElement("table")
       newTable.classList.add("layer")
       for (let r = 0; r < s.rows; r += 1) {
@@ -114,7 +114,6 @@
       currentLayerDisplay.innerHTML = `Current Layer: ${s.tables.length}`
 
       // pull layer number before adding to match 0 index
-      // s.current.l = s.layers.length;
 
 
       /*
@@ -153,13 +152,14 @@
       for (let t = 0; t < s.talbes.length; t += 1) {
         for (let c = 0; c < s.cols; c += 1) {
           for (let r = 0; r < s.rows; r += 1) {
-            //s.layers[l][c][r].contentEditable = false
-            //s.layers[l][c][r].classList.remove("activePixel")
+            const targetEl = document.getElementById(`t${t}_r${r}_c${c}`)
+            targetEl.contentEditable = false
+            targetEl.remove("activePixel")
             if (s.showGrid == 1) {
-              //s.layers[l][c][r].classList.add("inactivePixel")
+              targetEl.classList.add("inactivePixel")
             }
             else {
-              //s.layers[l][c][r].classList.remove("inactivePixel")
+              targetEl.classList.remove("inactivePixel")
             }
           }
         }
@@ -169,7 +169,6 @@
           //s.layerEls[l].classList.remove("activeLayer")
         }
       }
-
     }
 
     const selectPixelFromClick = (event) => {
@@ -231,10 +230,10 @@
       currentLayerDisplay.innerHTML = `Current Layer: ${s.current.l + 1}`
       setStyles()
       selectPixelFromClick({
-        srcElement: s.layers[s.current.l][s.current.c][s.current.r]
+        srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
       })
       renderLayers()
-      s.layers[s.current.l][s.current.c][s.current.r].focus()
+      document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`).focus()
     }
 
     const reactToKeys = (event) => {
@@ -285,7 +284,7 @@
       }
       else { }
       selectPixelFromClick({
-        srcElement: s.layers[s.current.t][s.current.c][s.current.r]
+        srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
       })
     }
 
@@ -295,6 +294,7 @@
       while (bg.children.length > 0) {
         bg.children[0].remove()
       }
+      console.log(s.current.t)
       s.tables.forEach((table, tableIndex) => {
         if (tableIndex !== s.current.t) {
           bg.appendChild(table)
@@ -313,9 +313,9 @@
       }
       setStyles()
       selectPixelFromClick({
-        srcElement: s.layers[s.current.l][s.current.c][s.current.r]
+        srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
       })
-      s.layers[s.current.l][s.current.c][s.current.r].focus()
+      document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`).focus()
     }
 
     const toggleWASD = () => {
@@ -345,7 +345,6 @@
         s.freqChars.unshift(char)
       }
       */
-
       renderFreqChars()
     }
 
