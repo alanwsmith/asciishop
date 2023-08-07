@@ -102,9 +102,12 @@
           const newTd = document.createElement("td")
           newTd.classList.add("pixel")
           newTd.innerHTML = "."
-          newTd.id = `t${s.tables.length}_r${r}_${c}c`
+          newTd.id = `t${s.tables.length}_r${r}_c${c}`
           newTd.addEventListener("click", selectPixelFromClick)
           newTd.addEventListener("keydown", reactToKeys)
+          newTd.dataset.t = s.tables.length
+          newTd.dataset.r = r
+          newTd.dataset.c = c
           newTr.appendChild(newTd)
         }
         newTable.appendChild(newTr)
@@ -112,7 +115,7 @@
       s.tables.push(newTable)
       renderLayers()
 
-
+      currentLayerDisplay.innerHTML = `Current Layer: ${s.tables.length}`
 
       // pull layer number before adding to match 0 index
       // s.current.l = s.layers.length;
@@ -150,6 +153,8 @@
     }
 
     const setStyles = () => {
+
+      /*
       for (let l = 0; l < s.layers.length; l += 1) {
         for (let c = 0; c < s.cols; c += 1) {
           for (let r = 0; r < s.rows; r += 1) {
@@ -169,10 +174,12 @@
           s.layerEls[l].classList.remove("activeLayer")
         }
       }
+      */
+
     }
 
     const selectPixelFromClick = (event) => {
-      setStyles()
+      console.log(event.srcElement.id)
       event.srcElement.contentEditable = true
       const selection = window.getSelection();
       selection.removeAllRanges();
@@ -180,13 +187,32 @@
       range.selectNodeContents(event.srcElement)
       selection.addRange(range)
       event.srcElement.focus({focusVisible: false})
+      s.current.t = parseInt(event.srcElement.dataset.t)
+      s.current.r = parseInt(event.srcElement.dataset.r)
+      s.current.c = parseInt(event.srcElement.dataset.c)
+
+
+      /*
+      setStyles()
+
+      event.srcElement.contentEditable = true
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      const range = document.createRange()
+      range.selectNodeContents(event.srcElement)
+      selection.addRange(range)
+      event.srcElement.focus({focusVisible: false})
+
       s.current.l = parseInt(event.srcElement.dataset.l)
       s.current.r = parseInt(event.srcElement.dataset.r)
       s.current.c = parseInt(event.srcElement.dataset.c)
+
       if (s.showGrid == 1) {
         event.srcElement.classList.add("activePixel")
       }
       console.log(s.current)
+      */
+
     }
 
     const moveForwardLayer = () => {
@@ -311,17 +337,26 @@
         s.wasdNav = 1
         toggleWASDButton.innerHTML = "Turn WASD Nav Off"
       }
-      s.layers[s.current.l][s.current.c][s.current.r].focus()
+      s.layers[s.current.r][s.current.c][s.current.r].focus()
     }
 
     const addCharacter = (event) => {
       const char = event.srcElement.innerHTML
       console.log(char)
-      s.layers[s.current.l][s.current.c][s.current.r].innerHTML = char
-      s.layers[s.current.l][s.current.c][s.current.r].focus()
+      console.log(s.current)
+      const targetEl = document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+      targetEl.innerHTML = char
+      // const targetEl = document.getElementById(`t0_r1_1c`)
+      // console.log(targetEl)
+
+      /*
+      s.layers[s.current.t][s.current.c][s.current.r].innerHTML = char
+      s.layers[s.current.t][s.current.c][s.current.r].focus()
       if (!s.freqChars.includes(char)) {
         s.freqChars.unshift(char)
       }
+      */
+
       renderFreqChars()
     }
 
