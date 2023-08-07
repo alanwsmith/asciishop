@@ -82,12 +82,12 @@
   <script>
 
     const s = {
-      bg: null,
-      layers: [],
+      tables: [],
+      // layers: [],
       cols: 0,
       rows: 0,
-      current: {l: 0, r: 0, c: 0},
-      layerEls: [],
+      current: {t: 0, r: 0, c: 0},
+      // layerEls: [],
       showGrid: 1,
       wasdNav: 1,
       freqChars: [],
@@ -95,18 +95,41 @@
 
     const addLayer = () => {
       console.log("adding layer")
+      const newTable = document.createElement("table")
+      for (let r = 0; r < s.rows; r += 1) {
+        const newTr = document.createElement("tr")
+        for (let c = 0; c < s.cols; c += 1) {
+          const newTd = document.createElement("td")
+          newTd.classList.add("pixel")
+          newTd.innerHTML = "."
+          newTd.id = `t${s.tables.length}_r${r}_${c}c`
+          newTd.addEventListener("click", selectPixelFromClick)
+          newTd.addEventListener("keydown", reactToKeys)
+          newTr.appendChild(newTd)
+        }
+        newTable.appendChild(newTr)
+      }
+      s.tables.push(newTable)
+      renderLayers()
+
+
+
       // pull layer number before adding to match 0 index
-      s.current.l = s.layers.length;
+      // s.current.l = s.layers.length;
+
+
+      /*
       const newLayer = document.createElement("div")
       newLayer.id = `layer_${s.current.l}`
       newLayer.classList.add("layer")
       newLayer.classList.add("activeLayer")
       s.layerEls.push(newLayer);
       const lHolder = []
-      for (let c = 0; c < s.cols; c += 1) {
-        const cHolder = []
-        for (let r = 0; r < s.rows; r += 1) {
-          const newPixel = document.createElement("pre")
+      for (let r = 0; r < s.rows; r += 1) {
+        const trHolder = []
+        const newTr = document.createElement("tr")
+        for (let c = 0; c < s.cols; c += 1) {
+          const newPixel = document.createElement("td")
           newPixel.classList.add("pixel")
           newPixel.dataset.l = s.current.l
           newPixel.dataset.r = r
@@ -114,15 +137,16 @@
           newPixel.innerHTML = ""
           newPixel.addEventListener("click", selectPixelFromClick)
           newPixel.addEventListener("keydown", reactToKeys)
-          newLayer.appendChild(newPixel)
+          newTr.appendChild(newPixel)
           cHolder.push(newPixel)
         }
         lHolder.push(cHolder)
       }
       s.layers.push(lHolder)
-      renderLayers()
       currentLayerDisplay.innerHTML = `Current Layer: ${s.current.l + 1}`
       setStyles()
+      */
+
     }
 
     const setStyles = () => {
@@ -256,12 +280,12 @@
       while (bg.children.length > 0) {
         bg.children[0].remove()
       }
-      s.layerEls.forEach((layer, layerIndex) => {
-        if (layerIndex !== s.current.l) {
-          bg.appendChild(layer)
+      s.tables.forEach((table, tableIndex) => {
+        if (tableIndex !== s.current.l) {
+          bg.appendChild(table)
         }
       })
-      bg.appendChild(s.layerEls[s.current.l])
+      bg.appendChild(s.tables[0])
     }
 
     const toggleGrid = () => {
@@ -349,8 +373,8 @@
 
   <div id="dt"></div>
   <div class="wrapper">
-    <input type="number" id="xSize" name="a" min="1" max="80" value="3" />
     <input type="number" id="ySize" name="b" min="1" max="80" value="4" />
+    <input type="number" id="xSize" name="a" min="1" max="80" value="3" />
     <button id="makeCanvasButton">Make Canvas</button>
     <button id="addLayerButton">Add Layer</button>
     <button id="backLayerButton">Down A Layer</button>
