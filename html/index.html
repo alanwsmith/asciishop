@@ -20,9 +20,6 @@
     .layer {
       grid-column: 1;
       grid-row: 1;
-      display: flex;
-      flex-wrap: wrap;
-      width: 40ch;
       user-select: none;
     }
 
@@ -83,11 +80,9 @@
 
     const s = {
       tables: [],
-      // layers: [],
       cols: 0,
       rows: 0,
       current: {t: 0, r: 0, c: 0},
-      // layerEls: [],
       showGrid: 1,
       wasdNav: 1,
       freqChars: [],
@@ -96,6 +91,7 @@
     const addLayer = () => {
       console.log("adding layer")
       const newTable = document.createElement("table")
+      newTable.classList.add("layer")
       for (let r = 0; r < s.rows; r += 1) {
         const newTr = document.createElement("tr")
         for (let c = 0; c < s.cols; c += 1) {
@@ -154,27 +150,25 @@
 
     const setStyles = () => {
 
-      /*
-      for (let l = 0; l < s.layers.length; l += 1) {
+      for (let t = 0; t < s.talbes.length; t += 1) {
         for (let c = 0; c < s.cols; c += 1) {
           for (let r = 0; r < s.rows; r += 1) {
-            s.layers[l][c][r].contentEditable = false
-            s.layers[l][c][r].classList.remove("activePixel")
+            //s.layers[l][c][r].contentEditable = false
+            //s.layers[l][c][r].classList.remove("activePixel")
             if (s.showGrid == 1) {
-              s.layers[l][c][r].classList.add("inactivePixel")
+              //s.layers[l][c][r].classList.add("inactivePixel")
             }
             else {
-              s.layers[l][c][r].classList.remove("inactivePixel")
+              //s.layers[l][c][r].classList.remove("inactivePixel")
             }
           }
         }
         if (l == s.current.l) {
-          s.layerEls[l].classList.add("activeLayer")
+          //s.layerEls[l].classList.add("activeLayer")
         } else {
-          s.layerEls[l].classList.remove("activeLayer")
+          //s.layerEls[l].classList.remove("activeLayer")
         }
       }
-      */
 
     }
 
@@ -190,7 +184,6 @@
       s.current.t = parseInt(event.srcElement.dataset.t)
       s.current.r = parseInt(event.srcElement.dataset.r)
       s.current.c = parseInt(event.srcElement.dataset.c)
-
 
       /*
       setStyles()
@@ -223,11 +216,10 @@
       }
       currentLayerDisplay.innerHTML = `Current Layer: ${s.current.l + 1}`
       setStyles()
-      selectPixelFromClick({
-        srcElement: s.layers[s.current.l][s.current.c][s.current.r]
-      })
+      const targetEl = document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+      selectPixelFromClick({srcElement: targetEl})
       renderLayers()
-      s.layers[s.current.l][s.current.c][s.current.r].focus()
+      targetEl.focus()
     }
 
     const moveBackLayer = () => {
@@ -291,14 +283,11 @@
           s.current.c += 1
         }
       }
-      else {
-
-      }
+      else { }
       selectPixelFromClick({
-        srcElement: s.layers[s.current.l][s.current.c][s.current.r]
+        srcElement: s.layers[s.current.t][s.current.c][s.current.r]
       })
     }
-
 
     // move the active layer to the top so
     // contentEditable works properly
@@ -307,11 +296,11 @@
         bg.children[0].remove()
       }
       s.tables.forEach((table, tableIndex) => {
-        if (tableIndex !== s.current.l) {
+        if (tableIndex !== s.current.t) {
           bg.appendChild(table)
         }
       })
-      bg.appendChild(s.tables[0])
+      bg.appendChild(s.tables[s.current.t])
     }
 
     const toggleGrid = () => {
