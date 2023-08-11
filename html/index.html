@@ -131,7 +131,7 @@
   <script>
     let s = {
       tables: [],
-      activeTable: null,
+      currentTable: null,
       cols: 80,
       rows: 50,
       current: {t: null, r: null, c: null},
@@ -166,9 +166,6 @@
         }
         newTable.push(newCol)
       }
-
-      console.log(newTable)
-
       // the populate it
       let rows = copyArea.innerHTML.split("\n")
       rows.forEach((row, rowIndex) => {
@@ -179,7 +176,8 @@
 
       })
       s.tables.push(newTable)
-      console.log(s)
+      s.currentTable = s.tables.length - 1
+      renderLayers()
     }
 
     const keydownHandler = () => {
@@ -193,6 +191,31 @@
         chars[c].addEventListener("click", addCharacter)
       }
     }
+
+
+    const renderLayers = () => {
+      console.log("renderLayers")
+      while (bg.children.length > 0) {
+        bg.children[0].remove()
+      }
+      s.tables.forEach((table, tableIndex) => {
+        let renderTable = document.createElement("table")
+        for (let r = 0; r < s.rows; r++) {
+          let tableRow = document.createElement("tr")
+          renderTable.appendChild(tableRow)
+          for (let c = 0; c < s.cols; c++) {
+            let tableCell = document.createElement("td")
+            let cellButton = document.createElement("button")
+            cellButton.innerText = s.tables[tableIndex][c][r]
+            cellButton.classList.add("pixel")
+            tableCell.appendChild(cellButton)
+            tableRow.appendChild(tableCell)
+          }
+        }
+        bg.appendChild(renderTable)
+      })
+    }
+
 
     document.addEventListener("DOMContentLoaded", () => {
       importButton.addEventListener("click", importAscii)
