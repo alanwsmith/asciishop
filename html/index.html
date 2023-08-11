@@ -183,9 +183,6 @@
         newTable.appendChild(newTr)
       }
       s.tables[0] = newTable
-      // s.tables.push(newTable)
-      // renderLayers()
-      // currentLayerDisplay.innerHTML = `Current Layer: ${s.tables.length}`
       currentLayerDisplay.innerHTML = `Current Layer: ${0}`
     }
 
@@ -402,11 +399,11 @@
         for (let r = 0; r < s.rows; r += 1) {
           const targetEl = document.getElementById(`t0_r${r}_c${c}`)
           if (c === s.current.c && r === s.current.r) {
-            // targetEl.classList.add("activePixel")
-            // targetEl.classList.remove("inactivePixel")
+            targetEl.classList.add("activePixel")
+            targetEl.classList.remove("inactivePixel")
           } else {
-            // targetEl.classList.remove("activePixel")
-            //targetEl.classList.add("inactivePixel")
+            targetEl.classList.remove("activePixel")
+            targetEl.classList.add("inactivePixel")
           }
 
           // targetEl.remove("activePixel")
