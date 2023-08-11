@@ -207,10 +207,10 @@
 
       const input = copyArea.innerText
       const lines = input.split("\n")
-      s.rows = Math.max(lines.length + 8, s.rows)
+      s.rows = Math.max(lines.length, s.rows)
       lines.forEach((line, lineIndex) => {
         const chars = line.split("")
-        s.cols = Math.max(chars.length + 8, s.cols)
+        s.cols = Math.max(chars.length, s.cols)
       })
 
       addLayer()
@@ -221,7 +221,7 @@
         chars.forEach((char, charIndex) => {
           // HARD CODED FOR Table 0 right now
           // const targetEl = document.getElementById(`t${s.current.t}_r${lineIndex}_c${charIndex}`)
-          const targetEl = document.getElementById(`t0_r${lineIndex + 4}_c${charIndex + 4}`)
+          const targetEl = document.getElementById(`t0_r${lineIndex}_c${charIndex}`)
           targetEl.innerHTML = char
         })
       })
@@ -320,6 +320,10 @@
         if (s.current.r < s.rows - 1) {
           s.current.r += 1
         }
+      }
+      else if (event.code === "Backquote") {
+        event.preventDefault()
+        document.getElementById(`t0_r${s.current.r}_c${s.current.c}`).innerHTML = " "
       }
       else { }
       selectPixelFromClick({
@@ -512,6 +516,37 @@
           <div id="chars">
 
 
+            <button class="char" title="22D8">&#x22D8;</button>
+            <button class="char" title="22D9">&#x22D9;</button>
+            <button class="char" title="222A">&#x222A;</button>
+            <button class="char" title="2227">&#x2227;</button>
+            <button class="char" title="2228">&#x2228;</button>
+            <button class="char" title="2229">&#x2229;</button>
+            <button class="char" title="21E4">&#x21E4;</button>
+            <button class="char" title="2190">&#x2190;</button>
+            <button class="char" title="2191">&#x2191;</button>
+            <button class="char" title="2192">&#x2192;</button>
+            <button class="char" title="2193">&#x2193;</button>
+            <button class="char" title="2194">&#x2194;</button>
+            <button class="char" title="219E">&#x219E;</button>
+            <button class="char" title="219F">&#x219F;</button>
+            <button class="char" title="21A0">&#x21A0;</button>
+            <button class="char" title="21A1">&#x21A1;</button>
+            <button class="char" title="2021">&#x2021;</button>
+            <button class="char" title="2055">&#x2055;</button>
+            <button class="char" title="2054">&#x2054;</button>
+            <button class="char" title="2050">&#x2050;</button>
+            <button class="char" title="2016">&#x2016;</button>
+            <button class="char" title="2045">&#x2045;</button>
+            <button class="char" title="2046">&#x2046;</button>
+            <button class="char" title="203F">&#x203F;</button>
+            <button class="char" title="2040">&#x2040;</button>
+            <button class="char" title="0095">&#x0095;</button>
+            <button class="char" title="0E4F">&#x0E4F;</button>
+            <button class="char" title="0964">&#x0964;</button>
+            <button class="char" title="0965">&#x0965;</button>
+            <button class="char" title="00B0">&#x00B0;</button>
+            <button class="char" title="0088">&#x0088;</button>
             <button class="char" title="027E">&#x027E;</button>
             <button class="char" title="027F">&#x027F;</button>
             <button class="char" title="002F">&#x002F;</button>
@@ -555,7 +590,6 @@
             <button class="char" title="0085">&#x0085;</button>
             <button class="char" title="0086">&#x0086;</button>
             <button class="char" title="0087">&#x0087;</button>
-            <button class="char" title="0088">&#x0088;</button>
             <button class="char" title="0089">&#x0089;</button>
             <button class="char" title="008A">&#x008A;</button>
             <button class="char" title="008B">&#x008B;</button>
@@ -565,7 +599,6 @@
             <button class="char" title="0092">&#x0092;</button>
             <button class="char" title="0093">&#x0093;</button>
             <button class="char" title="0094">&#x0094;</button>
-            <button class="char" title="0095">&#x0095;</button>
             <button class="char" title="0096">&#x0096;</button>
             <button class="char" title="0097">&#x0097;</button>
             <button class="char" title="0098">&#x0098;</button>
@@ -588,7 +621,6 @@
             <button class="char" title="00AC">&#x00AC;</button>
             <button class="char" title="00AE">&#x00AE;</button>
             <button class="char" title="00AF">&#x00AF;</button>
-            <button class="char" title="00B0">&#x00B0;</button>
             <button class="char" title="00B1">&#x00B1;</button>
             <button class="char" title="00B2">&#x00B2;</button>
             <button class="char" title="00B3">&#x00B3;</button>
@@ -1170,8 +1202,6 @@
             <button class="char" title="094D">&#x094D;</button>
             <button class="char" title="0950">&#x0950;</button>
             <button class="char" title="0951">&#x0951;</button>
-            <button class="char" title="0964">&#x0964;</button>
-            <button class="char" title="0965">&#x0965;</button>
             <button class="char" title="0966">&#x0966;</button>
             <button class="char" title="0970">&#x0970;</button>
             <button class="char" title="0980">&#x0980;</button>
@@ -1242,7 +1272,6 @@
             <button class="char" title="0E4C">&#x0E4C;</button>
             <button class="char" title="0E4D">&#x0E4D;</button>
             <button class="char" title="0E4E">&#x0E4E;</button>
-            <button class="char" title="0E4F">&#x0E4F;</button>
             <button class="char" title="0E50">&#x0E50;</button>
             <button class="char" title="0E5A">&#x0E5A;</button>
             <button class="char" title="0E5B">&#x0E5B;</button>
@@ -1624,7 +1653,6 @@
             <button class="char" title="2013">&#x2013;</button>
             <button class="char" title="2014">&#x2014;</button>
             <button class="char" title="2015">&#x2015;</button>
-            <button class="char" title="2016">&#x2016;</button>
             <button class="char" title="2017">&#x2017;</button>
             <button class="char" title="2018">&#x2018;</button>
             <button class="char" title="2019">&#x2019;</button>
@@ -1635,7 +1663,6 @@
             <button class="char" title="201E">&#x201E;</button>
             <button class="char" title="201F">&#x201F;</button>
             <button class="char" title="2020">&#x2020;</button>
-            <button class="char" title="2021">&#x2021;</button>
             <button class="char" title="2022">&#x2022;</button>
             <button class="char" title="2023">&#x2023;</button>
             <button class="char" title="2024">&#x2024;</button>
@@ -1657,14 +1684,10 @@
             <button class="char" title="203C">&#x203C;</button>
             <button class="char" title="203D">&#x203D;</button>
             <button class="char" title="203E">&#x203E;</button>
-            <button class="char" title="203F">&#x203F;</button>
-            <button class="char" title="2040">&#x2040;</button>
             <button class="char" title="2041">&#x2041;</button>
             <button class="char" title="2042">&#x2042;</button>
             <button class="char" title="2043">&#x2043;</button>
             <button class="char" title="2044">&#x2044;</button>
-            <button class="char" title="2045">&#x2045;</button>
-            <button class="char" title="2046">&#x2046;</button>
             <button class="char" title="2047">&#x2047;</button>
             <button class="char" title="2048">&#x2048;</button>
             <button class="char" title="2049">&#x2049;</button>
@@ -1674,12 +1697,9 @@
             <button class="char" title="204D">&#x204D;</button>
             <button class="char" title="204E">&#x204E;</button>
             <button class="char" title="204F">&#x204F;</button>
-            <button class="char" title="2050">&#x2050;</button>
             <button class="char" title="2051">&#x2051;</button>
             <button class="char" title="2052">&#x2052;</button>
             <button class="char" title="2053">&#x2053;</button>
-            <button class="char" title="2054">&#x2054;</button>
-            <button class="char" title="2055">&#x2055;</button>
             <button class="char" title="2056">&#x2056;</button>
             <button class="char" title="2057">&#x2057;</button>
             <button class="char" title="2058">&#x2058;</button>
@@ -1855,15 +1875,6 @@
             <button class="char" title="2183">&#x2183;</button>
             <button class="char" title="2184">&#x2184;</button>
             <button class="char" title="2185">&#x2185;</button>
-            <button class="char" title="2190">&#x2190;</button>
-            <button class="char" title="2191">&#x2191;</button>
-            <button class="char" title="2192">&#x2192;</button>
-            <button class="char" title="2193">&#x2193;</button>
-            <button class="char" title="2194">&#x2194;</button>
-            <button class="char" title="219E">&#x219E;</button>
-            <button class="char" title="219F">&#x219F;</button>
-            <button class="char" title="21A0">&#x21A0;</button>
-            <button class="char" title="21A1">&#x21A1;</button>
             <button class="char" title="21A3">&#x21A3;</button>
             <button class="char" title="21A6">&#x21A6;</button>
             <button class="char" title="21A7">&#x21A7;</button>
@@ -1875,7 +1886,6 @@
             <button class="char" title="21CD">&#x21CD;</button>
             <button class="char" title="21DE">&#x21DE;</button>
             <button class="char" title="21DF">&#x21DF;</button>
-            <button class="char" title="21E4">&#x21E4;</button>
             <button class="char" title="21E5">&#x21E5;</button>
             <button class="char" title="21E6">&#x21E6;</button>
             <button class="char" title="21E7">&#x21E7;</button>
@@ -1933,10 +1943,6 @@
             <button class="char" title="2224">&#x2224;</button>
             <button class="char" title="2225">&#x2225;</button>
             <button class="char" title="2226">&#x2226;</button>
-            <button class="char" title="2227">&#x2227;</button>
-            <button class="char" title="2228">&#x2228;</button>
-            <button class="char" title="2229">&#x2229;</button>
-            <button class="char" title="222A">&#x222A;</button>
             <button class="char" title="222B">&#x222B;</button>
             <button class="char" title="222C">&#x222C;</button>
             <button class="char" title="222D">&#x222D;</button>
@@ -2065,8 +2071,6 @@
             <button class="char" title="22D3">&#x22D3;</button>
             <button class="char" title="22D4">&#x22D4;</button>
             <button class="char" title="22D5">&#x22D5;</button>
-            <button class="char" title="22D8">&#x22D8;</button>
-            <button class="char" title="22D9">&#x22D9;</button>
             <button class="char" title="22DE">&#x22DE;</button>
             <button class="char" title="22EA">&#x22EA;</button>
             <button class="char" title="22EE">&#x22EE;</button>
