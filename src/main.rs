@@ -1,8 +1,8 @@
 use axum::response::Html;
 use axum::routing::get;
 use axum::Router;
-use tower_livereload::LiveReloadLayer;
 use std::fs;
+use tower_livereload::LiveReloadLayer;
 
 #[tokio::main]
 async fn main() {

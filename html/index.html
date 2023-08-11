@@ -127,18 +127,86 @@
       grid-template-columns: 1fr 1fr;
     }
   </style>
-  <script>
 
-    const s = {
+  <script>
+    let s = {
       tables: [],
-      cols: 0,
-      rows: 0,
-      current: {t: 0, r: 0, c: 0},
-      showGrid: 1,
-      wasdNav: 1,
+      activeTable: null,
+      cols: 80,
+      rows: 50,
+      current: {t: null, r: null, c: null},
+      selectCoord: {t: null, r: null, c: null},
       freqChars: [],
     }
 
+    const addCharacter = (event) => {
+      console.log("addCharacter")
+
+    }
+
+    const canvasClickHander = () => {
+      console.log("canvasClickHandler")
+    }
+
+    const charClickHandler = () => {
+      console.log("charClickHandler")
+
+    }
+
+    const importAscii = () => {
+      console.log("importAscii")
+      // build the base table to ensure it's full
+      let newTable = []
+      console.log(s.cols)
+      for (let c = 0; c < s.cols; c += 1) {
+        console.log("-")
+        let newCol = []
+        for (let r = 0; r < s.rows; r += 1) {
+          newCol.push(" ")
+        }
+        newTable.push(newCol)
+      }
+
+      console.log(newTable)
+
+      // the populate it
+      let rows = copyArea.innerHTML.split("\n")
+      rows.forEach((row, rowIndex) => {
+        let cols = row.split("")
+        cols.forEach((char, colIndex) => {
+          newTable[colIndex][rowIndex] = char
+        })
+
+      })
+      s.tables.push(newTable)
+      console.log(s)
+    }
+
+    const keydownHandler = () => {
+      console.log("keydownHandler")
+    }
+
+    const prepChars = () => {
+      console.log("prepChars")
+      const chars = document.getElementsByClassName("char")
+      for (c = 0; c < chars.length; c += 1) {
+        chars[c].addEventListener("click", addCharacter)
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      importButton.addEventListener("click", importAscii)
+      document.addEventListener("keydown", keydownHandler)
+      prepChars()
+    })
+
+
+  </script>
+
+  <script>
+
+
+    /*
     const addCharacter = (event) => {
       const char = event.srcElement.innerHTML
       console.log(char)
@@ -150,7 +218,9 @@
       }
       renderFreqChars()
     }
+    */
 
+    /*
     const addLayer = () => {
       console.log("adding layer")
       s.current.t = 0;
@@ -176,7 +246,9 @@
       s.tables[0] = newTable
       currentLayerDisplay.innerHTML = `Current Layer: ${0}`
     }
+    */
 
+    /*
     const exportAscii = () => {
       let exportString = ""
       for (let r = 0; r < s.rows; r += 1) {
@@ -188,7 +260,9 @@
       }
       copyArea.innerText = exportString
     }
+    */
 
+    /*
     const importAscii = () => {
       while (bg.children.length > 0) {
         console.log("DELETING")
@@ -211,7 +285,9 @@
         })
       })
     }
+    */
 
+    /*
     const makeCanvas = () => {
       s.rows = parseInt(xSize.value)
       s.cols = parseInt(ySize.value)
@@ -220,7 +296,9 @@
       addLayer()
       renderLayers()
     }
+    */
 
+    /*
     const reactToKeys = (event) => {
       console.log(event)
       if (event.code === "ArrowLeft") {
@@ -280,7 +358,10 @@
         srcElement: document.getElementById(`t0_r${s.current.r}_c${s.current.c}`)
       })
     }
+    */
 
+
+    /*
     const renderFreqChars = () => {
       console.log(s.freqChars)
       while (freqChars.children.length > 0) {
@@ -299,8 +380,10 @@
         srcElement: document.getElementById(`t0_r${s.current.r}_c${s.current.c}`)
       })
     }
+    */
 
 
+    /*
     // move the active layer to the top so
     // contentEditable works properly
     const renderLayers = () => {
@@ -316,73 +399,46 @@
       bg.appendChild(s.tables[s.current.t])
       s.tables[0].classList.add("activeLayer")
     }
+    */
 
-
-    const selectPixelFromClick = (event) => {
-      console.log(event.srcElement.id)
-      s.current.t = 0
-      s.current.r = parseInt(event.srcElement.dataset.r)
-      s.current.c = parseInt(event.srcElement.dataset.c)
-      setStyles()
-    }
-
-
-    const setStyles = () => {
-      for (let c = 0; c < s.cols; c += 1) {
-        for (let r = 0; r < s.rows; r += 1) {
-          const targetEl = document.getElementById(`t0_r${r}_c${c}`)
-          if (c === s.current.c && r === s.current.r) {
-            targetEl.classList.add("activePixel")
-            targetEl.classList.remove("inactivePixel")
-          } else {
-            targetEl.classList.remove("activePixel")
-            targetEl.classList.add("inactivePixel")
-          }
-
+    /*
+        const selectPixelFromClick = (event) => {
+          console.log(event)
+          console.log(event.srcElement.id)
+          s.current.t = 0
+          s.current.r = parseInt(event.srcElement.dataset.r)
+          s.current.c = parseInt(event.srcElement.dataset.c)
+          setStyles()
         }
-      }
-    }
+        */
 
-    const toggleGrid = () => {
-      if (s.showGrid == 1) {
-        s.showGrid = 0
-        toggleGridButton.innerHTML = "Show Grid"
-      } else {
-        s.showGrid = 1
-        toggleGridButton.innerHTML = "Hide Grid"
-      }
-      setStyles()
-      selectPixelFromClick({
-        srcElement: document.getElementById(`t0_r${s.current.r}_c${s.current.c}`)
-      })
-      document.getElementById(`t0_r${s.current.r}_c${s.current.c}`).focus()
-    }
+    /*
+        const setStyles = () => {
+          for (let c = 0; c < s.cols; c += 1) {
+            for (let r = 0; r < s.rows; r += 1) {
+              const targetEl = document.getElementById(`t0_r${r}_c${c}`)
+              if (c === s.current.c && r === s.current.r) {
+                targetEl.classList.add("activePixel")
+                targetEl.classList.remove("inactivePixel")
+              } else {
+                targetEl.classList.remove("activePixel")
+                targetEl.classList.add("inactivePixel")
+              }
+            }
+          }
+        }
+        */
 
-    const toggleWASD = () => {
-      if (s.wasdNav == 1) {
-        s.wasdNav = 0
-        toggleWASDButton.innerHTML = "Turn WASD Nav On"
-      } else {
-        s.wasdNav = 1
-        toggleWASDButton.innerHTML = "Turn WASD Nav Off"
-      }
-      s.layers[s.current.r][s.current.c][s.current.r].focus()
-    }
 
+    /*
     const init = () => {
-      s.wrap = document.getElementById("bg")
-      makeCanvasButton.addEventListener("click", makeCanvas)
+      // s.wrap = document.getElementById("bg")
+      // makeCanvasButton.addEventListener("click", makeCanvas)
       exportButton.addEventListener("click", exportAscii)
       importButton.addEventListener("click", importAscii)
-      const chars = document.getElementsByClassName("char")
-      for (c = 0; c < chars.length; c += 1) {
-        chars[c].addEventListener("click", addCharacter)
-      }
       dt.innerHTML = new Date().getTime().toString().substr(8)
-      document.addEventListener("keydown", reactToKeys)
     }
-
-    document.addEventListener("DOMContentLoaded", init)
+    */
 
   </script>
 
@@ -413,13 +469,21 @@
 
       <div>
         <div id="bg">
+
+          <!--
           <div id="makeCanvasContainer">
             <button id="makeCanvasButton">Make Canvas</button>
             <input type="number" id="ySize" name="b" min="1" max="80" value="10" />
             <input type="number" id="xSize" name="a" min="1" max="80" value="10" />
           </div>
+-->
         </div>
-        <pre id="copyArea" contenteditable="true"></pre>
+        <pre id="copyArea" contenteditable="true" focus="true">
+
+
+
+
+        </pre>
       </div>
 
       <div>
@@ -2620,9 +2684,6 @@
           </div>
         </div>
       </div>
-
-
-
 
     </div>
 </body>
