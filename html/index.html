@@ -6,6 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
+  <script src="script.js"></script>
   <style>
     /*
 
@@ -141,9 +142,11 @@
       user-select: none;
     }
 
+    /*
     .inactivePixel {
       background-color: rgba(0, 0, 0, 0)
     }
+    */
 
     .holder {
       display: grid;
@@ -208,154 +211,6 @@
   </style>
 
   <script>
-    let s = {
-      tables: [],
-      currentTable: null,
-      currentCol: null,
-      currentRow: null,
-      cols: 80,
-      rows: 40,
-      selectCoord: {t: null, r: null, c: null},
-      freqChars: [],
-      visibleLayers: [],
-    }
-
-    const addCharacter = (event) => {
-      console.log("addCharacter")
-    }
-
-    const charClickHandler = () => {
-      console.log("charClickHandler")
-    }
-
-    const getId = () => {
-      return `t${s.currentTable}_c${s.currentCol}_r${s.currentRow}`
-    }
-
-    const handlePixelClick = (event) => {
-      console.log("pixel click")
-      let data = event.srcElement.dataset
-      s.currentCol = parseInt(data.col, 10)
-      s.currentRow = parseInt(data.row, 10)
-      updateStyles()
-    }
-
-    const importAscii = () => {
-      console.log("importAscii")
-      // build the base table to ensure it's full
-      let newTable = []
-      console.log(s.cols)
-      for (let c = 0; c < s.cols; c += 1) {
-        console.log("-")
-        let newCol = []
-        for (let r = 0; r < s.rows; r += 1) {
-          newCol.push(" ")
-        }
-        newTable.push(newCol)
-      }
-      // then populate it
-      let rows = copyArea.innerText.split("\n")
-      console.log(rows)
-      rows.forEach((row, rowIndex) => {
-        let cols = row.split("")
-        cols.forEach((char, colIndex) => {
-          newTable[colIndex][rowIndex] = char
-        })
-      })
-      s.tables.push(newTable)
-      s.visibleLayers.push(true)
-      s.currentTable = s.tables.length - 1
-      renderLayers()
-    }
-
-    const keydownHandler = () => {
-      console.log("keydownHandler")
-    }
-
-    const layerToggleHandler = (event) => {
-      console.log(event.srcElement)
-      console.log(event.srcElement.dataset.layer)
-      s.visibleLayers[event.srcElement.dataset.layer] = !s.visibleLayers[event.srcElement.dataset.layer]
-      console.log(s.visibleLayers)
-      renderLayers()
-    }
-
-    const prepChars = () => {
-      console.log("prepChars")
-      const chars = document.getElementsByClassName("char")
-      for (c = 0; c < chars.length; c += 1) {
-        chars[c].addEventListener("click", addCharacter)
-      }
-    }
-
-    const renderLayers = () => {
-      console.log("renderLayers")
-      while (bg.children.length > 0) {
-        bg.children[0].remove()
-      }
-      while (layerToggles.children.length > 0) {
-        layerToggles.children[0].remove()
-      }
-      s.tables.forEach((table, tableIndex) => {
-        let renderTable = document.createElement("table")
-        let layerToggle = document.createElement("input")
-        layerToggle.type = "checkbox"
-        layerToggle.dataset.layer = tableIndex
-        layerToggle.addEventListener("change", layerToggleHandler)
-        if (s.visibleLayers[tableIndex]) {
-          layerToggle.checked = true;
-        }
-        layerToggles.appendChild(layerToggle)
-        renderTable.classList.add("layerTable")
-        if (tableIndex == s.currentTable) {
-          renderTable.classList.add("activeTable")
-        } else {
-          renderTable.classList.add("inactiveTable")
-        }
-        for (let r = 0; r < s.rows; r++) {
-          let tableRow = document.createElement("tr")
-          renderTable.appendChild(tableRow)
-          for (let c = 0; c < s.cols; c++) {
-            let tableCell = document.createElement("td")
-            tableCell.classList.add("pixelCell")
-            let cellButton = document.createElement("button")
-            cellButton.dataset.row = r
-            cellButton.dataset.col = c
-            cellButton.id = `t${tableIndex}_c${c}_r${r}`
-            if (s.visibleLayers[tableIndex]) {
-              cellButton.innerHTML = s.tables[tableIndex][c][r]
-            }
-            cellButton.classList.add("pixel")
-            tableCell.appendChild(cellButton)
-            tableRow.appendChild(tableCell)
-          }
-        }
-        bg.appendChild(renderTable)
-        updateStyles()
-      })
-    }
-
-    updateStyles = () => {
-      const upperIndex = s.tables.length - 1
-      s.tables[upperIndex].forEach((r, rIndex) => {
-        r.forEach((c, cIndex) => {
-          const el = document.getElementById(`t0_c${cIndex}_r${rIndex}`)
-          if (cIndex === s.currentCol && rIndex === s.currentRow) {
-            console.log(getId())
-            el.classList.add("activePixel")
-          } else {
-            el.classList.remove("activePixel")
-          }
-        })
-      })
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      bg.addEventListener("click", handlePixelClick)
-      importButton.addEventListener("click", importAscii)
-      document.addEventListener("keydown", keydownHandler)
-      prepChars()
-    })
 
   </script>
 
