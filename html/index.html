@@ -148,6 +148,16 @@
       font-family: monospace;
     }
 
+    .activeTable button {
+      color: gold;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .inactiveTable button {
+      color: #777;
+      background-color: rgba(0, 0, 0, 0);
+    }
+
     .holder {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -169,8 +179,6 @@
               font-family: monospace;
               width: 1ch;
               height: 1rem;
-              background-color: rgba(0, 0, 0, 0);
-              color: #777;
               user-select: none;
               padding: 0;
               border: 0;
@@ -264,6 +272,11 @@
       s.tables.forEach((table, tableIndex) => {
         let renderTable = document.createElement("table")
         renderTable.classList.add("layerTable")
+        if (tableIndex == s.currentTable) {
+          renderTable.classList.add("activeTable")
+        } else {
+          renderTable.classList.add("inactiveTable")
+        }
         for (let r = 0; r < s.rows; r++) {
           let tableRow = document.createElement("tr")
           renderTable.appendChild(tableRow)
@@ -279,6 +292,8 @@
         }
         bg.appendChild(renderTable)
       })
+
+
     }
 
 
