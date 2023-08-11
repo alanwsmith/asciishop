@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
   <style>
+    /*
     body {
       font-size: 0.8rem;
       background-color: black;
@@ -126,6 +127,59 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
     }
+*/
+  </style>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+    }
+
+    body {
+      font-size: 0.8rem;
+      background-color: black;
+      font-family: monospace;
+      color: #777;
+    }
+
+    .holder {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      #bg {
+        display: grid;
+
+        .layerTable {
+          grid-column: 1;
+          grid-row: 1;
+
+          .pixelCell {
+            padding: 0;
+            border: 0;
+            margin: 0;
+            line-height: 02rem;
+
+            .pixel {
+              width: 1.5ch;
+              height: 1.5em;
+              background-color: rgba(0, 0, 0, 0);
+              color: #777;
+              user-select: none;
+              padding: 0;
+              border: 0;
+              margin: 0;
+            }
+
+            .pixel:focus {
+              outline: none;
+            }
+          }
+
+        }
+      }
+    }
   </style>
 
   <script>
@@ -133,7 +187,7 @@
       tables: [],
       currentTable: null,
       cols: 80,
-      rows: 50,
+      rows: 40,
       current: {t: null, r: null, c: null},
       selectCoord: {t: null, r: null, c: null},
       freqChars: [],
@@ -166,14 +220,14 @@
         }
         newTable.push(newCol)
       }
-      // the populate it
-      let rows = copyArea.innerHTML.split("\n")
+      // then populate it
+      let rows = copyArea.innerText.split("\n")
+      console.log(rows)
       rows.forEach((row, rowIndex) => {
         let cols = row.split("")
         cols.forEach((char, colIndex) => {
           newTable[colIndex][rowIndex] = char
         })
-
       })
       s.tables.push(newTable)
       s.currentTable = s.tables.length - 1
@@ -200,13 +254,15 @@
       }
       s.tables.forEach((table, tableIndex) => {
         let renderTable = document.createElement("table")
+        renderTable.classList.add("layerTable")
         for (let r = 0; r < s.rows; r++) {
           let tableRow = document.createElement("tr")
           renderTable.appendChild(tableRow)
           for (let c = 0; c < s.cols; c++) {
             let tableCell = document.createElement("td")
+            tableCell.classList.add("pixelCell")
             let cellButton = document.createElement("button")
-            cellButton.innerText = s.tables[tableIndex][c][r]
+            cellButton.innerHTML = s.tables[tableIndex][c][r]
             cellButton.classList.add("pixel")
             tableCell.appendChild(cellButton)
             tableRow.appendChild(tableCell)
@@ -471,14 +527,6 @@
 
   <div id="dt"></div>
   <div class="wrapper">
-    <!--
-    <button id="addLayerButton">Add Layer</button>
-    <button id="backLayerButton">Down A Layer</button>
-    <button id="forwardLayerButton">Up A Layer</button>
-    <button id="toggleGridButton">Hide Grid</button>
-    <button id="toggleWASDButton">Turn WASD Nav Off</button>
-    <button id="toggleWASDButton">Turn WASD Nav Off</button>
--->
     <div>
       <button id="importButton">Import Button</button>
     </div>
@@ -491,21 +539,24 @@
     <div class="holder">
 
       <div>
-        <div id="bg">
-
-          <!--
-          <div id="makeCanvasContainer">
-            <button id="makeCanvasButton">Make Canvas</button>
-            <input type="number" id="ySize" name="b" min="1" max="80" value="10" />
-            <input type="number" id="xSize" name="a" min="1" max="80" value="10" />
-          </div>
--->
-        </div>
+        <div id="bg"></div>
         <pre id="copyArea" contenteditable="true" focus="true">
-
-
-
-
+          --------- ---------
+          //- . . . -\\ //- . . . -\\
+          //- . -\\ ---- //- . -\\
+          //- ---------- -\\
+          \\- -/
+          \\ -- -- //
+          \\ // – – \\ //
+          || (0) (0) ||
+          || ||
+          ||\- -/||
+          ----- |-\- /'______'\ -/-|
+          //٭٭ \\ \\-- / -- -- \ --//
+          |/٭ // /\\--\\ //--//\
+          \\ || / \\-- –––––– --// \
+          \\ \\ /---- _ –––– _ ----\
+          \\ \\ ________
         </pre>
       </div>
 
