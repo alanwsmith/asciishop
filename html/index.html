@@ -135,6 +135,15 @@
       background-color: rgba(0, 0, 0, 0);
     }
 
+    .activePixel {
+      background-color: white;
+    }
+
+    .inactivePixel {
+      background-color: rgba(0, 0, 0, 0)
+    }
+
+
     .holder {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -145,6 +154,9 @@
         .layerTable {
           grid-column: 1;
           grid-row: 1;
+          padding: 0;
+          border: 0;
+          margin: 0;
 
           .pixelCell {
             padding: 0;
@@ -156,7 +168,6 @@
               font-family: monospace;
               width: 1ch;
               height: 1rem;
-              user-select: none;
               padding: 0;
               border: 0;
               margin: 0;
@@ -166,9 +177,30 @@
               outline: none;
             }
           }
-
         }
       }
+    }
+
+    #chars {
+      display: flex;
+      flex-wrap: wrap;
+      user-select: none;
+
+      .char {
+        background-color: #333;
+        text-align: center;
+        border: 1px solid green;
+        width: 3ch;
+        font-size: 1.2rem;
+      }
+    }
+
+    #freqChars {
+      display: flex;
+      flex-wrap: wrap;
+      height: 6ch;
+      margin-bottom: 0.2rem;
+      user-select: none;
     }
 
     #copyArea {
@@ -182,9 +214,10 @@
     let s = {
       tables: [],
       currentTable: null,
+      currentCol: null,
+      currentRow: null,
       cols: 80,
       rows: 40,
-      current: {t: null, r: null, c: null},
       selectCoord: {t: null, r: null, c: null},
       freqChars: [],
       visibleLayers: [],
@@ -192,16 +225,18 @@
 
     const addCharacter = (event) => {
       console.log("addCharacter")
-
-    }
-
-    const canvasClickHander = () => {
-      console.log("canvasClickHandler")
     }
 
     const charClickHandler = () => {
       console.log("charClickHandler")
+    }
 
+    const handlePixelClick = (event) => {
+      console.log("pixel click")
+      let data = event.srcElement.dataset
+      s.currentCol = parseInt(data.col, 10)
+      s.currentRow = parseInt(data.row, 10)
+      updateStyles()
     }
 
     const importAscii = () => {
@@ -229,12 +264,19 @@
       s.tables.push(newTable)
       s.visibleLayers.push(true)
       s.currentTable = s.tables.length - 1
-
       renderLayers()
     }
 
     const keydownHandler = () => {
       console.log("keydownHandler")
+    }
+
+    const layerToggleHandler = (event) => {
+      console.log(event.srcElement)
+      console.log(event.srcElement.dataset.layer)
+      s.visibleLayers[event.srcElement.dataset.layer] = !s.visibleLayers[event.srcElement.dataset.layer]
+      console.log(s.visibleLayers)
+      renderLayers()
     }
 
     const prepChars = () => {
@@ -243,16 +285,6 @@
       for (c = 0; c < chars.length; c += 1) {
         chars[c].addEventListener("click", addCharacter)
       }
-    }
-
-
-    const layerToggleHandler = (event) => {
-      console.log(event.srcElement)
-      console.log(event.srcElement.dataset.layer)
-      s.visibleLayers[event.srcElement.dataset.layer] = !s.visibleLayers[event.srcElement.dataset.layer]
-      console.log(s.visibleLayers)
-      renderLayers()
-
     }
 
     const renderLayers = () => {
@@ -286,6 +318,9 @@
             let tableCell = document.createElement("td")
             tableCell.classList.add("pixelCell")
             let cellButton = document.createElement("button")
+            cellButton.dataset.row = r
+            cellButton.dataset.col = c
+            cellButton.id = `t${tableIndex}_c${c}_r${r}`
             if (s.visibleLayers[tableIndex]) {
               cellButton.innerHTML = s.tables[tableIndex][c][r]
             }
@@ -295,10 +330,26 @@
           }
         }
         bg.appendChild(renderTable)
+        // updateStyles()
+      })
+    }
+
+    updateStyles = () => {
+      const upperIndex = s.tables.length - 1
+      s.tables[upperIndex].forEach((c, cIndex) => {
+        c.forEach((r, rIndex) => {
+          const el = document.getElementById(`t${upperIndex}_c${cIndex}_r${rIndex}`)
+          if (cIndex === s.currentCol && rIndex === s.currentRow) {
+            //el.classList.add("activePixel")
+          } else {
+            // el.classList.remove("activePixel")
+          }
+        })
       })
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      bg.addEventListener("click", handlePixelClick)
       importButton.addEventListener("click", importAscii)
       document.addEventListener("keydown", keydownHandler)
       prepChars()
