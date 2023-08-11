@@ -27,6 +27,8 @@
     }
 
     copyArea {
+      width: 90ch;
+      height: 50ch;
       font-family: monospace;
     }
 
@@ -111,6 +113,7 @@
       text-align: center;
       border: 1px solid green;
       width: 3ch;
+      font-size: 1.2rem;
     }
 
     #charWrapper {
@@ -144,7 +147,8 @@
       const char = event.srcElement.innerHTML
       console.log(char)
       console.log(s.current)
-      const targetEl = document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+      const targetEl = document.getElementById(`t0_r${s.current.r}_c${s.current.c}`)
+      // const targetEl = document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
       targetEl.innerHTML = char
       if (!s.freqChars.includes(char)) {
         s.freqChars.unshift(char)
@@ -154,7 +158,8 @@
 
     const addLayer = () => {
       console.log("adding layer")
-      s.current.t = s.tables.length;
+      // s.current.t = s.tables.length;
+      s.current.t = 0;
       const newTable = document.createElement("table")
       newTable.classList.add("layer")
       for (let r = 0; r < s.rows; r += 1) {
@@ -164,10 +169,12 @@
           const newButton = document.createElement("button")
           newButton.innerHTML = " "
           newButton.classList.add("pixel")
-          newButton.id = `t${s.tables.length}_r${r}_c${c}`
+          // newButton.id = `t${s.tables.length}_r${r}_c${c}`
+          newButton.id = `t0_r${r}_c${c}`
           newButton.addEventListener("click", selectPixelFromClick)
           // newButton.addEventListener("keydown", reactToKeys)
-          newButton.dataset.t = s.tables.length
+          newButton.dataset.t = 0
+          // newButton.dataset.t = s.tables.length
           newButton.dataset.r = r
           newButton.dataset.c = c
           newTd.appendChild(newButton)
@@ -175,16 +182,19 @@
         }
         newTable.appendChild(newTr)
       }
-      s.tables.push(newTable)
-      renderLayers()
-      currentLayerDisplay.innerHTML = `Current Layer: ${s.tables.length}`
+      s.tables[0] = newTable
+      // s.tables.push(newTable)
+      // renderLayers()
+      // currentLayerDisplay.innerHTML = `Current Layer: ${s.tables.length}`
+      currentLayerDisplay.innerHTML = `Current Layer: ${0}`
     }
 
     const exportAscii = () => {
       let exportString = ""
       for (let r = 0; r < s.rows; r += 1) {
         for (let c = 0; c < s.cols; c += 1) {
-          const targetEl = document.getElementById(`t${s.current.t}_r${r}_c${c}`)
+          // const targetEl = document.getElementById(`t${s.current.t}_r${r}_c${c}`)
+          const targetEl = document.getElementById(`t0_r${r}_c${c}`)
           exportString += targetEl.innerHTML
         }
         exportString += "\n"
@@ -193,16 +203,33 @@
     }
 
     const importAscii = () => {
+      while (bg.children.length > 0) {
+        console.log("DELTING")
+        bg.children[0].remove()
+      }
+
       const input = copyArea.innerText
       const lines = input.split("\n")
+      s.rows = Math.max(lines.length + 8, s.rows)
+      lines.forEach((line, lineIndex) => {
+        const chars = line.split("")
+        s.cols = Math.max(chars.length + 8, s.cols)
+      })
+
+      addLayer()
+      renderLayers()
+
       lines.forEach((line, lineIndex) => {
         const chars = line.split("")
         chars.forEach((char, charIndex) => {
-          const targetEl = document.getElementById(`t${s.current.t}_r${lineIndex}_c${charIndex}`)
+          // HARD CODED FOR Table 0 right now
+          // const targetEl = document.getElementById(`t${s.current.t}_r${lineIndex}_c${charIndex}`)
+          const targetEl = document.getElementById(`t0_r${lineIndex + 4}_c${charIndex + 4}`)
           targetEl.innerHTML = char
         })
       })
-      console.log(lines)
+
+      // console.log(lines)
     }
 
     const makeCanvas = () => {
@@ -214,6 +241,7 @@
       renderLayers()
     }
 
+    /*
     const moveBackLayer = () => {
       if (s.current.l == 0) {
         s.current.l = s.layers.length - 1
@@ -225,10 +253,12 @@
       selectPixelFromClick({
         srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
       })
-      renderLayers()
+      // renderLayers()
       document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`).focus()
     }
+    */
 
+    /*
     const moveForwardLayer = () => {
       if (s.current.l == s.layers.length - 1) {
         s.current.l = 0
@@ -239,9 +269,10 @@
       setStyles()
       const targetEl = document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
       selectPixelFromClick({srcElement: targetEl})
-      renderLayers()
+      // renderLayers()
       targetEl.focus()
     }
+    */
 
     const reactToKeys = (event) => {
       console.log(event)
@@ -295,7 +326,8 @@
       }
       else { }
       selectPixelFromClick({
-        srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+        // srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+        srcElement: document.getElementById(`t0_r${s.current.r}_c${s.current.c}`)
       })
     }
 
@@ -314,9 +346,11 @@
         }
       }
       selectPixelFromClick({
-        srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+        // srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+        srcElement: document.getElementById(`t0_r${s.current.r}_c${s.current.c}`)
       })
     }
+
 
     // move the active layer to the top so
     // contentEditable works properly
@@ -331,8 +365,10 @@
         }
       })
       bg.appendChild(s.tables[s.current.t])
-      s.tables[s.current.t].classList.add("activeLayer")
+      // s.tables[s.current.t].classList.add("activeLayer")
+      s.tables[0].classList.add("activeLayer")
     }
+
 
     const selectPixelFromClick = (event) => {
       console.log(event.srcElement.id)
@@ -345,11 +381,10 @@
       // selection.addRange(range)
       // event.srcElement.focus({focusVisible: false})
 
-      s.current.t = parseInt(event.srcElement.dataset.t)
+      // s.current.t = parseInt(event.srcElement.dataset.t)
+      s.current.t = 0
       s.current.r = parseInt(event.srcElement.dataset.r)
       s.current.c = parseInt(event.srcElement.dataset.c)
-
-
 
       setStyles()
 
@@ -362,34 +397,34 @@
 
 
     const setStyles = () => {
-      for (let t = 0; t < s.tables.length; t += 1) {
-        for (let c = 0; c < s.cols; c += 1) {
-          for (let r = 0; r < s.rows; r += 1) {
-            const targetEl = document.getElementById(`t${t}_r${r}_c${c}`)
-            if (t === s.current.t && c === s.current.c && r === s.current.r) {
-              targetEl.classList.add("activePixel")
-              targetEl.classList.remove("inactivePixel")
-            } else {
-              targetEl.classList.remove("activePixel")
-              targetEl.classList.add("inactivePixel")
-            }
-
-            // targetEl.remove("activePixel")
-            // if (s.showGrid == 1) {
-            // targetEl.classList.add("inactivePixel")
-
-            // }
-            // else {
-            //targetEl.classList.remove("inactivePixel")
-            //}
+      // for (let t = 0; t < s.tables.length; t += 1) {
+      for (let c = 0; c < s.cols; c += 1) {
+        for (let r = 0; r < s.rows; r += 1) {
+          const targetEl = document.getElementById(`t0_r${r}_c${c}`)
+          if (c === s.current.c && r === s.current.r) {
+            // targetEl.classList.add("activePixel")
+            // targetEl.classList.remove("inactivePixel")
+          } else {
+            // targetEl.classList.remove("activePixel")
+            //targetEl.classList.add("inactivePixel")
           }
+
+          // targetEl.remove("activePixel")
+          // if (s.showGrid == 1) {
+          // targetEl.classList.add("inactivePixel")
+
+          // }
+          // else {
+          //targetEl.classList.remove("inactivePixel")
+          //}
         }
-        // if (l == s.current.l) {
-        //   //s.layerEls[l].classList.add("activeLayer")
-        // } else {
-        //   //s.layerEls[l].classList.remove("activeLayer")
-        // }
       }
+      // if (l == s.current.l) {
+      //   //s.layerEls[l].classList.add("activeLayer")
+      // } else {
+      //   //s.layerEls[l].classList.remove("activeLayer")
+      // }
+      // }
     }
 
     const toggleGrid = () => {
@@ -402,9 +437,11 @@
       }
       setStyles()
       selectPixelFromClick({
-        srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+        // srcElement: document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`)
+        srcElement: document.getElementById(`t0_r${s.current.r}_c${s.current.c}`)
       })
-      document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`).focus()
+      // document.getElementById(`t${s.current.t}_r${s.current.r}_c${s.current.c}`).focus()
+      document.getElementById(`t0_r${s.current.r}_c${s.current.c}`).focus()
     }
 
     const toggleWASD = () => {
@@ -465,13 +502,12 @@
         <div id="bg">
           <div id="makeCanvasContainer">
             <button id="makeCanvasButton">Make Canvas</button>
-            <input type="number" id="ySize" name="b" min="1" max="80" value="60" />
-            <input type="number" id="xSize" name="a" min="1" max="80" value="70" />
+            <input type="number" id="ySize" name="b" min="1" max="80" value="10" />
+            <input type="number" id="xSize" name="a" min="1" max="80" value="10" />
           </div>
         </div>
         <pre id="copyArea" contenteditable="true"></pre>
       </div>
-
 
       <div>
         <div id="freqChars"></div>
