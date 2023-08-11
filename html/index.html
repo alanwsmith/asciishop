@@ -192,6 +192,19 @@
       copyArea.innerText = exportString
     }
 
+    const importAscii = () => {
+      const input = copyArea.innerText
+      const lines = input.split("\n")
+      lines.forEach((line, lineIndex) => {
+        const chars = line.split("")
+        chars.forEach((char, charIndex) => {
+          const targetEl = document.getElementById(`t${s.current.t}_r${lineIndex}_c${charIndex}`)
+          targetEl.innerHTML = char
+        })
+      })
+      console.log(lines)
+    }
+
     const makeCanvas = () => {
       s.rows = parseInt(xSize.value)
       s.cols = parseInt(ySize.value)
@@ -414,7 +427,7 @@
       // toggleGridButton.addEventListener("click", toggleGrid)
       //  toggleWASDButton.addEventListener("click", toggleWASD)
       exportButton.addEventListener("click", exportAscii)
-      // importButton.addEventListener("click", importAscii)
+      importButton.addEventListener("click", importAscii)
       const chars = document.getElementsByClassName("char")
       for (c = 0; c < chars.length; c += 1) {
         chars[c].addEventListener("click", addCharacter)
@@ -452,8 +465,8 @@
         <div id="bg">
           <div id="makeCanvasContainer">
             <button id="makeCanvasButton">Make Canvas</button>
-            <input type="number" id="ySize" name="b" min="1" max="80" value="30" />
-            <input type="number" id="xSize" name="a" min="1" max="80" value="20" />
+            <input type="number" id="ySize" name="b" min="1" max="80" value="60" />
+            <input type="number" id="xSize" name="a" min="1" max="80" value="70" />
           </div>
         </div>
         <pre id="copyArea" contenteditable="true"></pre>
