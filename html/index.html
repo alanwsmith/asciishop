@@ -26,6 +26,10 @@
       color: gold;
     }
 
+    copyArea {
+      font-family: monospace;
+    }
+
     *,
     *::before,
     *::after {
@@ -40,6 +44,7 @@
       border: 0;
       margin: 0;
       user-select: none;
+      color: gold;
     }
 
     .pixel:focus {
@@ -157,6 +162,7 @@
         for (let c = 0; c < s.cols; c += 1) {
           const newTd = document.createElement("td")
           const newButton = document.createElement("button")
+          newButton.innerHTML = " "
           newButton.classList.add("pixel")
           newButton.id = `t${s.tables.length}_r${r}_c${c}`
           newButton.addEventListener("click", selectPixelFromClick)
@@ -174,9 +180,23 @@
       currentLayerDisplay.innerHTML = `Current Layer: ${s.tables.length}`
     }
 
+    const exportAscii = () => {
+      let exportString = ""
+      for (let r = 0; r < s.rows; r += 1) {
+        for (let c = 0; c < s.cols; c += 1) {
+          const targetEl = document.getElementById(`t${s.current.t}_r${r}_c${c}`)
+          exportString += targetEl.innerHTML
+        }
+        exportString += "\n"
+      }
+      copyArea.innerText = exportString
+    }
+
     const makeCanvas = () => {
       s.rows = parseInt(xSize.value)
       s.cols = parseInt(ySize.value)
+      copyArea.rows = s.rows
+      copyArea.cols = s.cols
       addLayer()
       renderLayers()
     }
@@ -315,6 +335,9 @@
       s.current.t = parseInt(event.srcElement.dataset.t)
       s.current.r = parseInt(event.srcElement.dataset.r)
       s.current.c = parseInt(event.srcElement.dataset.c)
+
+
+
       setStyles()
 
       /*
@@ -390,6 +413,8 @@
       // backLayerButton.addEventListener("click", moveBackLayer)
       // toggleGridButton.addEventListener("click", toggleGrid)
       //  toggleWASDButton.addEventListener("click", toggleWASD)
+      exportButton.addEventListener("click", exportAscii)
+      // importButton.addEventListener("click", importAscii)
       const chars = document.getElementsByClassName("char")
       for (c = 0; c < chars.length; c += 1) {
         chars[c].addEventListener("click", addCharacter)
@@ -416,16 +441,24 @@
     <button id="toggleWASDButton">Turn WASD Nav Off</button>
     <button id="toggleWASDButton">Turn WASD Nav Off</button>
 -->
+    <button id="exportButton">Export Button</button>
+    <button id="importButton">Import Button</button>
+
     <div id="currentLayerDisplay">Current Layer: 1</div>
 
     <div class="holder">
-      <div id="bg">
-        <div id="makeCanvasContainer">
-          <button id="makeCanvasButton">Make Canvas</button>
-          <input type="number" id="ySize" name="b" min="1" max="80" value="30" />
-          <input type="number" id="xSize" name="a" min="1" max="80" value="20" />
+
+      <div>
+        <div id="bg">
+          <div id="makeCanvasContainer">
+            <button id="makeCanvasButton">Make Canvas</button>
+            <input type="number" id="ySize" name="b" min="1" max="80" value="30" />
+            <input type="number" id="xSize" name="a" min="1" max="80" value="20" />
+          </div>
         </div>
+        <pre id="copyArea" contenteditable="true"></pre>
       </div>
+
 
       <div>
         <div id="freqChars"></div>
@@ -2620,7 +2653,6 @@
             <button class="char">&#xFF61;</button>
             <button class="char">&#xFFE0;</button>
             <button class="char">&#xFFE8;</button>
-
 
           </div>
         </div>
