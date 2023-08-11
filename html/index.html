@@ -126,23 +126,24 @@
     }
 
     .activeTable button {
+      background-color: transparent;
       color: gold;
-      background-color: rgba(0, 0, 0, 0);
     }
 
     .inactiveTable button {
-      color: #777;
-      background-color: rgba(0, 0, 0, 0);
+      background-color: transparent;
+      color: #123123;
     }
 
     .activePixel {
-      background-color: white;
+      background-color: gold;
+      outline: 1px solid green;
+      user-select: none;
     }
 
     .inactivePixel {
       background-color: rgba(0, 0, 0, 0)
     }
-
 
     .holder {
       display: grid;
@@ -171,10 +172,6 @@
               padding: 0;
               border: 0;
               margin: 0;
-            }
-
-            .pixel:focus {
-              outline: none;
             }
           }
         }
@@ -229,6 +226,10 @@
 
     const charClickHandler = () => {
       console.log("charClickHandler")
+    }
+
+    const getId = () => {
+      return `t${s.currentTable}_c${s.currentCol}_r${s.currentRow}`
     }
 
     const handlePixelClick = (event) => {
@@ -330,19 +331,20 @@
           }
         }
         bg.appendChild(renderTable)
-        // updateStyles()
+        updateStyles()
       })
     }
 
     updateStyles = () => {
       const upperIndex = s.tables.length - 1
-      s.tables[upperIndex].forEach((c, cIndex) => {
-        c.forEach((r, rIndex) => {
-          const el = document.getElementById(`t${upperIndex}_c${cIndex}_r${rIndex}`)
+      s.tables[upperIndex].forEach((r, rIndex) => {
+        r.forEach((c, cIndex) => {
+          const el = document.getElementById(`t0_c${cIndex}_r${rIndex}`)
           if (cIndex === s.currentCol && rIndex === s.currentRow) {
-            //el.classList.add("activePixel")
+            console.log(getId())
+            el.classList.add("activePixel")
           } else {
-            // el.classList.remove("activePixel")
+            el.classList.remove("activePixel")
           }
         })
       })
