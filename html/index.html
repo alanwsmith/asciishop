@@ -53,11 +53,8 @@
       outline: none;
     }
 
-    button {
-      padding: 0;
-      border: 0;
-      margin: 0;
-      user-select: none;
+    .char:focus {
+      outline: none;
     }
 
     table {
@@ -201,10 +198,9 @@
 
     const importAscii = () => {
       while (bg.children.length > 0) {
-        console.log("DELTING")
+        console.log("DELETING")
         bg.children[0].remove()
       }
-
       const input = copyArea.innerText
       const lines = input.split("\n")
       s.rows = Math.max(lines.length, s.rows)
@@ -492,8 +488,12 @@
     <button id="toggleWASDButton">Turn WASD Nav Off</button>
     <button id="toggleWASDButton">Turn WASD Nav Off</button>
 -->
-    <button id="exportButton">Export Button</button>
-    <button id="importButton">Import Button</button>
+    <div>
+      <button id="importButton">Import Button</button>
+    </div>
+    <div>
+      <button id="exportButton">Export Button</button>
+    </div>
 
     <div id="currentLayerDisplay">Current Layer: 1</div>
 
