@@ -4,7 +4,7 @@ let s = {
     currentCol: 0,
     currentRow: 0,
     cols: 80,
-    rows: 40,
+    rows: 50,
     selectCoord: {t: null, r: null, c: null},
     freqChars: [],
     visibleLayers: [],
@@ -79,6 +79,7 @@ let s = {
   }
 
   const renderLayers = () => {
+    const l = s.tables.length
     console.log("renderLayers")
     while (bg.children.length > 0) {
       bg.children[0].remove()
@@ -111,6 +112,7 @@ let s = {
           let cellButton = document.createElement("button")
           cellButton.dataset.row = r
           cellButton.dataset.col = c
+
           cellButton.id = `t${tableIndex}_c${c}_r${r}`
           if (s.visibleLayers[tableIndex]) {
             cellButton.innerHTML = s.tables[tableIndex][c][r]
@@ -121,17 +123,17 @@ let s = {
         }
       }
       bg.appendChild(renderTable)
-      updateStyles()
     })
+    updateStyles()
   }
 
   updateStyles = () => {
     const upperIndex = s.tables.length - 1
     s.tables[upperIndex].forEach((r, rIndex) => {
       r.forEach((c, cIndex) => {
-        const el = document.getElementById(`t0_c${cIndex}_r${rIndex}`)
+        const theId = `t${upperIndex}_c${cIndex}_r${rIndex}`
+        const el = document.getElementById(theId)
         if (cIndex === s.currentCol && rIndex === s.currentRow) {
-          console.log(getId())
           el.classList.add("activePixel")
         } else {
           el.classList.remove("activePixel")
