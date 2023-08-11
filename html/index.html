@@ -348,9 +348,6 @@
 
   <div id="dt"></div>
   <div class="wrapper">
-    <input type="number" id="ySize" name="b" min="1" max="80" value="30" />
-    <input type="number" id="xSize" name="a" min="1" max="80" value="20" />
-    <button id="makeCanvasButton">Make Canvas</button>
     <button id="addLayerButton">Add Layer</button>
     <button id="backLayerButton">Down A Layer</button>
     <button id="forwardLayerButton">Up A Layer</button>
@@ -359,7 +356,13 @@
     <div id="currentLayerDisplay">Current Layer: 1</div>
 
     <div class="holder">
-      <div id="bg"></div>
+      <div id="bg">
+        <div id="makeCanvasContainer">
+          <button id="makeCanvasButton">Make Canvas</button>
+          <input type="number" id="ySize" name="b" min="1" max="80" value="30" />
+          <input type="number" id="xSize" name="a" min="1" max="80" value="20" />
+        </div>
+      </div>
 
       <div>
         <div id="freqChars"></div>
@@ -1045,7 +1048,6 @@
             <pre class="char" title="0A70">&#x0A70;</pre>
             <pre class="char" title="0A71">&#x0A71;</pre>
             <pre class="char" title="0A74">&#x0A74;</pre>
-            <pre class="char" title="0A80">&#x0A80;</pre>
             <pre class="char" title="0A85">&#x0A85;</pre>
             <pre class="char" title="0A95">&#x0A95;</pre>
             <pre class="char" title="0ABE">&#x0ABE;</pre>
@@ -1129,7 +1131,6 @@
             <pre class="char" title="0FBF">&#x0FBF;</pre>
             <pre class="char" title="0FC0">&#x0FC0;</pre>
             <pre class="char" title="0FC4">&#x0FC4;</pre>
-            <pre class="char" title="0FD5">&#x0FD5;</pre>
             <pre class="char" title="1000">&#x1000;</pre>
             <pre class="char" title="10000">&#x10000;</pre>
             <pre class="char" title="10080">&#x10080;</pre>
@@ -1194,7 +1195,6 @@
             <pre class="char" title="11100">&#x11100;</pre>
             <pre class="char" title="11150">&#x11150;</pre>
             <pre class="char" title="11180">&#x11180;</pre>
-            <pre class="char" title="111E0">&#x111E0;</pre>
             <pre class="char" title="11200">&#x11200;</pre>
             <pre class="char" title="11280">&#x11280;</pre>
             <pre class="char" title="112B0">&#x112B0;</pre>
@@ -1205,10 +1205,8 @@
             <pre class="char" title="115F">&#x115F;</pre>
             <pre class="char" title="1160">&#x1160;</pre>
             <pre class="char" title="11600">&#x11600;</pre>
-            <pre class="char" title="11660">&#x11660;</pre>
             <pre class="char" title="11680">&#x11680;</pre>
             <pre class="char" title="11700">&#x11700;</pre>
-            <pre class="char" title="11800">&#x11800;</pre>
             <pre class="char" title="118A0">&#x118A0;</pre>
             <pre class="char" title="11AC0">&#x11AC0;</pre>
             <pre class="char" title="11C00">&#x11C00;</pre>
@@ -1221,7 +1219,6 @@
             <pre class="char" title="12400">&#x12400;</pre>
             <pre class="char" title="12480">&#x12480;</pre>
             <pre class="char" title="13000">&#x13000;</pre>
-            <pre class="char" title="13430">&#x13430;</pre>
             <pre class="char" title="135D">&#x135D;</pre>
             <pre class="char" title="1361">&#x1361;</pre>
             <pre class="char" title="1362">&#x1362;</pre>
@@ -1234,8 +1231,6 @@
             <pre class="char" title="1369">&#x1369;</pre>
             <pre class="char" title="1380">&#x1380;</pre>
             <pre class="char" title="13A0">&#x13A0;</pre>
-            <pre class="char" title="1400">&#x1400;</pre>
-            <pre class="char" title="14400">&#x14400;</pre>
             <pre class="char" title="166D">&#x166D;</pre>
             <pre class="char" title="166E">&#x166E;</pre>
             <pre class="char" title="1680">&#x1680;</pre>
@@ -1295,11 +1290,6 @@
             <pre class="char" title="1A20">&#x1A20;</pre>
             <pre class="char" title="1AB0">&#x1AB0;</pre>
             <pre class="char" title="1B00">&#x1B00;</pre>
-            <pre class="char" title="1B000">&#x1B000;</pre>
-            <pre class="char" title="1B002">&#x1B002;</pre>
-            <pre class="char" title="1B100">&#x1B100;</pre>
-            <pre class="char" title="1B130">&#x1B130;</pre>
-            <pre class="char" title="1B170">&#x1B170;</pre>
             <pre class="char" title="1B50">&#x1B50;</pre>
             <pre class="char" title="1B61">&#x1B61;</pre>
             <pre class="char" title="1B80">&#x1B80;</pre>
@@ -1313,14 +1303,12 @@
             <pre class="char" title="1CC0">&#x1CC0;</pre>
             <pre class="char" title="1CD0">&#x1CD0;</pre>
             <pre class="char" title="1D00">&#x1D00;</pre>
-            <pre class="char" title="1D000">&#x1D000;</pre>
             <pre class="char" title="1D01">&#x1D01;</pre>
             <pre class="char" title="1D02">&#x1D02;</pre>
             <pre class="char" title="1D03">&#x1D03;</pre>
             <pre class="char" title="1D04">&#x1D04;</pre>
             <pre class="char" title="1D05">&#x1D05;</pre>
             <pre class="char" title="1D06">&#x1D06;</pre>
-            <pre class="char" title="1D06F">&#x1D06F;</pre>
             <pre class="char" title="1D07">&#x1D07;</pre>
             <pre class="char" title="1D08">&#x1D08;</pre>
             <pre class="char" title="1D09">&#x1D09;</pre>
@@ -1337,12 +1325,7 @@
             <pre class="char" title="1D13">&#x1D13;</pre>
             <pre class="char" title="1D14">&#x1D14;</pre>
             <pre class="char" title="1D15">&#x1D15;</pre>
-            <pre class="char" title="1D15D">&#x1D15D;</pre>
-            <pre class="char" title="1D15E">&#x1D15E;</pre>
-            <pre class="char" title="1D15F">&#x1D15F;</pre>
             <pre class="char" title="1D16">&#x1D16;</pre>
-            <pre class="char" title="1D160">&#x1D160;</pre>
-            <pre class="char" title="1D161">&#x1D161;</pre>
             <pre class="char" title="1D17">&#x1D17;</pre>
             <pre class="char" title="1D18">&#x1D18;</pre>
             <pre class="char" title="1D19">&#x1D19;</pre>
@@ -1350,23 +1333,16 @@
             <pre class="char" title="1D1B">&#x1D1B;</pre>
             <pre class="char" title="1D1C">&#x1D1C;</pre>
             <pre class="char" title="1D1D">&#x1D1D;</pre>
-            <pre class="char" title="1D1D0">&#x1D1D0;</pre>
-            <pre class="char" title="1D1DE">&#x1D1DE;</pre>
             <pre class="char" title="1D1E">&#x1D1E;</pre>
-            <pre class="char" title="1D1E9">&#x1D1E9;</pre>
             <pre class="char" title="1D1F">&#x1D1F;</pre>
             <pre class="char" title="1D20">&#x1D20;</pre>
-            <pre class="char" title="1D200">&#x1D200;</pre>
             <pre class="char" title="1D21">&#x1D21;</pre>
             <pre class="char" title="1D22">&#x1D22;</pre>
             <pre class="char" title="1D23">&#x1D23;</pre>
             <pre class="char" title="1D24">&#x1D24;</pre>
             <pre class="char" title="1D25">&#x1D25;</pre>
             <pre class="char" title="1D2C">&#x1D2C;</pre>
-            <pre class="char" title="1D2C0">&#x1D2C0;</pre>
-            <pre class="char" title="1D2E0">&#x1D2E0;</pre>
             <pre class="char" title="1D300">&#x1D300;</pre>
-            <pre class="char" title="1D372">&#x1D372;</pre>
             <pre class="char" title="1D400">&#x1D400;</pre>
             <pre class="char" title="1D434">&#x1D434;</pre>
             <pre class="char" title="1D468">&#x1D468;</pre>
@@ -1398,7 +1374,6 @@
             <pre class="char" title="1D7E2">&#x1D7E2;</pre>
             <pre class="char" title="1D7EC">&#x1D7EC;</pre>
             <pre class="char" title="1D7F6">&#x1D7F6;</pre>
-            <pre class="char" title="1D800">&#x1D800;</pre>
             <pre class="char" title="1DC0">&#x1DC0;</pre>
             <pre class="char" title="1DCB">&#x1DCB;</pre>
             <pre class="char" title="1DD3">&#x1DD3;</pre>
@@ -1407,13 +1382,11 @@
             <pre class="char" title="1E000">&#x1E000;</pre>
             <pre class="char" title="1E01">&#x1E01;</pre>
             <pre class="char" title="1E03">&#x1E03;</pre>
-            <pre class="char" title="1E030">&#x1E030;</pre>
             <pre class="char" title="1E05">&#x1E05;</pre>
             <pre class="char" title="1E07">&#x1E07;</pre>
             <pre class="char" title="1E0B">&#x1E0B;</pre>
             <pre class="char" title="1E0D">&#x1E0D;</pre>
             <pre class="char" title="1E0F">&#x1E0F;</pre>
-            <pre class="char" title="1E100">&#x1E100;</pre>
             <pre class="char" title="1E11">&#x1E11;</pre>
             <pre class="char" title="1E13">&#x1E13;</pre>
             <pre class="char" title="1E19">&#x1E19;</pre>
@@ -1440,7 +1413,6 @@
             <pre class="char" title="1E47">&#x1E47;</pre>
             <pre class="char" title="1E49">&#x1E49;</pre>
             <pre class="char" title="1E4B">&#x1E4B;</pre>
-            <pre class="char" title="1E4D0">&#x1E4D0;</pre>
             <pre class="char" title="1E55">&#x1E55;</pre>
             <pre class="char" title="1E57">&#x1E57;</pre>
             <pre class="char" title="1E59">&#x1E59;</pre>
@@ -1481,13 +1453,10 @@
             <pre class="char" title="1EB9">&#x1EB9;</pre>
             <pre class="char" title="1EBB">&#x1EBB;</pre>
             <pre class="char" title="1EBD">&#x1EBD;</pre>
-            <pre class="char" title="1EC70">&#x1EC70;</pre>
             <pre class="char" title="1EC9">&#x1EC9;</pre>
             <pre class="char" title="1ECB">&#x1ECB;</pre>
             <pre class="char" title="1ECD">&#x1ECD;</pre>
             <pre class="char" title="1ECF">&#x1ECF;</pre>
-            <pre class="char" title="1ED00">&#x1ED00;</pre>
-            <pre class="char" title="1EE00">&#x1EE00;</pre>
             <pre class="char" title="1EE5">&#x1EE5;</pre>
             <pre class="char" title="1EE7">&#x1EE7;</pre>
             <pre class="char" title="1EF3">&#x1EF3;</pre>
@@ -1530,14 +1499,6 @@
             <pre class="char" title="2025">&#x2025;</pre>
             <pre class="char" title="2026">&#x2026;</pre>
             <pre class="char" title="2027">&#x2027;</pre>
-            <pre class="char" title="2028">&#x2028;</pre>
-            <pre class="char" title="2029">&#x2029;</pre>
-            <pre class="char" title="202A">&#x202A;</pre>
-            <pre class="char" title="202B">&#x202B;</pre>
-            <pre class="char" title="202C">&#x202C;</pre>
-            <pre class="char" title="202D">&#x202D;</pre>
-            <pre class="char" title="202E">&#x202E;</pre>
-            <pre class="char" title="202F">&#x202F;</pre>
             <pre class="char" title="2030">&#x2030;</pre>
             <pre class="char" title="2031">&#x2031;</pre>
             <pre class="char" title="2032">&#x2032;</pre>
@@ -1585,16 +1546,6 @@
             <pre class="char" title="205C">&#x205C;</pre>
             <pre class="char" title="205D">&#x205D;</pre>
             <pre class="char" title="205E">&#x205E;</pre>
-            <pre class="char" title="205F">&#x205F;</pre>
-            <pre class="char" title="2060">&#x2060;</pre>
-            <pre class="char" title="2061">&#x2061;</pre>
-            <pre class="char" title="2062">&#x2062;</pre>
-            <pre class="char" title="2063">&#x2063;</pre>
-            <pre class="char" title="2064">&#x2064;</pre>
-            <pre class="char" title="2066">&#x2066;</pre>
-            <pre class="char" title="2067">&#x2067;</pre>
-            <pre class="char" title="2068">&#x2068;</pre>
-            <pre class="char" title="2069">&#x2069;</pre>
             <pre class="char" title="2070">&#x2070;</pre>
             <pre class="char" title="2071">&#x2071;</pre>
             <pre class="char" title="2080">&#x2080;</pre>
@@ -1655,7 +1606,6 @@
             <pre class="char" title="20DF">&#x20DF;</pre>
             <pre class="char" title="20E0">&#x20E0;</pre>
             <pre class="char" title="20E1">&#x20E1;</pre>
-            <pre class="char" title="20E2">&#x20E2;</pre>
             <pre class="char" title="20E3">&#x20E3;</pre>
             <pre class="char" title="20E4">&#x20E4;</pre>
             <pre class="char" title="20E5">&#x20E5;</pre>
@@ -2264,22 +2214,7 @@
             <pre class="char" title="26B0">&#x26B0;</pre>
             <pre class="char" title="26B1">&#x26B1;</pre>
             <pre class="char" title="26B2">&#x26B2;</pre>
-            <pre class="char" title="26B3">&#x26B3;</pre>
-            <pre class="char" title="26C6">&#x26C6;</pre>
-            <pre class="char" title="26C7">&#x26C7;</pre>
-            <pre class="char" title="26C9">&#x26C9;</pre>
             <pre class="char" title="26E2">&#x26E2;</pre>
-            <pre class="char" title="26E4">&#x26E4;</pre>
-            <pre class="char" title="26E8">&#x26E8;</pre>
-            <pre class="char" title="26EB">&#x26EB;</pre>
-            <pre class="char" title="26EC">&#x26EC;</pre>
-            <pre class="char" title="26ED">&#x26ED;</pre>
-            <pre class="char" title="26EE">&#x26EE;</pre>
-            <pre class="char" title="26EF">&#x26EF;</pre>
-            <pre class="char" title="26F6">&#x26F6;</pre>
-            <pre class="char" title="26FC">&#x26FC;</pre>
-            <pre class="char" title="26FE">&#x26FE;</pre>
-            <pre class="char" title="2700">&#x2700;</pre>
             <pre class="char" title="2701">&#x2701;</pre>
             <pre class="char" title="2702">&#x2702;</pre>
             <pre class="char" title="2704">&#x2704;</pre>
@@ -2416,7 +2351,6 @@
             <pre class="char" title="2A51">&#x2A51;</pre>
             <pre class="char" title="2A53">&#x2A53;</pre>
             <pre class="char" title="2A54">&#x2A54;</pre>
-            <pre class="char" title="2A700">&#x2A700;</pre>
             <pre class="char" title="2AA1">&#x2AA1;</pre>
             <pre class="char" title="2ABB">&#x2ABB;</pre>
             <pre class="char" title="2ABC">&#x2ABC;</pre>
@@ -2439,29 +2373,11 @@
             <pre class="char" title="2B25">&#x2B25;</pre>
             <pre class="char" title="2B2C">&#x2B2C;</pre>
             <pre class="char" title="2B30">&#x2B30;</pre>
-            <pre class="char" title="2B70">&#x2B70;</pre>
-            <pre class="char" title="2B71">&#x2B71;</pre>
-            <pre class="char" title="2B72">&#x2B72;</pre>
-            <pre class="char" title="2B73">&#x2B73;</pre>
-            <pre class="char" title="2B740">&#x2B740;</pre>
-            <pre class="char" title="2B7B">&#x2B7B;</pre>
-            <pre class="char" title="2B7D">&#x2B7D;</pre>
-            <pre class="char" title="2B7E">&#x2B7E;</pre>
-            <pre class="char" title="2B7F">&#x2B7F;</pre>
-            <pre class="char" title="2B820">&#x2B820;</pre>
-            <pre class="char" title="2B97">&#x2B97;</pre>
-            <pre class="char" title="2BB8">&#x2BB8;</pre>
-            <pre class="char" title="2BB9">&#x2BB9;</pre>
-            <pre class="char" title="2BD0">&#x2BD0;</pre>
-            <pre class="char" title="2BD1">&#x2BD1;</pre>
-            <pre class="char" title="2BD3">&#x2BD3;</pre>
             <pre class="char" title="2C00">&#x2C00;</pre>
             <pre class="char" title="2C60">&#x2C60;</pre>
             <pre class="char" title="2C80">&#x2C80;</pre>
             <pre class="char" title="2CB2">&#x2CB2;</pre>
             <pre class="char" title="2CEB">&#x2CEB;</pre>
-            <pre class="char" title="2CEB0">&#x2CEB0;</pre>
-            <pre class="char" title="2D00">&#x2D00;</pre>
             <pre class="char" title="2D30">&#x2D30;</pre>
             <pre class="char" title="2D80">&#x2D80;</pre>
             <pre class="char" title="2DE0">&#x2DE0;</pre>
@@ -2483,13 +2399,9 @@
             <pre class="char" title="2E42">&#x2E42;</pre>
             <pre class="char" title="2E44">&#x2E44;</pre>
             <pre class="char" title="2E52">&#x2E52;</pre>
-            <pre class="char" title="2E5D">&#x2E5D;</pre>
             <pre class="char" title="2E80">&#x2E80;</pre>
             <pre class="char" title="2F00">&#x2F00;</pre>
-            <pre class="char" title="2F800">&#x2F800;</pre>
             <pre class="char" title="2FF0">&#x2FF0;</pre>
-            <pre class="char" title="3000">&#x3000;</pre>
-            <pre class="char" title="30000">&#x30000;</pre>
             <pre class="char" title="3001">&#x3001;</pre>
             <pre class="char" title="3002">&#x3002;</pre>
             <pre class="char" title="3003">&#x3003;</pre>
@@ -2546,10 +2458,6 @@
             <pre class="char" title="30FD">&#x30FD;</pre>
             <pre class="char" title="30FE">&#x30FE;</pre>
             <pre class="char" title="30FF">&#x30FF;</pre>
-            <pre class="char" title="3100">&#x3100;</pre>
-            <pre class="char" title="3130">&#x3130;</pre>
-            <pre class="char" title="31350">&#x31350;</pre>
-            <pre class="char" title="3164">&#x3164;</pre>
             <pre class="char" title="3165">&#x3165;</pre>
             <pre class="char" title="3190">&#x3190;</pre>
             <pre class="char" title="31A0">&#x31A0;</pre>
@@ -2612,11 +2520,6 @@
             <pre class="char" title="DC00">&#xDC00;</pre>
             <pre class="char" title="DEAF">&#xDEAF;</pre>
             <pre class="char" title="DOOD">&#xDOOD;</pre>
-            <pre class="char" title="E000">&#xE000;</pre>
-            <pre class="char" title="E0000">&#xE0000;</pre>
-            <pre class="char" title="E0001">&#xE0001;</pre>
-            <pre class="char" title="E0100">&#xE0100;</pre>
-            <pre class="char" title="F0000">&#xF0000;</pre>
             <pre class="char" title="F900">&#xF900;</pre>
             <pre class="char" title="FA0C">&#xFA0C;</pre>
             <pre class="char" title="FA30">&#xFA30;</pre>
@@ -2629,10 +2532,8 @@
             <pre class="char" title="FBEA">&#xFBEA;</pre>
             <pre class="char" title="FD3E">&#xFD3E;</pre>
             <pre class="char" title="FD3F">&#xFD3F;</pre>
-            <pre class="char" title="FDD0">&#xFDD0;</pre>
             <pre class="char" title="FDFC">&#xFDFC;</pre>
             <pre class="char" title="FDFD">&#xFDFD;</pre>
-            <pre class="char" title="FE00">&#xFE00;</pre>
             <pre class="char" title="FE10">&#xFE10;</pre>
             <pre class="char" title="FE20">&#xFE20;</pre>
             <pre class="char" title="FE24">&#xFE24;</pre>
@@ -2653,8 +2554,6 @@
             <pre class="char" title="FE50">&#xFE50;</pre>
             <pre class="char" title="FE70">&#xFE70;</pre>
             <pre class="char" title="FE80">&#xFE80;</pre>
-            <pre class="char" title="FEFF">&#xFEFF;</pre>
-            <pre class="char" title="FF00">&#xFF00;</pre>
             <pre class="char" title="FF01">&#xFF01;</pre>
             <pre class="char" title="FF61">&#xFF61;</pre>
             <pre class="char" title="FFE0">&#xFFE0;</pre>
