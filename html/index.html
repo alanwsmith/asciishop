@@ -15,6 +15,10 @@
       margin: 0;
     }
 
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-size: 1.0rem;
       background-color: black;
@@ -26,20 +30,47 @@
       font-family: monospace;
     }
 
+
+    table,
+    tr,
+    td,
+    th {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      line-height: 0.2rem;
+      border-collapse: collapse;
+    }
+
+    td {
+      line-height: 0.2rem;
+    }
+
     .activeTable button {
       background-color: transparent;
       color: gold;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      line-height: 0.2rem;
     }
 
     .inactiveTable button {
       background-color: transparent;
       color: #123123;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      line-height: 0.2rem;
     }
 
     .activePixel {
       background-color: gold;
       outline: 1px solid green;
       user-select: none;
+      border: 0;
+      margin: 0;
+      padding: 0;
     }
 
     .holder {
@@ -64,7 +95,7 @@
 
             .pixel {
               font-family: monospace;
-              width: 1ch;
+              width: 1.3ch;
               height: 1rem;
               padding: 0;
               border: 0;
@@ -349,9 +380,7 @@
   <div id="dt"></div>
   <div class="wrapper">
     <div>
-      <button id="importButton">Import Button</button>
-    </div>
-    <div>
+      <button id="importButton">Import Button</button> ~
       <button id="exportButton">Export Button</button>
     </div>
     <div id="layerToggles"></div>

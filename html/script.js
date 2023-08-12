@@ -4,10 +4,14 @@ let s = {
   currentCol: 0,
   currentRow: 0,
   cols: 80,
-  rows: 50,
+  rows: 80,
   selectCoord: { t: null, r: null, c: null },
   freqChars: [],
   visibleLayers: [],
+}
+
+const cStatus = () => {
+  console.log(`${s.currentTable} - ${s.currentRow} - ${s.currentCol}`)
 }
 
 const makeLayerControls = (layerIndex) => {
@@ -21,11 +25,47 @@ const addCharacter = (event) => {
   console.log("addCharacter")
 }
 
+const exportAscii = () => {
+  let outputTable = []
+  for (let c = 0; c < s.rows; c++) {
+    let row = []
+    for (let r = 0; r < s.cols; r++) {
+      row.push(" ")
+    }
+    outputTable.push(row)
+  }
+  console.log(outputTable)
+  s.tables.forEach((t, tIndex) => {
+    t.forEach((c, cIndex) => {
+      c.forEach((r, rIndex) => {
+        if (r !== " ") {
+          if (s.visibleLayers[tIndex] === true) {
+            outputTable[rIndex][cIndex] = r
+          }
+        }
+      })
+    })
+  })
+
+  let output = ""
+
+  outputTable.forEach((r, rIndex) => {
+    r.forEach((c, cIndex) => {
+      output += c
+    })
+    output += "\n"
+  })
+
+  copyArea.innerText = output
+
+}
+
 const getId = () => {
   return `t${s.currentTable}_c${s.currentCol}_r${s.currentRow}`
 }
 
 const handleCharClick = (event) => {
+  cStatus()
   console.log(event.srcElement.innerText)
   s.tables[s.currentTable][s.currentCol][s.currentRow] = event.srcElement.innerText
   renderLayers()
@@ -36,12 +76,14 @@ const handlePixelClick = (event) => {
   let data = event.srcElement.dataset
   s.currentCol = parseInt(data.col, 10)
   s.currentRow = parseInt(data.row, 10)
+  cStatus()
   updateStyles()
 }
 
 const handleSelectClick = (event) => {
   const layerTarget = parseInt(event.srcElement.dataset.layer, 10)
   s.currentTable = layerTarget
+  cStatus()
   renderLayers()
 }
 
@@ -50,11 +92,12 @@ const importAscii = () => {
   // build the base table to ensure it's full
   let newTable = []
   console.log(s.cols)
-  for (let c = 0; c < s.cols; c += 1) {
+  for (let c = 0; c <= s.cols; c += 1) {
     console.log("-")
     let newCol = []
-    for (let r = 0; r < s.rows; r += 1) {
+    for (let r = 0; r <= s.rows; r += 1) {
       newCol.push(" ")
+      console.log("x")
     }
     newTable.push(newCol)
   }
@@ -75,58 +118,42 @@ const importAscii = () => {
 
 const keydownHandler = (event) => {
   console.log(event)
+  cStatus()
   if (event.code === "KeyA" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol != 0) {
       s.currentCol = s.currentCol - 1
     }
+    cStatus()
     renderLayers()
   } else if (event.code === "KeyD" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol < s.cols - 1) {
       s.currentCol = s.currentCol + 1
     }
+    cStatus()
     renderLayers()
   } else if (event.code === "KeyW" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow != 0) {
       s.currentRow = s.currentRow - 1
     }
+    cStatus()
     renderLayers()
   } else if (event.code === "KeyS" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow < s.rows - 1) {
       s.currentRow = s.currentRow + 1
     }
+    cStatus()
     renderLayers()
-  } else if (event.code === "Backspace") {
+  } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
     s.tables[s.currentTable][s.currentCol][s.currentRow] = " "
+    cStatus()
     renderLayers()
   }
-
-
-
-  /*
-  if (event.code === "KeyA") {
-    event.preventDefault()
-  } else if (event.code === "KeyD") {
-    event.preventDefault()
-    if (s.currentCol < s.cols - 1) {
-      s.currentCol = s.currentCol + 1
-    }
-  } else if (event.code === "KeyW") {
-    event.preventDefault()
-    if (s.currentCol != 0) {
-      s.currentCol = s.currentCol - 1
-    }
-  } else if (event.code === "KeyS") {
-    event.preventDefault()
-    if (s.currentCol != 0) {
-      s.currentCol = s.currentCol - 1
-    }
-  }
-  */
+  cStatus()
 }
 
 const layerToggleHandler = (event) => {
@@ -208,6 +235,7 @@ updateStyles = () => {
       const el = document.getElementById(theId)
       if (el !== null) {
         if (cIndex === s.currentCol && rIndex === s.currentRow) {
+          cStatus()
           el.classList.add("activePixel")
         } else {
           el.classList.remove("activePixel")
@@ -222,6 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
   layerSelects.addEventListener("click", handleSelectClick)
   charContainer.addEventListener("click", handleCharClick)
   importButton.addEventListener("click", importAscii)
+  exportButton.addEventListener("click", exportAscii)
   document.addEventListener("keydown", keydownHandler)
   prepChars()
 })
