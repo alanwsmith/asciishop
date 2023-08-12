@@ -79,22 +79,32 @@ const keydownHandler = (event) => {
     if (s.currentCol != 0) {
       s.currentCol = s.currentCol - 1
     }
+    renderLayers()
   } else if (event.code === "KeyD") {
     event.preventDefault()
     if (s.currentCol < s.cols - 1) {
       s.currentCol = s.currentCol + 1
     }
+    renderLayers()
   } else if (event.code === "KeyW") {
     event.preventDefault()
     if (s.currentRow != 0) {
       s.currentRow = s.currentRow - 1
     }
+    renderLayers()
   } else if (event.code === "KeyS") {
     event.preventDefault()
     if (s.currentRow < s.rows - 1) {
       s.currentRow = s.currentRow + 1
     }
+    renderLayers()
+  } else if (event.code === "Backspace") {
+    event.preventDefault()
+    s.tables[s.currentTable][s.currentCol][s.currentRow] = " "
+    renderLayers()
   }
+
+
 
   /*
   if (event.code === "KeyA") {
@@ -116,9 +126,6 @@ const keydownHandler = (event) => {
     }
   }
   */
-
-
-  renderLayers()
 }
 
 const layerToggleHandler = (event) => {
