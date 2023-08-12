@@ -74,25 +74,26 @@ const importAscii = () => {
 }
 
 const keydownHandler = (event) => {
-  if (event.code === "KeyA") {
+  console.log(event)
+  if (event.code === "KeyA" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol != 0) {
       s.currentCol = s.currentCol - 1
     }
     renderLayers()
-  } else if (event.code === "KeyD") {
+  } else if (event.code === "KeyD" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol < s.cols - 1) {
       s.currentCol = s.currentCol + 1
     }
     renderLayers()
-  } else if (event.code === "KeyW") {
+  } else if (event.code === "KeyW" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow != 0) {
       s.currentRow = s.currentRow - 1
     }
     renderLayers()
-  } else if (event.code === "KeyS") {
+  } else if (event.code === "KeyS" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow < s.rows - 1) {
       s.currentRow = s.currentRow + 1
