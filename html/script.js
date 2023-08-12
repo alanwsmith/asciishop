@@ -255,7 +255,6 @@ const renderLayers = () => {
 }
 
 
-
 const updateStyles = () => {
   const upperIndex = s.tables.length - 1
   s.tables[upperIndex].forEach((r, rIndex) => {
@@ -273,33 +272,6 @@ const updateStyles = () => {
             el.classList.add("selectedPixels")
           }
         }
-
-        /*
-                if (cIndex === s.currentCol && rIndex === s.currentRow) {
-                  cStatus()
-                  el.classList.add("activePixel")
-                } else {
-                  el.classList.remove("activePixel")
-                  el.classList.remove("selectedPixels")
-                  if (s.selectedCol !== null) {
-                    let turnItOn = 0
-                    if (rIndex >= s.selectedRow && rIndex <= s.currentRow) {
-                      turnItOn += 1
-                    } else if (rIndex >= s.currentRow && rIndex <= s.selectedRow) {
-                      turnItOn += 1
-                    }
-                    if (cIndex >= s.selectedCol && cIndex <= s.currentCol) {
-                      turnItOn += 1
-                    } else if (cIndex >= s.currentCol && cIndex <= s.selectedCol) {
-                      turnItOn += 1
-                    }
-                    if (turnItOn === 2) {
-                      el.classList.add("selectedPixels")
-                    }
-                  }
-                }
-                */
-
       }
     })
   })
