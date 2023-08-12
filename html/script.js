@@ -16,15 +16,17 @@ const cStatus = () => {
 }
 
 const makeLayerControls = (layerIndex) => {
-  console.log(layerIndex)
+  // console.log(layerIndex)
   const layerSelect = document.createElement("div")
   layerSelect.innerHTML = `<button class="selectLayer" data-layer="${layerIndex}">Select Layer ${layerIndex}</button>`
   return layerSelect
 }
 
+/*
 const addCharacter = (event) => {
-  console.log("addCharacter")
+  // console.log("addCharacter")
 }
+*/
 
 const exportAscii = () => {
   let outputTable = []
@@ -35,7 +37,7 @@ const exportAscii = () => {
     }
     outputTable.push(row)
   }
-  console.log(outputTable)
+  // console.log(outputTable)
   s.tables.forEach((t, tIndex) => {
     t.forEach((c, cIndex) => {
       c.forEach((r, rIndex) => {
@@ -63,23 +65,23 @@ const getId = () => {
 
 const handleCharClick = (event) => {
   cStatus()
-  console.log(event.srcElement.innerText)
+  // console.log(event.srcElement.innerText)
   s.tables[s.currentTable][s.currentCol][s.currentRow] = event.srcElement.innerText
   updateCharacters(event.srcElement.innerText)
   renderLayers()
 }
 
 const handlePixelClick = (event) => {
-  console.log(event)
+  // console.log(event)
   let data = event.srcElement.dataset
   if (event.shiftKey == true) {
-    console.log("Click: Setting area")
+    // console.log("Click: Setting area")
     s.selectedCol = s.currentCol
     s.selectedRow = s.currentRow
     s.currentCol = parseInt(data.col, 10)
     s.currentRow = parseInt(data.row, 10)
   } else {
-    console.log("Click: Selecting pixel")
+    // console.log("Click: Selecting pixel")
     s.selectedCol = null
     s.selectedRow = null
     s.currentCol = parseInt(data.col, 10)
@@ -97,22 +99,22 @@ const handleSelectClick = (event) => {
 }
 
 const importAscii = () => {
-  console.log("importAscii")
+  // console.log("importAscii")
   // build the base table to ensure it's full
   let newTable = []
-  console.log(s.cols)
+  // console.log(s.cols)
   for (let c = 0; c <= s.cols; c += 1) {
-    console.log("-")
+    // console.log("-")
     let newCol = []
     for (let r = 0; r <= s.rows; r += 1) {
       newCol.push(" ")
-      console.log("x")
+      // console.log("x")
     }
     newTable.push(newCol)
   }
   // then populate it
   let rows = copyArea.innerText.split("\n")
-  console.log(rows)
+  // console.log(rows)
   rows.forEach((row, rowIndex) => {
     let cols = row.split("")
     cols.forEach((char, colIndex) => {
@@ -178,28 +180,31 @@ const keydownHandler = (event) => {
     updateCharacters(" ")
     renderLayers()
   }
-  // cStatus()
 }
 
 const layerToggleHandler = (event) => {
-  console.log(event.srcElement)
-  console.log(event.srcElement.dataset.layer)
+  // console.log(event.srcElement)
+  // console.log(event.srcElement.dataset.layer)
   s.visibleLayers[event.srcElement.dataset.layer] = !s.visibleLayers[event.srcElement.dataset.layer]
-  console.log(s.visibleLayers)
+  // console.log(s.visibleLayers)
   renderLayers()
 }
 
 const prepChars = () => {
-  console.log("prepChars")
+  // console.log("prepChars")
   const chars = document.getElementsByClassName("char")
+
+  /*
   for (c = 0; c < chars.length; c += 1) {
     chars[c].addEventListener("click", addCharacter)
   }
+  */
+
 }
 
 const renderLayers = () => {
   const l = s.tables.length
-  console.log("renderLayers")
+  // console.log("renderLayers")
   while (bg.children.length > 0) {
     bg.children[0].remove()
   }
