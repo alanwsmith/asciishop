@@ -10,6 +10,13 @@ let s = {
   visibleLayers: [],
 }
 
+const makeLayerControls = (layerIndex) => {
+  console.log(layerIndex)
+  const layerSelect = document.createElement("div")
+  layerSelect.innerHTML = `<button class="selectLayer" data-layer="${layerIndex}">Select Layer ${layerIndex}</button>`
+  return layerSelect
+}
+
 const addCharacter = (event) => {
   console.log("addCharacter")
 }
@@ -24,7 +31,6 @@ const handleCharClick = (event) => {
   renderLayers()
 }
 
-
 const handlePixelClick = (event) => {
   console.log("pixel click")
   let data = event.srcElement.dataset
@@ -32,6 +38,14 @@ const handlePixelClick = (event) => {
   s.currentRow = parseInt(data.row, 10)
   updateStyles()
 }
+
+
+const handleSelectClick = (event) => {
+  const layerTarget = parseInt(event.srcElement.dataset.layer, 10)
+  s.currentTable = layerTarget
+  renderLayers()
+}
+
 
 const importAscii = () => {
   console.log("importAscii")
@@ -90,6 +104,10 @@ const renderLayers = () => {
   while (layerToggles.children.length > 0) {
     layerToggles.children[0].remove()
   }
+  while (layerSelects.children.length > 0) {
+    layerSelects.children[0].remove()
+  }
+
   s.tables.forEach((table, tableIndex) => {
     let renderTable = document.createElement("table")
     let layerToggle = document.createElement("input")
@@ -100,6 +118,8 @@ const renderLayers = () => {
       layerToggle.checked = true;
     }
     layerToggles.appendChild(layerToggle)
+    layerSelects.appendChild(makeLayerControls(tableIndex))
+
     renderTable.classList.add("layerTable")
     if (tableIndex == s.currentTable) {
       renderTable.classList.add("activeTable")
@@ -149,6 +169,7 @@ updateStyles = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   bg.addEventListener("click", handlePixelClick)
+  layerSelects.addEventListener("click", handleSelectClick)
   charContainer.addEventListener("click", handleCharClick)
   importButton.addEventListener("click", importAscii)
   document.addEventListener("keydown", keydownHandler)

@@ -7,106 +7,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
   <script src="script.js"></script>
-  <style>
-    /*
-
-    .layer {
-      grid-column: 1;
-      grid-row: 1;
-      user-select: none;
-    }
-
-
-    .pixel {
-      width: 1.4ch;
-      height: 1.4em;
-      background-color: #000012;
-      padding: 0;
-      border: 0;
-      margin: 0;
-      user-select: none;
-      color: gold;
-    }
-
-    .pixel:focus {
-      outline: none;
-    }
-
-    .char:focus {
-      outline: none;
-    }
-
-    table {
-      border-spacing: 0;
-      border-collapse: collapse;
-      user-select: none;
-    }
-
-    td {
-      border: 0;
-      margin: 0;
-      padding: 0;
-      border-collapse: collapse;
-      border-spacing: 0;
-      line-height: 0.1rem;
-      user-select: none;
-    }
-
-    table,
-    tr {
-      border: 0;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-    }
-
-    .inactivePixel {
-      background-color: #000012;
-      user-select: none;
-    }
-
-    .activePixel {
-      background-color: #000043;
-      user-select: none;
-    }
-
-    #chars {
-      display: flex;
-      flex-wrap: wrap;
-      user-select: none;
-    }
-
-    #freqChars {
-      display: flex;
-      flex-wrap: wrap;
-      height: 6ch;
-      margin-bottom: 0.2rem;
-      user-select: none;
-    }
-
-    .char {
-      background-color: #333;
-      text-align: center;
-      border: 1px solid green;
-      width: 3ch;
-      font-size: 1.2rem;
-    }
-
-    #charWrapper {
-      height: 300px;
-      overflow: scroll;
-    }
-
-    .wrapper {
-      border: 1px solid red;
-    }
-
-    .holder {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-*/
-  </style>
 
   <style>
     *,
@@ -141,12 +41,6 @@
       outline: 1px solid green;
       user-select: none;
     }
-
-    /*
-    .inactivePixel {
-      background-color: rgba(0, 0, 0, 0)
-    }
-    */
 
     .holder {
       display: grid;
@@ -209,10 +103,6 @@
 
     #layerToggles {}
   </style>
-
-  <script>
-
-  </script>
 
   <script>
 
@@ -465,9 +355,8 @@
       <button id="exportButton">Export Button</button>
     </div>
     <div id="layerToggles"></div>
-
+    <div id="layerSelects"></div>
     <div id="currentLayerDisplay">Current Layer: 1</div>
-
     <div class="holder">
 
       <div>
