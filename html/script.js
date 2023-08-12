@@ -124,6 +124,28 @@ const importAscii = () => {
   renderLayers()
 }
 
+
+const isPixelSelected = (r, c) => {
+  if (s.selectedCol !== null) {
+    let turnItOn = 0
+    if (r >= s.selectedRow && r <= s.currentRow) {
+      turnItOn += 1
+    } else if (r >= s.currentRow && r <= s.selectedRow) {
+      turnItOn += 1
+    }
+    if (c >= s.selectedCol && c <= s.currentCol) {
+      turnItOn += 1
+    } else if (c >= s.currentCol && c <= s.selectedCol) {
+      turnItOn += 1
+    }
+    if (turnItOn === 2) {
+      return true
+    }
+  }
+  return false
+}
+
+
 const keydownHandler = (event) => {
   console.log(event)
   cStatus()
@@ -192,7 +214,6 @@ const renderLayers = () => {
   while (layerSelects.children.length > 0) {
     layerSelects.children[0].remove()
   }
-
   s.tables.forEach((table, tableIndex) => {
     let renderTable = document.createElement("table")
     let layerToggle = document.createElement("input")
@@ -204,7 +225,6 @@ const renderLayers = () => {
     }
     layerToggles.appendChild(layerToggle)
     layerSelects.appendChild(makeLayerControls(tableIndex))
-
     renderTable.classList.add("layerTable")
     if (tableIndex == s.currentTable) {
       renderTable.classList.add("activeTable")
@@ -220,7 +240,6 @@ const renderLayers = () => {
         let cellButton = document.createElement("button")
         cellButton.dataset.row = r
         cellButton.dataset.col = c
-
         cellButton.id = `t${tableIndex}_c${c}_r${r}`
         if (s.visibleLayers[tableIndex]) {
           cellButton.innerHTML = s.tables[tableIndex][c][r]
@@ -235,7 +254,9 @@ const renderLayers = () => {
   updateStyles()
 }
 
-updateStyles = () => {
+
+
+const updateStyles = () => {
   const upperIndex = s.tables.length - 1
   s.tables[upperIndex].forEach((r, rIndex) => {
     // debugger
@@ -243,29 +264,42 @@ updateStyles = () => {
       const theId = `t${upperIndex}_c${cIndex}_r${rIndex}`
       const el = document.getElementById(theId)
       if (el !== null) {
+        el.classList.remove("activePixel")
+        el.classList.remove("selectedPixels")
         if (cIndex === s.currentCol && rIndex === s.currentRow) {
-          cStatus()
           el.classList.add("activePixel")
         } else {
-          el.classList.remove("activePixel")
-          el.classList.remove("selectedPixels")
-          if (s.selectedCol !== null) {
-            let turnItOn = 0
-            if (rIndex >= s.selectedRow && rIndex <= s.currentRow) {
-              turnItOn += 1
-            } else if (rIndex >= s.currentRow && rIndex <= s.selectedRow) {
-              turnItOn += 1
-            }
-            if (cIndex >= s.selectedCol && cIndex <= s.currentCol) {
-              turnItOn += 1
-            } else if (cIndex >= s.currentCol && cIndex <= s.selectedCol) {
-              turnItOn += 1
-            }
-            if (turnItOn === 2) {
-              el.classList.add("selectedPixels")
-            }
+          if (isPixelSelected(rIndex, cIndex)) {
+            el.classList.add("selectedPixels")
           }
         }
+
+        /*
+                if (cIndex === s.currentCol && rIndex === s.currentRow) {
+                  cStatus()
+                  el.classList.add("activePixel")
+                } else {
+                  el.classList.remove("activePixel")
+                  el.classList.remove("selectedPixels")
+                  if (s.selectedCol !== null) {
+                    let turnItOn = 0
+                    if (rIndex >= s.selectedRow && rIndex <= s.currentRow) {
+                      turnItOn += 1
+                    } else if (rIndex >= s.currentRow && rIndex <= s.selectedRow) {
+                      turnItOn += 1
+                    }
+                    if (cIndex >= s.selectedCol && cIndex <= s.currentCol) {
+                      turnItOn += 1
+                    } else if (cIndex >= s.currentCol && cIndex <= s.selectedCol) {
+                      turnItOn += 1
+                    }
+                    if (turnItOn === 2) {
+                      el.classList.add("selectedPixels")
+                    }
+                  }
+                }
+                */
+
       }
     })
   })
