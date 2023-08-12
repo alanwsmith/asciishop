@@ -180,6 +180,14 @@ const keydownHandler = (event) => {
   } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
     s.tables[s.currentTable][s.currentCol][s.currentRow] = " "
+    for (let r = 0; r <= s.rows; r ++) {
+      for (let c = 0; c <= s.cols; c ++) {
+        if (isPixelSelected(r, c)) {
+          console.log("asdf")
+          s.tables[s.currentTable][c][r] = " "
+        }
+      }
+    }
     cStatus()
     renderLayers()
   }
