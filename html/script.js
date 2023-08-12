@@ -5,6 +5,7 @@ let s = {
   currentRow: 0,
   selectedCol: null,
   selectedRow: null,
+  selectedChars: [],
   cols: 80,
   rows: 80,
   freqChars: [],
@@ -59,6 +60,18 @@ const exportAscii = () => {
   copyArea.innerText = output
 }
 
+const findArrayInArray = (container, target) => {
+  return container.some((el) => {
+    return target.every((t, tIndex) => {
+      if (el[tIndex] === t) {
+        return true
+      } else {
+        return false
+      }
+    })
+  })
+}
+
 const getId = () => {
   return `t${s.currentTable}_c${s.currentCol}_r${s.currentRow}`
 }
@@ -72,23 +85,29 @@ const handleCharClick = (event) => {
 }
 
 const handlePixelClick = (event) => {
-  // console.log(event)
+  console.log(event)
   let data = event.srcElement.dataset
   if (event.shiftKey == true) {
-    // console.log("Click: Setting area")
+    s.selectedChars = []
     s.selectedCol = s.currentCol
     s.selectedRow = s.currentRow
     s.currentCol = parseInt(data.col, 10)
     s.currentRow = parseInt(data.row, 10)
+  } else if (event.metaKey == true) {
+    s.selectedChars.push([s.currentCol, s.currentRow])
+    s.selectedCol = null
+    s.selectedRow = null
+    s.currentCol = parseInt(data.col, 10)
+    s.currentRow = parseInt(data.row, 10)
+    // debugger
   } else {
-    // console.log("Click: Selecting pixel")
+    s.selectedChars = []
     s.selectedCol = null
     s.selectedRow = null
     s.currentCol = parseInt(data.col, 10)
     s.currentRow = parseInt(data.row, 10)
   }
   updateStyles()
-
 }
 
 const handleSelectClick = (event) => {
@@ -127,8 +146,8 @@ const importAscii = () => {
   renderLayers()
 }
 
-
 const isPixelSelected = (r, c) => {
+  // console.log(s.selectedChars)
   if (s.selectedCol !== null) {
     let turnItOn = 0
     if (r >= s.selectedRow && r <= s.currentRow) {
@@ -144,8 +163,12 @@ const isPixelSelected = (r, c) => {
     if (turnItOn === 2) {
       return true
     }
+  } else if (findArrayInArray(s.selectedChars, [c, r])) {
+    return true 
+  } else {
+    return false
   }
-  return false
+
 }
 
 
