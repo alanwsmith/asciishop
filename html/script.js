@@ -65,6 +65,7 @@ const handleCharClick = (event) => {
   cStatus()
   console.log(event.srcElement.innerText)
   s.tables[s.currentTable][s.currentCol][s.currentRow] = event.srcElement.innerText
+  updateCharacters(event.srcElement.innerText)
   renderLayers()
 }
 
@@ -147,51 +148,37 @@ const isPixelSelected = (r, c) => {
 
 
 const keydownHandler = (event) => {
-  console.log(event)
-  cStatus()
+  // console.log(event)
   if (event.code === "KeyA" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol != 0) {
       s.currentCol = s.currentCol - 1
     }
-    cStatus()
     renderLayers()
   } else if (event.code === "KeyD" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol < s.cols - 1) {
       s.currentCol = s.currentCol + 1
     }
-    cStatus()
     renderLayers()
   } else if (event.code === "KeyW" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow != 0) {
       s.currentRow = s.currentRow - 1
     }
-    cStatus()
     renderLayers()
   } else if (event.code === "KeyS" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow < s.rows - 1) {
       s.currentRow = s.currentRow + 1
     }
-    cStatus()
     renderLayers()
   } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
-    s.tables[s.currentTable][s.currentCol][s.currentRow] = " "
-    for (let r = 0; r <= s.rows; r ++) {
-      for (let c = 0; c <= s.cols; c ++) {
-        if (isPixelSelected(r, c)) {
-          console.log("asdf")
-          s.tables[s.currentTable][c][r] = " "
-        }
-      }
-    }
-    cStatus()
+    updateCharacters(" ")
     renderLayers()
   }
-  cStatus()
+  // cStatus()
 }
 
 const layerToggleHandler = (event) => {
@@ -262,6 +249,15 @@ const renderLayers = () => {
   updateStyles()
 }
 
+const updateCharacters = (char) => {
+  for (let r = 0; r <= s.rows; r++) {
+    for (let c = 0; c <= s.cols; c++) {
+      if (isPixelSelected(r, c)) {
+        s.tables[s.currentTable][c][r] = char
+      }
+    }
+  }
+}
 
 const updateStyles = () => {
   const upperIndex = s.tables.length - 1
