@@ -39,13 +39,11 @@ const handlePixelClick = (event) => {
   updateStyles()
 }
 
-
 const handleSelectClick = (event) => {
   const layerTarget = parseInt(event.srcElement.dataset.layer, 10)
   s.currentTable = layerTarget
   renderLayers()
 }
-
 
 const importAscii = () => {
   console.log("importAscii")
@@ -75,8 +73,52 @@ const importAscii = () => {
   renderLayers()
 }
 
-const keydownHandler = () => {
-  console.log("keydownHandler")
+const keydownHandler = (event) => {
+  if (event.code === "KeyA") {
+    event.preventDefault()
+    if (s.currentCol != 0) {
+      s.currentCol = s.currentCol - 1
+    }
+  } else if (event.code === "KeyD") {
+    event.preventDefault()
+    if (s.currentCol < s.cols - 1) {
+      s.currentCol = s.currentCol + 1
+    }
+  } else if (event.code === "KeyW") {
+    event.preventDefault()
+    if (s.currentRow != 0) {
+      s.currentRow = s.currentRow - 1
+    }
+  } else if (event.code === "KeyS") {
+    event.preventDefault()
+    if (s.currentRow < s.rows - 1) {
+      s.currentRow = s.currentRow + 1
+    }
+  }
+
+  /*
+  if (event.code === "KeyA") {
+    event.preventDefault()
+  } else if (event.code === "KeyD") {
+    event.preventDefault()
+    if (s.currentCol < s.cols - 1) {
+      s.currentCol = s.currentCol + 1
+    }
+  } else if (event.code === "KeyW") {
+    event.preventDefault()
+    if (s.currentCol != 0) {
+      s.currentCol = s.currentCol - 1
+    }
+  } else if (event.code === "KeyS") {
+    event.preventDefault()
+    if (s.currentCol != 0) {
+      s.currentCol = s.currentCol - 1
+    }
+  }
+  */
+
+
+  renderLayers()
 }
 
 const layerToggleHandler = (event) => {
