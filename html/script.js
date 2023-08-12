@@ -3,9 +3,10 @@ let s = {
   currentTable: 0,
   currentCol: 0,
   currentRow: 0,
+  selectedCol: null,
+  selectedRow: null,
   cols: 80,
   rows: 80,
-  selectCoord: { t: null, r: null, c: null },
   freqChars: [],
   visibleLayers: [],
 }
@@ -46,18 +47,14 @@ const exportAscii = () => {
       })
     })
   })
-
   let output = ""
-
   outputTable.forEach((r, rIndex) => {
     r.forEach((c, cIndex) => {
       output += c
     })
     output += "\n"
   })
-
   copyArea.innerText = output
-
 }
 
 const getId = () => {
@@ -72,12 +69,23 @@ const handleCharClick = (event) => {
 }
 
 const handlePixelClick = (event) => {
-  console.log("pixel click")
+  console.log(event)
   let data = event.srcElement.dataset
-  s.currentCol = parseInt(data.col, 10)
-  s.currentRow = parseInt(data.row, 10)
-  cStatus()
+  if (event.shiftKey == true) {
+    console.log("Click: Setting area")
+    s.selectedCol = s.currentCol
+    s.selectedRow = s.currentRow
+    s.currentCol = parseInt(data.col, 10)
+    s.currentRow = parseInt(data.row, 10)
+  } else {
+    console.log("Click: Selecting pixel")
+    s.selectedCol = null
+    s.selectedRow = null
+    s.currentCol = parseInt(data.col, 10)
+    s.currentRow = parseInt(data.row, 10)
+  }
   updateStyles()
+
 }
 
 const handleSelectClick = (event) => {
@@ -230,6 +238,7 @@ const renderLayers = () => {
 updateStyles = () => {
   const upperIndex = s.tables.length - 1
   s.tables[upperIndex].forEach((r, rIndex) => {
+    // debugger
     r.forEach((c, cIndex) => {
       const theId = `t${upperIndex}_c${cIndex}_r${rIndex}`
       const el = document.getElementById(theId)
@@ -239,6 +248,23 @@ updateStyles = () => {
           el.classList.add("activePixel")
         } else {
           el.classList.remove("activePixel")
+          el.classList.remove("selectedPixels")
+          if (s.selectedCol !== null) {
+            let turnItOn = 0
+            if (rIndex >= s.selectedRow && rIndex <= s.currentRow) {
+              turnItOn += 1
+            } else if (rIndex >= s.currentRow && rIndex <= s.selectedRow) {
+              turnItOn += 1
+            }
+            if (cIndex >= s.selectedCol && cIndex <= s.currentCol) {
+              turnItOn += 1
+            } else if (cIndex >= s.currentCol && cIndex <= s.selectedCol) {
+              turnItOn += 1
+            }
+            if (turnItOn === 2) {
+              el.classList.add("selectedPixels")
+            }
+          }
         }
       }
     })

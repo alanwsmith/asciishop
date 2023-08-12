@@ -20,7 +20,7 @@
     }
 
     body {
-      font-size: 0.5rem;
+      font-size: 1rem;
       background-color: black;
       font-family: monospace;
       color: #777;
@@ -65,8 +65,15 @@
     }
 
     .activePixel {
-      background-color: gold;
-      outline: 1px solid green;
+      outline: 1px solid blue;
+      user-select: none;
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .selectedPixels {
+      outline: 1px solid brown;
       user-select: none;
       border: 0;
       margin: 0;
@@ -95,8 +102,8 @@
 
             .pixel {
               font-family: monospace;
-              width: 0.5ch;
-              height: 0.7rem;
+              width: 1.3ch;
+              height: 1.3rem;
               padding: 0;
               border: 0;
               margin: 0;
