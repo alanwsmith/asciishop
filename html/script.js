@@ -6,8 +6,8 @@ let s = {
   selectedCol: null,
   selectedRow: null,
   selectedChars: [],
-  cols: 80,
-  rows: 80,
+  cols: 6,
+  rows: 6,
   freqChars: [],
   visibleLayers: [],
 }
@@ -154,7 +154,7 @@ const isPixelSelected = (r, c) => {
       return true
     }
   } else if (findArrayInArray(s.selectedChars, [c, r])) {
-    return true 
+    return true
   } else {
     return false
   }
@@ -203,15 +203,32 @@ const layerToggleHandler = (event) => {
   renderLayers()
 }
 
-
 const loadFile = () => {
   const reader = new FileReader()
-  console.log(loadButton.files.length)
   const theFile = loadButton.files[0]
-  reader.onload = function (e) {
-
-    const herex = e.target.result
-    console.log(herex)
+  reader.onload = function(e) {
+    const rawFileData = e.target.result
+    const layers = rawFileData.split("ASCIISHOPLAYER\n")
+    s.tables = []
+    s.visibleLayers = []
+    layers.forEach((layer, layerIndex) => {
+      if (layerIndex !== 0) {
+        const newTable = []
+        const rows = layer.split("\n")
+        rows.forEach((row, rowIndex) => {
+          const newRow = []
+          const chars = row.split("")
+          chars.forEach((char) => {
+              newRow.push(char)
+          })
+          newTable.push(newRow)
+        })
+        s.tables.push(newTable)
+      }
+    })
+    s.currentTable = s.tables.length - 1
+    s.visibleLayers.push(true)
+    renderLayers()
   }
   reader.readAsText(theFile)
 }
@@ -277,6 +294,9 @@ const renderLayers = () => {
         cellButton.dataset.row = r
         cellButton.dataset.col = c
         cellButton.id = `t${tableIndex}_r${r}_c${c}`
+        if(s.tables[tableIndex][r][c] === undefined) {
+          s.tables[tableIndex][r][c] = " "
+        }
         if (s.visibleLayers[tableIndex]) {
           cellButton.innerHTML = s.tables[tableIndex][r][c]
         }
@@ -303,7 +323,7 @@ const saveFile = () => {
     })
   })
   const data = new Blob(
-    [savedata], 
+    [savedata],
     { type: "application/octet-stream" }
   )
   const link = document.createElement("a")
@@ -348,9 +368,9 @@ document.addEventListener("DOMContentLoaded", () => {
   bg.addEventListener("click", handlePixelClick)
   layerSelects.addEventListener("click", handleSelectClick)
   charContainer.addEventListener("click", handleCharClick)
-  importButton.addEventListener("click", importAscii)
+  // importButton.addEventListener("click", importAscii)
   // exportButton.addEventListener("click", exportAscii)
-   loadButton.addEventListener("change", loadFile)
+  loadButton.addEventListener("change", loadFile)
   // saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
   prepChars()
