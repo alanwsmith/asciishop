@@ -69,15 +69,17 @@ const findArrayInArray = (container, target) => {
   })
 }
 
+/*
 const getId = () => {
   return `t${s.currentTable}_r${s.currentRow}_c${s.currentCol}`
 }
+*/
 
 const handleCharClick = (event) => {
   cStatus()
   // console.log(event.srcElement.innerText)
-  s.tables[s.currentTable][s.currentCol][s.currentRow] = event.srcElement.innerText
-  updateCharacters(event.srcElement.innerText)
+  s.tables[s.currentTable][s.currentRow][s.currentCol] = event.srcElement.innerText
+  updateOtherCharacters(event.srcElement.innerText)
   renderLayers()
 }
 
@@ -91,7 +93,7 @@ const handlePixelClick = (event) => {
     s.currentCol = parseInt(data.col, 10)
     s.currentRow = parseInt(data.row, 10)
   } else if (event.metaKey == true) {
-    s.selectedChars.push([s.currentCol, s.currentRow])
+    s.selectedChars.push([s.currentRow, s.currentCol])
     s.selectedCol = null
     s.selectedRow = null
     s.currentCol = parseInt(data.col, 10)
@@ -114,6 +116,7 @@ const handleSelectClick = (event) => {
   renderLayers()
 }
 
+/*
 const importAscii = () => {
   let newTable = []
   for (let r = 0; r <= s.rows; r += 1) {
@@ -135,6 +138,7 @@ const importAscii = () => {
   s.currentTable = s.tables.length - 1
   renderLayers()
 }
+*/
 
 const isPixelSelected = (r, c) => {
   // console.log(s.selectedChars)
@@ -161,28 +165,27 @@ const isPixelSelected = (r, c) => {
 
 }
 
-
 const keydownHandler = (event) => {
   // console.log(event)
-  if (event.code === "KeyA" && event.metaKey === false) {
+  if (event.code === "KeyW" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol != 0) {
       s.currentCol = s.currentCol - 1
     }
     renderLayers()
-  } else if (event.code === "KeyD" && event.metaKey === false) {
+  } else if (event.code === "KeyS" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol < s.cols - 1) {
       s.currentCol = s.currentCol + 1
     }
     renderLayers()
-  } else if (event.code === "KeyW" && event.metaKey === false) {
+  } else if (event.code === "KeyA" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow != 0) {
       s.currentRow = s.currentRow - 1
     }
     renderLayers()
-  } else if (event.code === "KeyS" && event.metaKey === false) {
+  } else if (event.code === "KeyD" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow < s.rows - 1) {
       s.currentRow = s.currentRow + 1
@@ -190,7 +193,8 @@ const keydownHandler = (event) => {
     renderLayers()
   } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
-    updateCharacters(" ")
+    s.tables[s.currentTable][s.currentRow][s.currentCol] = " "
+    updateOtherCharacters(" ")
     renderLayers()
   }
 }
@@ -335,11 +339,11 @@ const saveFile = () => {
   link.click()
 }
 
-const updateCharacters = (char) => {
+const updateOtherCharacters = (char) => {
   for (let r = 0; r <= s.rows; r++) {
     for (let c = 0; c <= s.cols; c++) {
       if (isPixelSelected(r, c)) {
-        s.tables[s.currentTable][c][r] = char
+        s.tables[s.currentTable][r][c] = char
       }
     }
   }
@@ -350,12 +354,12 @@ const updateStyles = () => {
   s.tables[upperIndex].forEach((r, rIndex) => {
     // debugger
     r.forEach((c, cIndex) => {
-      const theId = `t${upperIndex}_c${cIndex}_r${rIndex}`
+      const theId = `t${upperIndex}_r${rIndex}_c${cIndex}`
       const el = document.getElementById(theId)
       if (el !== null) {
         el.classList.remove("activePixel")
         el.classList.remove("selectedPixels")
-        if (cIndex === s.currentCol && rIndex === s.currentRow) {
+        if (rIndex === s.currentRow && cIndex === s.currentCol ) {
           el.classList.add("activePixel")
         } else {
           if (isPixelSelected(rIndex, cIndex)) {
@@ -374,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // importButton.addEventListener("click", importAscii)
   // exportButton.addEventListener("click", exportAscii)
   loadButton.addEventListener("change", loadFile)
-  // saveButton.addEventListener("click", saveFile)
+  saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
   prepChars()
 })
