@@ -6,8 +6,8 @@ let s = {
   selectedCol: null,
   selectedRow: null,
   selectedChars: [],
-  cols: 12,
-  rows: 12,
+  cols: 80,
+  rows: 80,
   freqChars: [],
   visibleLayers: [],
 }
@@ -23,40 +23,6 @@ const makeLayerControls = (layerIndex) => {
   return layerSelect
 }
 
-
-/*
-const exportAscii = () => {
-  let outputTable = []
-  for (let c = 0; c < s.rows; c++) {
-    let row = []
-    for (let r = 0; r < s.cols; r++) {
-      row.push(" ")
-    }
-    outputTable.push(row)
-  }
-  // console.log(outputTable)
-  s.tables.forEach((t, tIndex) => {
-    t.forEach((c, cIndex) => {
-      c.forEach((r, rIndex) => {
-        if (r !== " ") {
-          if (s.visibleLayers[tIndex] === true) {
-            outputTable[rIndex][cIndex] = r
-          }
-        }
-      })
-    })
-  })
-  let output = ""
-  outputTable.forEach((r, rIndex) => {
-    r.forEach((c, cIndex) => {
-      output += c
-    })
-    output += "\n"
-  })
-  copyArea.innerText = output
-}
-*/
-
 const findArrayInArray = (container, target) => {
   return container.some((el) => {
     return target.every((t, tIndex) => {
@@ -68,12 +34,6 @@ const findArrayInArray = (container, target) => {
     })
   })
 }
-
-/*
-const getId = () => {
-  return `t${s.currentTable}_r${s.currentRow}_c${s.currentCol}`
-}
-*/
 
 const handleCharClick = (event) => {
   cStatus()
@@ -115,30 +75,6 @@ const handleSelectClick = (event) => {
   cStatus()
   renderLayers()
 }
-
-/*
-const importAscii = () => {
-  let newTable = []
-  for (let r = 0; r <= s.rows; r += 1) {
-    let newCol = []
-    for (let c = 0; c <= s.cols; c += 1) {
-      newCol.push(" ")
-    }
-    newTable.push(newCol)
-  }
-  let rows = copyArea.innerText.split("\n")
-  rows.forEach((row, rowIndex) => {
-    let cols = row.split("")
-    cols.forEach((char, colIndex) => {
-      newTable[rowIndex][colIndex] = char
-    })
-  })
-  s.tables.push(newTable)
-  s.visibleLayers.push(true)
-  s.currentTable = s.tables.length - 1
-  renderLayers()
-}
-*/
 
 const isPixelSelected = (r, c) => {
   // console.log(s.selectedChars)
@@ -200,10 +136,7 @@ const keydownHandler = (event) => {
 }
 
 const layerToggleHandler = (event) => {
-  // console.log(event.srcElement)
-  // console.log(event.srcElement.dataset.layer)
   s.visibleLayers[event.srcElement.dataset.layer] = !s.visibleLayers[event.srcElement.dataset.layer]
-  // console.log(s.visibleLayers)
   renderLayers()
 }
 
@@ -237,27 +170,6 @@ const loadFile = () => {
   reader.readAsText(theFile)
 }
 
-const prepChars = () => {
-  // console.log("prepChars")
-  const chars = document.getElementsByClassName("char")
-
-  /*
-  for (c = 0; c < chars.length; c += 1) {
-    chars[c].addEventListener("click", addCharacter)
-  }
-  */
-
-}
-
-// const inputElement = document.getElementById("input");
-// inputElement.addEventListener("change", handleFiles, false);
-
-/*
-function handleFiles() {
-  const fileList = this.files; 
-  debugger
-}
-*/
 
 
 const renderLayers = () => {
@@ -373,12 +285,9 @@ const updateStyles = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   bg.addEventListener("click", handlePixelClick)
-  layerSelects.addEventListener("click", handleSelectClick)
   charContainer.addEventListener("click", handleCharClick)
-  // importButton.addEventListener("click", importAscii)
-  // exportButton.addEventListener("click", exportAscii)
+  layerSelects.addEventListener("click", handleSelectClick)
   loadButton.addEventListener("change", loadFile)
   saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
-  prepChars()
 })
