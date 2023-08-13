@@ -93,7 +93,7 @@ const handlePixelClick = (event) => {
     s.currentCol = parseInt(data.col, 10)
     s.currentRow = parseInt(data.row, 10)
   } else if (event.metaKey == true) {
-    s.selectedChars.push([s.currentRow, s.currentCol])
+    s.selectedChars.push([s.currentCol, s.currentRow])
     s.selectedCol = null
     s.selectedRow = null
     s.currentCol = parseInt(data.col, 10)
@@ -167,25 +167,25 @@ const isPixelSelected = (r, c) => {
 
 const keydownHandler = (event) => {
   // console.log(event)
-  if (event.code === "KeyW" && event.metaKey === false) {
+  if (event.code === "KeyA" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol != 0) {
       s.currentCol = s.currentCol - 1
     }
     renderLayers()
-  } else if (event.code === "KeyS" && event.metaKey === false) {
+  } else if (event.code === "KeyD" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentCol < s.cols - 1) {
       s.currentCol = s.currentCol + 1
     }
     renderLayers()
-  } else if (event.code === "KeyA" && event.metaKey === false) {
+  } else if (event.code === "KeyW" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow != 0) {
       s.currentRow = s.currentRow - 1
     }
     renderLayers()
-  } else if (event.code === "KeyD" && event.metaKey === false) {
+  } else if (event.code === "KeyS" && event.metaKey === false) {
     event.preventDefault()
     if (s.currentRow < s.rows - 1) {
       s.currentRow = s.currentRow + 1
