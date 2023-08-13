@@ -277,6 +277,30 @@ const renderLayers = () => {
   updateStyles()
 }
 
+const saveFile = () => {
+  console.log("saving 2")
+
+  let savedata = ""
+  s.tables.forEach((t) => {
+    savedata += "ASCIISHOPLAYER\n"
+    t.forEach((r) => {
+      r.forEach((c) => {
+        savedata += c
+      })
+      savedata += "\n"
+    })
+  })
+
+  const data = new Blob(
+    [savedata], 
+    { type: "application/octet-stream" }
+  )
+  const link = document.createElement("a")
+  link.href = URL.createObjectURL(data)
+  link.setAttribute("download", "ascii-shop.txt");
+  link.click()
+}
+
 const updateCharacters = (char) => {
   for (let r = 0; r <= s.rows; r++) {
     for (let c = 0; c <= s.cols; c++) {
@@ -315,6 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
   charContainer.addEventListener("click", handleCharClick)
   importButton.addEventListener("click", importAscii)
   exportButton.addEventListener("click", exportAscii)
+  saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
   prepChars()
 })
