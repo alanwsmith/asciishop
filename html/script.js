@@ -23,12 +23,8 @@ const makeLayerControls = (layerIndex) => {
   return layerSelect
 }
 
-/*
-const addCharacter = (event) => {
-  // console.log("addCharacter")
-}
-*/
 
+/*
 const exportAscii = () => {
   let outputTable = []
   for (let c = 0; c < s.rows; c++) {
@@ -59,6 +55,7 @@ const exportAscii = () => {
   })
   copyArea.innerText = output
 }
+*/
 
 const findArrayInArray = (container, target) => {
   return container.some((el) => {
@@ -73,7 +70,7 @@ const findArrayInArray = (container, target) => {
 }
 
 const getId = () => {
-  return `t${s.currentTable}_c${s.currentCol}_r${s.currentRow}`
+  return `t${s.currentTable}_r${s.currentRow}_c${s.currentCol}`
 }
 
 const handleCharClick = (event) => {
@@ -118,26 +115,19 @@ const handleSelectClick = (event) => {
 }
 
 const importAscii = () => {
-  // console.log("importAscii")
-  // build the base table to ensure it's full
   let newTable = []
-  // console.log(s.cols)
-  for (let c = 0; c <= s.cols; c += 1) {
-    // console.log("-")
+  for (let r = 0; r <= s.rows; r += 1) {
     let newCol = []
-    for (let r = 0; r <= s.rows; r += 1) {
+    for (let c = 0; c <= s.cols; c += 1) {
       newCol.push(" ")
-      // console.log("x")
     }
     newTable.push(newCol)
   }
-  // then populate it
   let rows = copyArea.innerText.split("\n")
-  // console.log(rows)
   rows.forEach((row, rowIndex) => {
     let cols = row.split("")
     cols.forEach((char, colIndex) => {
-      newTable[colIndex][rowIndex] = char
+      newTable[rowIndex][colIndex] = char
     })
   })
   s.tables.push(newTable)
@@ -227,7 +217,6 @@ const prepChars = () => {
 
 const renderLayers = () => {
   const l = s.tables.length
-  // console.log("renderLayers")
   while (bg.children.length > 0) {
     bg.children[0].remove()
   }
@@ -263,9 +252,9 @@ const renderLayers = () => {
         let cellButton = document.createElement("button")
         cellButton.dataset.row = r
         cellButton.dataset.col = c
-        cellButton.id = `t${tableIndex}_c${c}_r${r}`
+        cellButton.id = `t${tableIndex}_r${r}_c${c}`
         if (s.visibleLayers[tableIndex]) {
-          cellButton.innerHTML = s.tables[tableIndex][c][r]
+          cellButton.innerHTML = s.tables[tableIndex][r][c]
         }
         cellButton.classList.add("pixel")
         tableCell.appendChild(cellButton)
@@ -279,7 +268,6 @@ const renderLayers = () => {
 
 const saveFile = () => {
   console.log("saving 2")
-
   let savedata = ""
   s.tables.forEach((t) => {
     savedata += "ASCIISHOPLAYER\n"
@@ -290,7 +278,6 @@ const saveFile = () => {
       savedata += "\n"
     })
   })
-
   const data = new Blob(
     [savedata], 
     { type: "application/octet-stream" }
@@ -338,7 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
   layerSelects.addEventListener("click", handleSelectClick)
   charContainer.addEventListener("click", handleCharClick)
   importButton.addEventListener("click", importAscii)
-  exportButton.addEventListener("click", exportAscii)
+  // exportButton.addEventListener("click", exportAscii)
   saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
   prepChars()
