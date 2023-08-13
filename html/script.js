@@ -6,8 +6,8 @@ let s = {
   selectedCol: null,
   selectedRow: null,
   selectedChars: [],
-  cols: 6,
-  rows: 6,
+  cols: 12,
+  rows: 12,
   freqChars: [],
   visibleLayers: [],
 }
@@ -209,8 +209,8 @@ const loadFile = () => {
   reader.onload = function(e) {
     const rawFileData = e.target.result
     const layers = rawFileData.split("ASCIISHOPLAYER\n")
-    s.tables = []
     s.visibleLayers = []
+    s.tables = []
     layers.forEach((layer, layerIndex) => {
       if (layerIndex !== 0) {
         const newTable = []
@@ -219,15 +219,15 @@ const loadFile = () => {
           const newRow = []
           const chars = row.split("")
           chars.forEach((char) => {
-              newRow.push(char)
+            newRow.push(char)
           })
           newTable.push(newRow)
         })
         s.tables.push(newTable)
+        s.visibleLayers.push(true)
       }
     })
     s.currentTable = s.tables.length - 1
-    s.visibleLayers.push(true)
     renderLayers()
   }
   reader.readAsText(theFile)
@@ -287,6 +287,9 @@ const renderLayers = () => {
     for (let r = 0; r < s.rows; r++) {
       let tableRow = document.createElement("tr")
       renderTable.appendChild(tableRow)
+      if (s.tables[tableIndex][r] === undefined) {
+        s.tables[tableIndex][r] = []
+      }
       for (let c = 0; c < s.cols; c++) {
         let tableCell = document.createElement("td")
         tableCell.classList.add("pixelCell")
@@ -294,7 +297,7 @@ const renderLayers = () => {
         cellButton.dataset.row = r
         cellButton.dataset.col = c
         cellButton.id = `t${tableIndex}_r${r}_c${c}`
-        if(s.tables[tableIndex][r][c] === undefined) {
+        if (s.tables[tableIndex][r][c] === undefined) {
           s.tables[tableIndex][r][c] = " "
         }
         if (s.visibleLayers[tableIndex]) {
