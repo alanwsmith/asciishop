@@ -203,6 +203,19 @@ const layerToggleHandler = (event) => {
   renderLayers()
 }
 
+
+const loadFile = () => {
+  const reader = new FileReader()
+  console.log(loadButton.files.length)
+  const theFile = loadButton.files[0]
+  reader.onload = function (e) {
+
+    const herex = e.target.result
+    console.log(herex)
+  }
+  reader.readAsText(theFile)
+}
+
 const prepChars = () => {
   // console.log("prepChars")
   const chars = document.getElementsByClassName("char")
@@ -214,6 +227,17 @@ const prepChars = () => {
   */
 
 }
+
+// const inputElement = document.getElementById("input");
+// inputElement.addEventListener("change", handleFiles, false);
+
+/*
+function handleFiles() {
+  const fileList = this.files; 
+  debugger
+}
+*/
+
 
 const renderLayers = () => {
   const l = s.tables.length
@@ -326,7 +350,8 @@ document.addEventListener("DOMContentLoaded", () => {
   charContainer.addEventListener("click", handleCharClick)
   importButton.addEventListener("click", importAscii)
   // exportButton.addEventListener("click", exportAscii)
-  saveButton.addEventListener("click", saveFile)
+   loadButton.addEventListener("change", loadFile)
+  // saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
   prepChars()
 })
