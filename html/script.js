@@ -11,6 +11,7 @@ let s = {
   },
   rows: 80,
   cols: 80,
+  visibleLayers: []
 
   // tables: [],
   // currentTable: 0,
@@ -125,17 +126,49 @@ const buildCanvas = (rows, cols) => {
 }
 
 const render = () => {
+  while (layerToggles.children.length > 0) {
+    layerToggles.children[0].remove()
+  }
+  for (let r = 0; r <= s.rows; r++) {
+    for (let c = 0; c <= s.cols; c++) {
+      document.getElementById(`cell_${r}_${c}`).innerHTML = " "
+    }
+  }
+
+
   s.layers.forEach((layer, layerIndex) => {
-    layer.forEach((row, rowIndex) => {
-      row.forEach((char, charIndex) => {
-        const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
-        theCell.innerHTML = char
-        if (s.current.layer === layerIndex && char !== " ") {
-          theCell.classList.add("activeLayer")
-        }
+    const layerToggle = document.createElement("input")
+    layerToggle.type = "checkbox"
+    layerToggle.dataset.layer = layerIndex
+    layerToggle.addEventListener("change", toggleLayer)
+    layerToggles.appendChild(layerToggle)
+
+
+    if (s.visibleLayers[layerIndex]) {
+      layerToggle.checked = true
+      layer.forEach((row, rowIndex) => {
+        row.forEach((char, charIndex) => {
+          const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
+          theCell.innerHTML = char
+          if (s.current.layer === layerIndex && char !== " ") {
+            theCell.classList.add("activeLayer")
+          }
+        })
       })
-    })
+    }
   })
+}
+
+const toggleLayer = (event) => {
+  const el = event.srcElement
+  console.log(event)
+  console.log(event.srcElement.checked)
+  if (el.checked) {
+    s.visibleLayers[parseInt(el.dataset.layer, 10)] = true
+  } else {
+    s.visibleLayers[parseInt(el.dataset.layer, 10)] = false
+  }
+  render()
 }
 
 const updateOtherCharacters = (char) => {
