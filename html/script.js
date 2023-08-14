@@ -159,7 +159,7 @@ const render = () => {
       renderLayer(layerIndex)
     }
   })
-  
+
   // Put the active layer on top
   renderLayer(s.current.layer)
 
@@ -183,7 +183,7 @@ const renderLayer = (layerIndex) => {
           theCell.classList.remove("activeLayer")
           theCell.classList.remove("lowerLayer")
           theCell.classList.add("upperLayer")
-        } 
+        }
       }
     })
   })
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // layerSelects.addEventListener("click", handleSelectClick)
   loadButton.addEventListener("change", loadFile)
   // saveButton.addEventListener("click", saveFile)
-  // document.addEventListener("keydown", keydownHandler)
+  document.addEventListener("keydown", keydownHandler)
 })
 
 
@@ -297,43 +297,44 @@ document.addEventListener("DOMContentLoaded", () => {
 // }
 
 
-// const keydownHandler = (event) => {
-//   // console.log(event)
-//   if (event.code === "KeyA" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.col != 0) {
-//       s.current.col = s.current.col - 1
-//     }
-//     // renderLayers()
-//      updateStyles()
-//   } else if (event.code === "KeyD" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.col < s.cols - 1) {
-//       s.current.col = s.current.col + 1
-//     }
-//     // renderLayers()
-//      updateStyles()
-//   } else if (event.code === "KeyW" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.row != 0) {
-//       s.current.row = s.current.row - 1
-//     }
-//     // renderLayers()
-//      updateStyles()
-//   } else if (event.code === "KeyS" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.row < s.rows - 1) {
-//       s.current.row = s.current.row + 1
-//     }
-//     // renderLayers()
-//      updateStyles()
-//   } else if (event.code === "KeyF" && event.metaKey === false) {
-//     event.preventDefault()
-//     s.tables[s.currentTable][s.current.row][s.current.col] = " "
-//     updateOtherCharacters(" ")
-//      renderLayers()
-//   }
-// }
+const keydownHandler = (event) => {
+  // console.log(event)
+  if (event.code === "KeyA" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.col != 0) {
+      s.current.col = s.current.col - 1
+    }
+    // renderLayers()
+    updateStyles()
+  } else if (event.code === "KeyD" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.col < s.cols - 1) {
+      s.current.col = s.current.col + 1
+    }
+    // renderLayers()
+    updateStyles()
+  } else if (event.code === "KeyW" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.row != 0) {
+      s.current.row = s.current.row - 1
+    }
+    // renderLayers()
+    updateStyles()
+  } else if (event.code === "KeyS" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.row < s.rows - 1) {
+      s.current.row = s.current.row + 1
+    }
+    // renderLayers()
+    updateStyles()
+  } else if (event.code === "KeyF" && event.metaKey === false) {
+    event.preventDefault()
+    s.layers[s.current.layer][s.current.row][s.current.col] = " "
+    updateOtherCharacters(" ")
+    // render()
+  }
+  render()
+}
 
 
 
