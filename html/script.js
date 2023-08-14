@@ -125,11 +125,14 @@ const buildCanvas = (rows, cols) => {
 }
 
 const render = () => {
-  s.layers.forEach((layer) => {
+  s.layers.forEach((layer, layerIndex) => {
     layer.forEach((row, rowIndex) => {
       row.forEach((char, charIndex) => {
-        const id = `cell_${rowIndex}_${charIndex}`
-        document.getElementById(`cell_${rowIndex}_${charIndex}`).innerHTML = char
+        const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
+        theCell.innerHTML = char
+        if (s.current.layer === layerIndex && char !== " ") {
+          theCell.classList.add("activeLayer")
+        }
       })
     })
   })
@@ -231,29 +234,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //   renderLayers()
 // }
 
-// const isPixelSelected = (r, c) => {
-//   // console.log(s.selectedChars)
-//   if (s.selected.col !== null) {
-//     let turnItOn = 0
-//     if (r >= s.selected.row && r <= s.current.row) {
-//       turnItOn += 1
-//     } else if (r >= s.current.row && r <= s.selected.row) {
-//       turnItOn += 1
-//     }
-//     if (c >= s.selected.col && c <= s.current.col) {
-//       turnItOn += 1
-//     } else if (c >= s.current.col && c <= s.selected.col) {
-//       turnItOn += 1
-//     }
-//     if (turnItOn === 2) {
-//       return true
-//     }
-//   } else if (findArrayInArray(s.selectedChars, [c, r])) {
-//     return true
-//   } else {
-//     return false
-//   }
-// }
 
 // const keydownHandler = (event) => {
 //   // console.log(event)
@@ -383,37 +363,5 @@ document.addEventListener("DOMContentLoaded", () => {
 //   link.href = URL.createObjectURL(data)
 //   link.setAttribute("download", "ascii-shop.txt");
 //   link.click()
-// }
-
-// const updateOtherCharacters = (char) => {
-//   for (let r = 0; r <= s.rows; r++) {
-//     for (let c = 0; c <= s.cols; c++) {
-//       if (isPixelSelected(r, c)) {
-//         s.tables[s.currentTable][r][c] = char
-//       }
-//     }
-//   }
-// }
-
-// const updateStyles = () => {
-//   const upperIndex = s.tables.length - 1
-//   s.tables[upperIndex].forEach((r, rIndex) => {
-//     // debugger
-//     r.forEach((c, cIndex) => {
-//       const theId = `t${upperIndex}_r${rIndex}_c${cIndex}`
-//       const el = document.getElementById(theId)
-//       if (el !== null) {
-//         el.classList.remove("activePixel")
-//         el.classList.remove("selectedPixels")
-//         if (rIndex === s.current.row && cIndex === s.current.col) {
-//           el.classList.add("activePixel")
-//         } else {
-//           if (isPixelSelected(rIndex, cIndex)) {
-//             el.classList.add("selectedPixels")
-//           }
-//         }
-//       }
-//     })
-//   })
 // }
 
