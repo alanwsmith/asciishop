@@ -6,6 +6,7 @@ let s = {
     col: null
   }
 
+
   // tables: [],
   // currentTable: 0,
   // currentCol: 0,
@@ -18,6 +19,79 @@ let s = {
   // freqChars: [],
   // visibleLayers: [],
 }
+
+const loadFile = () => {
+  console.log("loadFile")
+  const reader = new FileReader()
+  const theFile = loadButton.files[0]
+  reader.onload = function(e) {
+    const rawFileData = e.target.result
+    const layers = rawFileData.split("ASCIISHOPLAYER\n")
+    s.visibleLayers = []
+    s.layers = []
+    layers.forEach((layer, layerIndex) => {
+      if (layerIndex !== 0) {
+        const newLayer = []
+        const rows = layer.split("\n")
+        rows.forEach((row, rowIndex) => {
+          const newRow = []
+          const chars = row.split("")
+          chars.forEach((char) => {
+            newRow.push(char)
+          })
+          newLayer.push(newRow)
+        })
+        s.layers.push(newLayer)
+        s.visibleLayers.push(true)
+      }
+    })
+    s.current.layer = s.layers.length - 1
+    render()
+  }
+  reader.readAsText(theFile)
+}
+
+
+
+const render = () => {
+  const tableFrame = document.createElement("table")
+  for (let r = 0; r <= 80; r ++) {
+    const tableRow = document.createElement("tr")
+    for (let c = 0; c <= 80; c ++) {
+      const tableCell = document.createElement("td")
+      tableCell.id = `cell_${r}_${c}`
+      tableCell.innerHTML = ""
+      tableCell.classList.add("pixel")
+      tableCell.classList.add("inactivePixel")
+      tableRow.appendChild(tableCell)
+    }
+    tableFrame.appendChild(tableRow)
+  }
+
+  bg.appendChild(tableFrame)
+
+  s.layers.forEach((layer) => {
+    layer.forEach((row, rowIndex) => {
+      row.forEach((char, charIndex) => {
+        const id = `cell_${rowIndex}_${charIndex}`
+         document.getElementById(`cell_${rowIndex}_${charIndex}`).innerHTML = char
+      })
+    })
+  })
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  // bg.addEventListener("click", handlePixelClick)
+  // charContainer.addEventListener("click", handleCharClick)
+  // duplicateButton.addEventListener("click", duplicateLayer)
+  // layerSelects.addEventListener("click", handleSelectClick)
+  loadButton.addEventListener("change", loadFile)
+  // saveButton.addEventListener("click", saveFile)
+  // document.addEventListener("keydown", keydownHandler)
+})
+
+
 
 // const cStatus = () => {
 //   console.log(`${s.currentTable} - ${s.currentRow} - ${s.currentCol}`)
@@ -152,73 +226,12 @@ let s = {
 //   // renderLayers()
 // }
 
-const loadFile = () => {
-  console.log("loadFile")
-  const reader = new FileReader()
-  const theFile = loadButton.files[0]
-  reader.onload = function(e) {
-    const rawFileData = e.target.result
-    const layers = rawFileData.split("ASCIISHOPLAYER\n")
-    s.visibleLayers = []
-    s.layers = []
-    layers.forEach((layer, layerIndex) => {
-      if (layerIndex !== 0) {
-        const newLayer = []
-        const rows = layer.split("\n")
-        rows.forEach((row, rowIndex) => {
-          const newRow = []
-          const chars = row.split("")
-          chars.forEach((char) => {
-            newRow.push(char)
-          })
-          newLayer.push(newRow)
-        })
-        s.layers.push(newLayer)
-        s.visibleLayers.push(true)
-      }
-    })
-    s.current.layer = s.layers.length - 1
-    render()
-  }
-  reader.readAsText(theFile)
-}
-
 // const makeLayerControls = (layerIndex) => {
 //   // console.log(layerIndex)
 //   const layerSelect = document.createElement("div")
 //   layerSelect.innerHTML = `<button class="selectLayer" data-layer="${layerIndex}">Select Layer ${layerIndex}</button>`
 //   return layerSelect
 // }
-
-
-
-const render = () => {
-  const tableFrame = document.createElement("table")
-  for (let r = 0; r <= 80; r ++) {
-    const tableRow = document.createElement("tr")
-    for (let c = 0; c <= 80; c ++) {
-      const tableCell = document.createElement("td")
-      tableCell.id = `cell_${r}_${c}`
-      tableCell.innerHTML = ""
-      tableRow.appendChild(tableCell)
-    }
-    tableFrame.appendChild(tableRow)
-  }
-
-  bg.appendChild(tableFrame)
-
-  s.layers.forEach((layer) => {
-    layer.forEach((row, rowIndex) => {
-      row.forEach((char, charIndex) => {
-        const id = `cell_${rowIndex}_${charIndex}`
-         document.getElementById(`cell_${rowIndex}_${charIndex}`).innerHTML = char
-      })
-    })
-  })
-}
-
-
-
 
 // const renderLayers = () => {
 //   const l = s.tables.length
@@ -331,13 +344,3 @@ const render = () => {
 //   })
 // }
 
-
-document.addEventListener("DOMContentLoaded", () => {
-  // bg.addEventListener("click", handlePixelClick)
-  // charContainer.addEventListener("click", handleCharClick)
-  // duplicateButton.addEventListener("click", duplicateLayer)
-  // layerSelects.addEventListener("click", handleSelectClick)
-  loadButton.addEventListener("change", loadFile)
-  // saveButton.addEventListener("click", saveFile)
-  // document.addEventListener("keydown", keydownHandler)
-})
