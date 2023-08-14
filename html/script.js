@@ -135,21 +135,20 @@ const render = () => {
     }
   }
 
-
   s.layers.forEach((layer, layerIndex) => {
     const layerToggle = document.createElement("input")
     layerToggle.type = "checkbox"
     layerToggle.dataset.layer = layerIndex
     layerToggle.addEventListener("change", toggleLayer)
     layerToggles.appendChild(layerToggle)
-
-
     if (s.visibleLayers[layerIndex]) {
       layerToggle.checked = true
       layer.forEach((row, rowIndex) => {
         row.forEach((char, charIndex) => {
           const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
-          theCell.innerHTML = char
+          if (char !== " ") {
+            theCell.innerHTML = char
+          }
           if (s.current.layer === layerIndex && char !== " ") {
             theCell.classList.add("activeLayer")
           }
