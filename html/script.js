@@ -11,19 +11,8 @@ let s = {
   },
   rows: 80,
   cols: 80,
-  visibleLayers: []
-
-  // tables: [],
-  // currentTable: 0,
-  // current.col: 0,
-  // current.row: 0,
-  // selected.col: null,
-  // selected.row: null,
-  // selectedChars: [],
-  // cols: 80,
-  // rows: 80,
+  visibleLayers: [],
   // freqChars: [],
-  // visibleLayers: [],
 }
 
 
@@ -64,8 +53,6 @@ const isPixelSelected = (r, c) => {
     if (turnItOn === 2) {
       return true
     }
-    // } else if (findArrayInArray(s.selectedChars, [c, r])) {
-    // return true
   } else {
     return false
   }
@@ -153,16 +140,9 @@ const render = () => {
 
     if (s.visibleLayers[layerIndex]) {
       layerToggle.checked = true
-    }
-    // Add lower layers
-    if (s.current.layer !== layerIndex) {
       renderLayer(layerIndex)
     }
   })
-
-  // Put the active layer on top
-  renderLayer(s.current.layer)
-
 }
 
 const renderLayer = (layerIndex) => {
@@ -304,36 +284,31 @@ const keydownHandler = (event) => {
     if (s.current.col != 0) {
       s.current.col = s.current.col - 1
     }
-    // renderLayers()
     updateStyles()
   } else if (event.code === "KeyD" && event.metaKey === false) {
     event.preventDefault()
     if (s.current.col < s.cols - 1) {
       s.current.col = s.current.col + 1
     }
-    // renderLayers()
     updateStyles()
   } else if (event.code === "KeyW" && event.metaKey === false) {
     event.preventDefault()
     if (s.current.row != 0) {
       s.current.row = s.current.row - 1
     }
-    // renderLayers()
     updateStyles()
   } else if (event.code === "KeyS" && event.metaKey === false) {
     event.preventDefault()
     if (s.current.row < s.rows - 1) {
       s.current.row = s.current.row + 1
     }
-    // renderLayers()
     updateStyles()
   } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
     s.layers[s.current.layer][s.current.row][s.current.col] = " "
     updateOtherCharacters(" ")
-    // render()
+    render()
   }
-  render()
 }
 
 
