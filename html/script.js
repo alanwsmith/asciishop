@@ -12,7 +12,6 @@ let s = {
   rows: 80,
   cols: 80,
 
-
   // tables: [],
   // currentTable: 0,
   // current.col: 0,
@@ -44,7 +43,7 @@ const handleCanvasClick = (event) => {
 
 const handleCharClick = (event) => {
   s.layers[s.current.layer][s.current.row][s.current.col] = event.srcElement.innerText
-  // updateOtherCharacters(event.srcElement.innerText)
+  updateOtherCharacters(event.srcElement.innerText)
   render()
 }
 
@@ -125,7 +124,6 @@ const buildCanvas = (rows, cols) => {
   canvas.addEventListener("click", handleCanvasClick)
 }
 
-
 const render = () => {
   s.layers.forEach((layer) => {
     layer.forEach((row, rowIndex) => {
@@ -135,6 +133,16 @@ const render = () => {
       })
     })
   })
+}
+
+const updateOtherCharacters = (char) => {
+  for (let r = 0; r <= s.rows; r++) {
+    for (let c = 0; c <= s.cols; c++) {
+      if (isPixelSelected(r, c)) {
+        s.layers[s.current.layer][r][c] = char
+      }
+    }
+  }
 }
 
 const updateStyles = () => {
@@ -157,27 +165,6 @@ const updateStyles = () => {
   currentPixel.classList.add("activePixel")
 }
 
-// const updateStyles = () => {
-//   const upperIndex = s.tables.length - 1
-//   s.tables[upperIndex].forEach((r, rIndex) => {
-//     // debugger
-//     r.forEach((c, cIndex) => {
-//       const theId = `t${upperIndex}_r${rIndex}_c${cIndex}`
-//       const el = document.getElementById(theId)
-//       if (el !== null) {
-//         el.classList.remove("activePixel")
-//         el.classList.remove("selectedPixels")
-//         if (rIndex === s.current.row && cIndex === s.current.col) {
-//           el.classList.add("activePixel")
-//         } else {
-//           if (isPixelSelected(rIndex, cIndex)) {
-//             el.classList.add("selectedPixels")
-//           }
-//         }
-//       }
-//     })
-//   })
-// }
 
 document.addEventListener("DOMContentLoaded", () => {
   // bg.addEventListener("click", handlePixelClick)
@@ -189,11 +176,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // document.addEventListener("keydown", keydownHandler)
 })
 
-
-
-// const cStatus = () => {
-//   console.log(`${s.currentTable} - ${s.current.row} - ${s.current.col}`)
-// }
 
 // const duplicateLayer = () => {
 //   if (s.tables[s.currentTable] !== undefined) {
@@ -215,13 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //   })
 // }
 
-// const handleCharClick = (event) => {
-//   cStatus()
-//   // console.log(event.srcElement.innerText)
-//   s.tables[s.currentTable][s.current.row][s.current.col] = event.srcElement.innerText
-//   updateOtherCharacters(event.srcElement.innerText)
-//   renderLayers()
-// }
 
 // const handlePixelClick = (event) => {
 //   console.log(event)
