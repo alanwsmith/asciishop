@@ -129,9 +129,9 @@ const render = () => {
   while (layerToggles.children.length > 0) {
     layerToggles.children[0].remove()
   }
-   while (layerSelects.children.length > 0) {
-     layerSelects.children[0].remove()
-   }
+  while (layerSelects.children.length > 0) {
+    layerSelects.children[0].remove()
+  }
   for (let r = 0; r <= s.rows; r++) {
     for (let c = 0; c <= s.cols; c++) {
       document.getElementById(`cell_${r}_${c}`).innerHTML = " "
@@ -150,47 +150,48 @@ const render = () => {
     layerToggle.dataset.layer = layerIndex
     layerToggle.addEventListener("change", toggleLayer)
     layerToggles.appendChild(layerToggle)
+
     if (s.visibleLayers[layerIndex]) {
       layerToggle.checked = true
-      layer.forEach((row, rowIndex) => {
-        row.forEach((char, charIndex) => {
-          const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
-          if (char !== " ") {
-            theCell.innerHTML = char
-            if (s.current.layer === layerIndex) {
-              theCell.classList.add("activeLayer")
-              theCell.classList.remove("lowerLayer")
-              theCell.classList.remove("upperLayer")
-            }  else if ( s.current.layer < layerIndex) {
-              theCell.classList.remove("activeLayer")
-              theCell.classList.add("lowerLayer")
-              theCell.classList.remove("upperLayer")
-            }  else if ( s.current.layer > layerIndex) {
-              theCell.classList.remove("activeLayer")
-              theCell.classList.remove("lowerLayer")
-              theCell.classList.add("upperLayer")
-            }
-          }
-/*
-          console.log(`- ${s.current.layer} - ${layerIndex}`)
-          if (s.current.layer === layerIndex) {
-          } else if (s.current.layer > layerIndex) {
-            theCell.classList.add("lowerLayer") 
-          } else if (s.current.layer < layerIndex) {
-            theCell.classList.add("upperLayer")
-          }
-          */
-
-        })
-      })
     }
+    // Add lower layers
+    if (s.current.layer !== layerIndex) {
+      renderLayer(layerIndex)
+    }
+  })
+  
+  // Put the active layer on top
+  renderLayer(s.current.layer)
+
+}
+
+const renderLayer = (layerIndex) => {
+  s.layers[layerIndex].forEach((row, rowIndex) => {
+    row.forEach((char, charIndex) => {
+      const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
+      if (char !== " ") {
+        theCell.innerHTML = char
+        if (layerIndex === s.current.layer) {
+          theCell.classList.add("activeLayer")
+          theCell.classList.remove("lowerLayer")
+          theCell.classList.remove("upperLayer")
+        } else if (layerIndex < s.current.layer) {
+          theCell.classList.remove("activeLayer")
+          theCell.classList.add("lowerLayer")
+          theCell.classList.remove("upperLayer")
+        } else if (layerIndex > s.current.layer) {
+          theCell.classList.remove("activeLayer")
+          theCell.classList.remove("lowerLayer")
+          theCell.classList.add("upperLayer")
+        } 
+      }
+    })
   })
 }
 
 const selectLayer = (event) => {
   const el = event.srcElement
   s.current.layer = parseInt(el.dataset.layer, 10)
-  // debugger
   render()
 }
 
@@ -295,13 +296,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //   updateStyles()
 // }
 
-// const handleSelectClick = (event) => {
-//   const layerTarget = parseInt(event.srcElement.dataset.layer, 10)
-//   s.currentTable = layerTarget
-//   cStatus()
-//   renderLayers()
-// }
-
 
 // const keydownHandler = (event) => {
 //   // console.log(event)
@@ -341,18 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //   }
 // }
 
-// const layerToggleHandler = (event) => {
-//   s.visibleLayers[event.srcElement.dataset.layer] = !s.visibleLayers[event.srcElement.dataset.layer]
-//      updateStyles()
-//   // renderLayers()
-// }
 
-// const makeLayerControls = (layerIndex) => {
-//   // console.log(layerIndex)
-//   const layerSelect = document.createElement("div")
-//   layerSelect.innerHTML = `<button class="selectLayer" data-layer="${layerIndex}">Select Layer ${layerIndex}</button>`
-//   return layerSelect
-// }
 
 // const renderLayers = () => {
 //   const l = s.tables.length

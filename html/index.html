@@ -33,6 +33,7 @@
     .activePixel {
       outline: 1px solid green;
     }
+
     .inactivePixel {
       background-color: #111;
     }
@@ -44,18 +45,22 @@
     .activeLayer {
       color: gold;
     }
+
     .lowerLayer {
-      color: blue;
-    }
-    .upperLayer {
       color: green;
     }
+
+    .upperLayer {
+      color: blue;
+    }
+
 
 
     #chars {
       display: flex;
       flex-wrap: wrap;
       user-select: none;
+
       .char {
         background-color: #333;
         text-align: center;
@@ -126,22 +131,26 @@
       padding: 0;
     } */
 
-   .holder {
+    .holder {
       display: grid;
       grid-template-columns: 1fr 1fr;
+
       #bg {
         display: grid;
+
         .layerTable {
           grid-column: 1;
           grid-row: 1;
           padding: 0;
           border: 0;
           margin: 0;
+
           .pixelCell {
             padding: 0;
             border: 0;
             margin: 0;
             line-height: 0.2rem;
+
             .pixel {
               font-family: monospace;
               width: 1.3ch;
@@ -153,7 +162,7 @@
           }
         }
       }
-    } 
+    }
 
 
     /* #freqChars {
@@ -167,8 +176,6 @@
     /* #copyArea {
       letter-spacing: 0.02em;
     } */
-
-
   </style>
 </head>
 
