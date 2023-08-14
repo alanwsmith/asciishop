@@ -4,7 +4,9 @@ let s = {
     layer: null,
     row: null,
     col: null
-  }
+  },
+  rows: 80,
+  cols: 80,
 
 
   // tables: [],
@@ -18,6 +20,20 @@ let s = {
   // rows: 80,
   // freqChars: [],
   // visibleLayers: [],
+}
+
+
+const handleCanvasClick = (event) => {
+  const data = event.srcElement.dataset
+  s.current.row = parseInt(data.row)
+  s.current.col = parseInt(data.col)
+  updateStyles()
+}
+
+const handleCharClick = (event) => {
+  s.layers[s.current.layer][s.current.row][s.current.col] = event.srcElement.innerText
+  // updateOtherCharacters(event.srcElement.innerText)
+   render()
 }
 
 const loadFile = () => {
@@ -49,17 +65,20 @@ const loadFile = () => {
     render()
   }
   reader.readAsText(theFile)
+  buildCanvas(80, 80)
 }
 
 
-
-const render = () => {
+const buildCanvas = (rows, cols) => {
   const tableFrame = document.createElement("table")
-  for (let r = 0; r <= 80; r ++) {
+  tableFrame.id = "canvas"
+  for (let r = 0; r <= rows; r ++) {
     const tableRow = document.createElement("tr")
-    for (let c = 0; c <= 80; c ++) {
+    for (let c = 0; c <= cols; c ++) {
       const tableCell = document.createElement("td")
       tableCell.id = `cell_${r}_${c}`
+      tableCell.dataset.row = r
+      tableCell.dataset.col= c
       tableCell.innerHTML = ""
       tableCell.classList.add("pixel")
       tableCell.classList.add("inactivePixel")
@@ -67,9 +86,12 @@ const render = () => {
     }
     tableFrame.appendChild(tableRow)
   }
-
   bg.appendChild(tableFrame)
+  canvas.addEventListener("click", handleCanvasClick)
+}
 
+
+const render = () => {
   s.layers.forEach((layer) => {
     layer.forEach((row, rowIndex) => {
       row.forEach((char, charIndex) => {
@@ -81,9 +103,24 @@ const render = () => {
 }
 
 
+const updateStyles = () => {
+  for (let r = 0; r < s.rows; r ++) {
+    for (let c = 0; c < s.cols; c ++) {
+      const cellId = `cell_${r}_${c}`
+      const theCell = document.getElementById(cellId)
+      // console.log(theCell)
+      theCell.classList.remove("activePixel")
+      theCell.classList.add("inactivePixel")
+    }
+  }
+  const currentPixel = document.getElementById(`cell_${s.current.row}_${s.current.col}`)
+  currentPixel.classList.remove("inactivePixel")
+  currentPixel.classList.add("activePixel")
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // bg.addEventListener("click", handlePixelClick)
-  // charContainer.addEventListener("click", handleCharClick)
+   charContainer.addEventListener("click", handleCharClick)
   // duplicateButton.addEventListener("click", duplicateLayer)
   // layerSelects.addEventListener("click", handleSelectClick)
   loadButton.addEventListener("change", loadFile)
