@@ -157,10 +157,30 @@ const render = () => {
           const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
           if (char !== " ") {
             theCell.innerHTML = char
+            if (s.current.layer === layerIndex) {
+              theCell.classList.add("activeLayer")
+              theCell.classList.remove("lowerLayer")
+              theCell.classList.remove("upperLayer")
+            }  else if ( s.current.layer < layerIndex) {
+              theCell.classList.remove("activeLayer")
+              theCell.classList.add("lowerLayer")
+              theCell.classList.remove("upperLayer")
+            }  else if ( s.current.layer > layerIndex) {
+              theCell.classList.remove("activeLayer")
+              theCell.classList.remove("lowerLayer")
+              theCell.classList.add("upperLayer")
+            }
           }
-          if (s.current.layer === layerIndex && char !== " ") {
-            theCell.classList.add("activeLayer")
+/*
+          console.log(`- ${s.current.layer} - ${layerIndex}`)
+          if (s.current.layer === layerIndex) {
+          } else if (s.current.layer > layerIndex) {
+            theCell.classList.add("lowerLayer") 
+          } else if (s.current.layer < layerIndex) {
+            theCell.classList.add("upperLayer")
           }
+          */
+
         })
       })
     }
@@ -170,6 +190,7 @@ const render = () => {
 const selectLayer = (event) => {
   const el = event.srcElement
   s.current.layer = parseInt(el.dataset.layer, 10)
+  // debugger
   render()
 }
 
