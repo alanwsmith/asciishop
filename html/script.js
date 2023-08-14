@@ -5,16 +5,20 @@ let s = {
     row: null,
     col: null
   },
+  selected: {
+    row: null,
+    col: null,
+  },
   rows: 80,
   cols: 80,
 
 
   // tables: [],
   // currentTable: 0,
-  // currentCol: 0,
-  // currentRow: 0,
-  // selectedCol: null,
-  // selectedRow: null,
+  // current.col: 0,
+  // current.row: 0,
+  // selected.col: null,
+  // selected.row: null,
   // selectedChars: [],
   // cols: 80,
   // rows: 80,
@@ -25,6 +29,14 @@ let s = {
 
 const handleCanvasClick = (event) => {
   const data = event.srcElement.dataset
+  console.log(event)
+  if (event.shiftKey === true) {
+    s.selected.row = s.current.row
+    s.selected.col = s.current.col
+  } else {
+    s.selected.row = null
+    s.selected.col = null
+  }
   s.current.row = parseInt(data.row)
   s.current.col = parseInt(data.col)
   updateStyles()
@@ -33,7 +45,30 @@ const handleCanvasClick = (event) => {
 const handleCharClick = (event) => {
   s.layers[s.current.layer][s.current.row][s.current.col] = event.srcElement.innerText
   // updateOtherCharacters(event.srcElement.innerText)
-   render()
+  render()
+}
+
+const isPixelSelected = (r, c) => {
+  if (s.selected.col !== null) {
+    let turnItOn = 0
+    if (r >= s.selected.row && r <= s.current.row) {
+      turnItOn += 1
+    } else if (r >= s.current.row && r <= s.selected.row) {
+      turnItOn += 1
+    }
+    if (c >= s.selected.col && c <= s.current.col) {
+      turnItOn += 1
+    } else if (c >= s.current.col && c <= s.selected.col) {
+      turnItOn += 1
+    }
+    if (turnItOn === 2) {
+      return true
+    }
+    // } else if (findArrayInArray(s.selectedChars, [c, r])) {
+    // return true
+  } else {
+    return false
+  }
 }
 
 const loadFile = () => {
@@ -72,13 +107,13 @@ const loadFile = () => {
 const buildCanvas = (rows, cols) => {
   const tableFrame = document.createElement("table")
   tableFrame.id = "canvas"
-  for (let r = 0; r <= rows; r ++) {
+  for (let r = 0; r <= rows; r++) {
     const tableRow = document.createElement("tr")
-    for (let c = 0; c <= cols; c ++) {
+    for (let c = 0; c <= cols; c++) {
       const tableCell = document.createElement("td")
       tableCell.id = `cell_${r}_${c}`
       tableCell.dataset.row = r
-      tableCell.dataset.col= c
+      tableCell.dataset.col = c
       tableCell.innerHTML = ""
       tableCell.classList.add("pixel")
       tableCell.classList.add("inactivePixel")
@@ -96,21 +131,25 @@ const render = () => {
     layer.forEach((row, rowIndex) => {
       row.forEach((char, charIndex) => {
         const id = `cell_${rowIndex}_${charIndex}`
-         document.getElementById(`cell_${rowIndex}_${charIndex}`).innerHTML = char
+        document.getElementById(`cell_${rowIndex}_${charIndex}`).innerHTML = char
       })
     })
   })
 }
 
-
 const updateStyles = () => {
-  for (let r = 0; r < s.rows; r ++) {
-    for (let c = 0; c < s.cols; c ++) {
-      const cellId = `cell_${r}_${c}`
-      const theCell = document.getElementById(cellId)
-      // console.log(theCell)
-      theCell.classList.remove("activePixel")
-      theCell.classList.add("inactivePixel")
+  for (let r = 0; r < s.rows; r++) {
+    for (let c = 0; c < s.cols; c++) {
+      const theCell = document.getElementById(`cell_${r}_${c}`)
+      if (isPixelSelected(r, c)) {
+        theCell.classList.remove("activePixel")
+        theCell.classList.remove("inactivePixel")
+        theCell.classList.add("selectedPixel")
+      } else {
+        theCell.classList.remove("activePixel")
+        theCell.classList.remove("selectedPixel")
+        theCell.classList.add("inactivePixel")
+      }
     }
   }
   const currentPixel = document.getElementById(`cell_${s.current.row}_${s.current.col}`)
@@ -118,9 +157,31 @@ const updateStyles = () => {
   currentPixel.classList.add("activePixel")
 }
 
+// const updateStyles = () => {
+//   const upperIndex = s.tables.length - 1
+//   s.tables[upperIndex].forEach((r, rIndex) => {
+//     // debugger
+//     r.forEach((c, cIndex) => {
+//       const theId = `t${upperIndex}_r${rIndex}_c${cIndex}`
+//       const el = document.getElementById(theId)
+//       if (el !== null) {
+//         el.classList.remove("activePixel")
+//         el.classList.remove("selectedPixels")
+//         if (rIndex === s.current.row && cIndex === s.current.col) {
+//           el.classList.add("activePixel")
+//         } else {
+//           if (isPixelSelected(rIndex, cIndex)) {
+//             el.classList.add("selectedPixels")
+//           }
+//         }
+//       }
+//     })
+//   })
+// }
+
 document.addEventListener("DOMContentLoaded", () => {
   // bg.addEventListener("click", handlePixelClick)
-   charContainer.addEventListener("click", handleCharClick)
+  charContainer.addEventListener("click", handleCharClick)
   // duplicateButton.addEventListener("click", duplicateLayer)
   // layerSelects.addEventListener("click", handleSelectClick)
   loadButton.addEventListener("change", loadFile)
@@ -131,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // const cStatus = () => {
-//   console.log(`${s.currentTable} - ${s.currentRow} - ${s.currentCol}`)
+//   console.log(`${s.currentTable} - ${s.current.row} - ${s.current.col}`)
 // }
 
 // const duplicateLayer = () => {
@@ -157,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // const handleCharClick = (event) => {
 //   cStatus()
 //   // console.log(event.srcElement.innerText)
-//   s.tables[s.currentTable][s.currentRow][s.currentCol] = event.srcElement.innerText
+//   s.tables[s.currentTable][s.current.row][s.current.col] = event.srcElement.innerText
 //   updateOtherCharacters(event.srcElement.innerText)
 //   renderLayers()
 // }
@@ -167,23 +228,23 @@ document.addEventListener("DOMContentLoaded", () => {
 //   let data = event.srcElement.dataset
 //   if (event.shiftKey == true) {
 //     s.selectedChars = []
-//     s.selectedCol = s.currentCol
-//     s.selectedRow = s.currentRow
-//     s.currentCol = parseInt(data.col, 10)
-//     s.currentRow = parseInt(data.row, 10)
+//     s.selected.col = s.current.col
+//     s.selected.row = s.current.row
+//     s.current.col = parseInt(data.col, 10)
+//     s.current.row = parseInt(data.row, 10)
 //   } else if (event.metaKey == true) {
-//     s.selectedChars.push([s.currentCol, s.currentRow])
-//     s.selectedCol = null
-//     s.selectedRow = null
-//     s.currentCol = parseInt(data.col, 10)
-//     s.currentRow = parseInt(data.row, 10)
+//     s.selectedChars.push([s.current.col, s.current.row])
+//     s.selected.col = null
+//     s.selected.row = null
+//     s.current.col = parseInt(data.col, 10)
+//     s.current.row = parseInt(data.row, 10)
 //     // debugger
 //   } else {
 //     s.selectedChars = []
-//     s.selectedCol = null
-//     s.selectedRow = null
-//     s.currentCol = parseInt(data.col, 10)
-//     s.currentRow = parseInt(data.row, 10)
+//     s.selected.col = null
+//     s.selected.row = null
+//     s.current.col = parseInt(data.col, 10)
+//     s.current.row = parseInt(data.row, 10)
 //   }
 //   updateStyles()
 // }
@@ -197,16 +258,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // const isPixelSelected = (r, c) => {
 //   // console.log(s.selectedChars)
-//   if (s.selectedCol !== null) {
+//   if (s.selected.col !== null) {
 //     let turnItOn = 0
-//     if (r >= s.selectedRow && r <= s.currentRow) {
+//     if (r >= s.selected.row && r <= s.current.row) {
 //       turnItOn += 1
-//     } else if (r >= s.currentRow && r <= s.selectedRow) {
+//     } else if (r >= s.current.row && r <= s.selected.row) {
 //       turnItOn += 1
 //     }
-//     if (c >= s.selectedCol && c <= s.currentCol) {
+//     if (c >= s.selected.col && c <= s.current.col) {
 //       turnItOn += 1
-//     } else if (c >= s.currentCol && c <= s.selectedCol) {
+//     } else if (c >= s.current.col && c <= s.selected.col) {
 //       turnItOn += 1
 //     }
 //     if (turnItOn === 2) {
@@ -223,35 +284,35 @@ document.addEventListener("DOMContentLoaded", () => {
 //   // console.log(event)
 //   if (event.code === "KeyA" && event.metaKey === false) {
 //     event.preventDefault()
-//     if (s.currentCol != 0) {
-//       s.currentCol = s.currentCol - 1
+//     if (s.current.col != 0) {
+//       s.current.col = s.current.col - 1
 //     }
 //     // renderLayers()
 //      updateStyles()
 //   } else if (event.code === "KeyD" && event.metaKey === false) {
 //     event.preventDefault()
-//     if (s.currentCol < s.cols - 1) {
-//       s.currentCol = s.currentCol + 1
+//     if (s.current.col < s.cols - 1) {
+//       s.current.col = s.current.col + 1
 //     }
 //     // renderLayers()
 //      updateStyles()
 //   } else if (event.code === "KeyW" && event.metaKey === false) {
 //     event.preventDefault()
-//     if (s.currentRow != 0) {
-//       s.currentRow = s.currentRow - 1
+//     if (s.current.row != 0) {
+//       s.current.row = s.current.row - 1
 //     }
 //     // renderLayers()
 //      updateStyles()
 //   } else if (event.code === "KeyS" && event.metaKey === false) {
 //     event.preventDefault()
-//     if (s.currentRow < s.rows - 1) {
-//       s.currentRow = s.currentRow + 1
+//     if (s.current.row < s.rows - 1) {
+//       s.current.row = s.current.row + 1
 //     }
 //     // renderLayers()
 //      updateStyles()
 //   } else if (event.code === "KeyF" && event.metaKey === false) {
 //     event.preventDefault()
-//     s.tables[s.currentTable][s.currentRow][s.currentCol] = " "
+//     s.tables[s.currentTable][s.current.row][s.current.col] = " "
 //     updateOtherCharacters(" ")
 //      renderLayers()
 //   }
@@ -369,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //       if (el !== null) {
 //         el.classList.remove("activePixel")
 //         el.classList.remove("selectedPixels")
-//         if (rIndex === s.currentRow && cIndex === s.currentCol) {
+//         if (rIndex === s.current.row && cIndex === s.current.col) {
 //           el.classList.add("activePixel")
 //         } else {
 //           if (isPixelSelected(rIndex, cIndex)) {
