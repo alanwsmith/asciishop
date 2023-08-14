@@ -129,6 +129,9 @@ const render = () => {
   while (layerToggles.children.length > 0) {
     layerToggles.children[0].remove()
   }
+   while (layerSelects.children.length > 0) {
+     layerSelects.children[0].remove()
+   }
   for (let r = 0; r <= s.rows; r++) {
     for (let c = 0; c <= s.cols; c++) {
       document.getElementById(`cell_${r}_${c}`).innerHTML = " "
@@ -136,6 +139,12 @@ const render = () => {
   }
 
   s.layers.forEach((layer, layerIndex) => {
+    const layerSelect = document.createElement("button")
+    layerSelect.innerHTML = `Layer: ${layerIndex}`
+    layerSelect.dataset.layer = layerIndex
+    layerSelect.addEventListener("click", selectLayer)
+    layerSelects.appendChild(layerSelect)
+
     const layerToggle = document.createElement("input")
     layerToggle.type = "checkbox"
     layerToggle.dataset.layer = layerIndex
@@ -156,6 +165,12 @@ const render = () => {
       })
     }
   })
+}
+
+const selectLayer = (event) => {
+  const el = event.srcElement
+  s.current.layer = parseInt(el.dataset.layer, 10)
+  render()
 }
 
 const toggleLayer = (event) => {
