@@ -26,12 +26,12 @@
       color: #777;
     }
 
-    pre {
+    /* pre {
       font-family: monospace;
-    }
+    } */
 
 
-    table,
+    /* table,
     tr,
     td,
     th {
@@ -40,66 +40,62 @@
       padding: 0;
       line-height: 0.2rem;
       border-collapse: collapse;
-    }
+    } */
 
-    td {
+    /* td {
       line-height: 0.2rem;
-    }
+    } */
 
-    .activeTable button {
+    /* .activeTable button {
       background-color: transparent;
       color: gold;
       border: 0;
       margin: 0;
       padding: 0;
       line-height: 0.2rem;
-    }
+    } */
 
-    .inactiveTable button {
+    /* .inactiveTable button {
       background-color: transparent;
       color: #123123;
       border: 0;
       margin: 0;
       padding: 0;
       line-height: 0.2rem;
-    }
+    } */
 
-    .activePixel {
+    /* .activePixel {
       outline: 1px solid blue;
       user-select: none;
       border: 0;
       margin: 0;
       padding: 0;
-    }
+    } */
 
-    .selectedPixels {
+    /* .selectedPixels {
       outline: 1px solid #113;
       user-select: none;
       border: 0;
       margin: 0;
       padding: 0;
-    }
+    } */
 
-    .holder {
+    /* .holder {
       display: grid;
       grid-template-columns: 1fr 1fr;
-
       #bg {
         display: grid;
-
         .layerTable {
           grid-column: 1;
           grid-row: 1;
           padding: 0;
           border: 0;
           margin: 0;
-
           .pixelCell {
             padding: 0;
             border: 0;
             margin: 0;
             line-height: 0.2rem;
-
             .pixel {
               font-family: monospace;
               width: 1.3ch;
@@ -111,13 +107,12 @@
           }
         }
       }
-    }
+    } */
 
     #chars {
       display: flex;
       flex-wrap: wrap;
       user-select: none;
-
       .char {
         background-color: #333;
         text-align: center;
@@ -127,19 +122,19 @@
       }
     }
 
-    #freqChars {
+    /* #freqChars {
       display: flex;
       flex-wrap: wrap;
       height: 6ch;
       margin-bottom: 0.2rem;
       user-select: none;
-    }
+    } */
 
-    #copyArea {
+    /* #copyArea {
       letter-spacing: 0.02em;
-    }
+    } */
 
-    #layerToggles {}
+
   </style>
 </head>
 
@@ -150,7 +145,7 @@
     <div>
       <button id="saveButton">Save</button>
       <input type="file" id="loadButton" multiple />
-      <button id="duplicateButton">Dupliate Layer</button>
+      <button id="duplicateButton">Duplicate Layer</button>
     </div>
     <div id="layerToggles"></div>
     <div id="layerSelects"></div>
