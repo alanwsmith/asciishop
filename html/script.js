@@ -15,6 +15,13 @@ let s = {
   // freqChars: [],
 }
 
+const duplicateLayer = () => {
+  if (s.layers[s.current.layer] !== undefined) {
+    const newLayer = JSON.parse(JSON.stringify(s.layers[s.current.layer]))
+    s.layers.splice(s.current.layer + 1, 0, newLayer)
+  }
+  render()
+}
 
 const handleCanvasClick = (event) => {
   const data = event.srcElement.dataset
@@ -251,7 +258,7 @@ const updateStyles = () => {
 document.addEventListener("DOMContentLoaded", () => {
   // bg.addEventListener("click", handlePixelClick)
   charContainer.addEventListener("click", handleCharClick)
-  // duplicateButton.addEventListener("click", duplicateLayer)
+  duplicateButton.addEventListener("click", duplicateLayer)
   // layerSelects.addEventListener("click", handleSelectClick)
   loadButton.addEventListener("change", loadFile)
   saveButton.addEventListener("click", saveFile)
