@@ -113,11 +113,8 @@ const buildCanvas = (rows, cols) => {
 }
 
 const render = () => {
-  while (layerToggles.children.length > 0) {
-    layerToggles.children[0].remove()
-  }
-  while (layerSelects.children.length > 0) {
-    layerSelects.children[0].remove()
+  while (layerControls.children.length > 0) {
+    layerControls.children[0].remove()
   }
   for (let r = 0; r <= s.rows; r++) {
     for (let c = 0; c <= s.cols; c++) {
@@ -126,17 +123,24 @@ const render = () => {
   }
 
   s.layers.forEach((layer, layerIndex) => {
+    const layerControl = document.createElement("div")
+    if (layerIndex === s.current.layer) {
+      layerControl.classList.add("currentLayerControl")
+    }
+
     const layerSelect = document.createElement("button")
     layerSelect.innerHTML = `Layer: ${layerIndex}`
     layerSelect.dataset.layer = layerIndex
     layerSelect.addEventListener("click", selectLayer)
-    layerSelects.appendChild(layerSelect)
+    layerControl.appendChild(layerSelect)
 
     const layerToggle = document.createElement("input")
     layerToggle.type = "checkbox"
     layerToggle.dataset.layer = layerIndex
     layerToggle.addEventListener("change", toggleLayer)
-    layerToggles.appendChild(layerToggle)
+    layerControl.appendChild(layerToggle)
+
+    layerControls.appendChild(layerControl)
 
     if (s.visibleLayers[layerIndex]) {
       layerToggle.checked = true
@@ -169,9 +173,33 @@ const renderLayer = (layerIndex) => {
   })
 }
 
+const saveFile = () => {
+  console.log("Saving File")
+  let savedata = ""
+  s.layers.forEach((t) => {
+    savedata += "ASCIISHOPLAYER\n"
+    t.forEach((r) => {
+      r.forEach((c) => {
+        savedata += c
+      })
+      savedata += "\n"
+    })
+  })
+  const data = new Blob(
+    [savedata],
+    { type: "application/octet-stream" }
+  )
+  const link = document.createElement("a")
+  link.href = URL.createObjectURL(data)
+  link.setAttribute("download", "ascii-shop.txt");
+  link.click()
+}
+
+
 const selectLayer = (event) => {
   const el = event.srcElement
   s.current.layer = parseInt(el.dataset.layer, 10)
+  s.visibleLayers[s.current.layer] = true
   render()
 }
 
@@ -224,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // duplicateButton.addEventListener("click", duplicateLayer)
   // layerSelects.addEventListener("click", handleSelectClick)
   loadButton.addEventListener("change", loadFile)
-  // saveButton.addEventListener("click", saveFile)
+  saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
 })
 

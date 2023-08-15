@@ -26,8 +26,19 @@
       color: #777;
     }
 
+    table {
+      border-collapse: none;
+    }
+
+    td {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
     .pixel {
       user-select: none;
+      white-space: pre;
     }
 
     .activePixel {
@@ -54,6 +65,9 @@
       color: blue;
     }
 
+    .currentLayerControl {
+      background-color: red;
+    }
 
 
     #chars {
@@ -188,8 +202,7 @@
       <input type="file" id="loadButton" multiple />
       <button id="duplicateButton">Duplicate Layer</button>
     </div>
-    <div id="layerToggles"></div>
-    <div id="layerSelects"></div>
+    <div id="layerControls"></div>
     <div id="currentLayerDisplay">Current Layer: TKTKTKTKT</div>
     <div class="holder">
       <div>
