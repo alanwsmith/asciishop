@@ -241,8 +241,10 @@ const updateStyles = () => {
     }
   }
   const currentPixel = document.getElementById(`cell_${s.current.row}_${s.current.col}`)
-  currentPixel.classList.remove("inactivePixel")
-  currentPixel.classList.add("activePixel")
+  if (currentPixel !== null) {
+    currentPixel.classList.remove("inactivePixel")
+    currentPixel.classList.add("activePixel")
+  }
 }
 
 
