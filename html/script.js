@@ -12,7 +12,7 @@ let s = {
   rows: 80,
   cols: 80,
   visibleLayers: [],
-  // freqChars: [],
+  freqChars: [],
 }
 
 const duplicateLayer = () => {
@@ -39,7 +39,11 @@ const handleCanvasClick = (event) => {
 }
 
 const handleCharClick = (event) => {
-  s.layers[s.current.layer][s.current.row][s.current.col] = event.srcElement.innerText
+  const char = event.srcElement.innerText
+  s.layers[s.current.layer][s.current.row][s.current.col] = char
+  if (!s.freqChars.includes(char)) {
+    s.freqChars.push(char)
+  }
   updateOtherCharacters(event.srcElement.innerText)
   render()
 }
@@ -62,6 +66,40 @@ const isPixelSelected = (r, c) => {
     }
   } else {
     return false
+  }
+}
+
+const keydownHandler = (event) => {
+  // console.log(event)
+  if (event.code === "KeyA" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.col != 0) {
+      s.current.col = s.current.col - 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyD" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.col < s.cols - 1) {
+      s.current.col = s.current.col + 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyW" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.row != 0) {
+      s.current.row = s.current.row - 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyS" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.row < s.rows - 1) {
+      s.current.row = s.current.row + 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyF" && event.metaKey === false) {
+    event.preventDefault()
+    s.layers[s.current.layer][s.current.row][s.current.col] = " "
+    updateOtherCharacters(" ")
+    render()
   }
 }
 
@@ -123,32 +161,38 @@ const render = () => {
   while (layerControls.children.length > 0) {
     layerControls.children[0].remove()
   }
+  while (freqChars.children.length > 0) {
+    freqChars.children[0].remove()
+  }
+
+  s.freqChars.forEach((char) => {
+    const charButton = document.createElement("button")
+    charButton.innerText = char
+    charButton.classList.add("char")
+    freqChars.appendChild(charButton)
+  })
+
   for (let r = 0; r <= s.rows; r++) {
     for (let c = 0; c <= s.cols; c++) {
       document.getElementById(`cell_${r}_${c}`).innerHTML = " "
     }
   }
-
   s.layers.forEach((layer, layerIndex) => {
     const layerControl = document.createElement("div")
     if (layerIndex === s.current.layer) {
       layerControl.classList.add("currentLayerControl")
     }
-
     const layerSelect = document.createElement("button")
     layerSelect.innerHTML = `Layer: ${layerIndex}`
     layerSelect.dataset.layer = layerIndex
     layerSelect.addEventListener("click", selectLayer)
     layerControl.appendChild(layerSelect)
-
     const layerToggle = document.createElement("input")
     layerToggle.type = "checkbox"
     layerToggle.dataset.layer = layerIndex
     layerToggle.addEventListener("change", toggleLayer)
     layerControl.appendChild(layerToggle)
-
     layerControls.appendChild(layerControl)
-
     if (s.visibleLayers[layerIndex]) {
       layerToggle.checked = true
       renderLayer(layerIndex)
@@ -266,26 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 
-// const duplicateLayer = () => {
-//   if (s.tables[s.currentTable] !== undefined) {
-//     const newTable = JSON.parse(JSON.stringify(s.tables[s.currentTable]))
-//     s.tables.splice(s.currentTable + 1, 0, newTable)
-//     console.log(newTable)
-//   }
-// }
-
-// const findArrayInArray = (container, target) => {
-//   return container.some((el) => {
-//     return target.every((t, tIndex) => {
-//       if (el[tIndex] === t) {
-//         return true
-//       } else {
-//         return false
-//       }
-//     })
-//   })
-// }
-
 
 // const handlePixelClick = (event) => {
 //   console.log(event)
@@ -314,39 +338,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // }
 
 
-const keydownHandler = (event) => {
-  // console.log(event)
-  if (event.code === "KeyA" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.col != 0) {
-      s.current.col = s.current.col - 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyD" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.col < s.cols - 1) {
-      s.current.col = s.current.col + 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyW" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.row != 0) {
-      s.current.row = s.current.row - 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyS" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.row < s.rows - 1) {
-      s.current.row = s.current.row + 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyF" && event.metaKey === false) {
-    event.preventDefault()
-    s.layers[s.current.layer][s.current.row][s.current.col] = " "
-    updateOtherCharacters(" ")
-    render()
-  }
-}
 
 
 
