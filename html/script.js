@@ -19,13 +19,15 @@ const duplicateLayer = () => {
   if (s.layers[s.current.layer] !== undefined) {
     const newLayer = JSON.parse(JSON.stringify(s.layers[s.current.layer]))
     s.layers.splice(s.current.layer + 1, 0, newLayer)
+    s.visibleLayers.splice(s.current.layer + 1, 0, true)
+    s.current.layer = s.current.layer + 1
+    render()
   }
-  render()
 }
 
 const handleCanvasClick = (event) => {
   const data = event.srcElement.dataset
-  console.log(event)
+  // console.log(event)
   if (event.shiftKey === true) {
     s.selected.row = s.current.row
     s.selected.col = s.current.col
@@ -104,7 +106,7 @@ const keydownHandler = (event) => {
 }
 
 const loadFile = () => {
-  console.log("loadFile")
+  console.log("Load File")
   const reader = new FileReader()
   const theFile = loadButton.files[0]
   reader.onload = function(e) {
@@ -256,8 +258,8 @@ const selectLayer = (event) => {
 
 const toggleLayer = (event) => {
   const el = event.srcElement
-  console.log(event)
-  console.log(event.srcElement.checked)
+  // console.log(event)
+  // console.log(event.srcElement.checked)
   if (el.checked) {
     s.visibleLayers[parseInt(el.dataset.layer, 10)] = true
   } else {
