@@ -1,5 +1,5 @@
 let s = {
-  layers: [],
+  // layers: [],
   current: {
     layer: null,
     row: null,
@@ -9,11 +9,13 @@ let s = {
     row: null,
     col: null,
   },
-  rows: 80,
-  cols: 80,
+  // rows: 80,
+  // cols: 80,
   visibleLayers: [],
   freqChars: [],
 }
+
+let d = {}
 
 const duplicateLayer = () => {
   if (s.layers[s.current.layer] !== undefined) {
@@ -40,106 +42,90 @@ const handleCanvasClick = (event) => {
   updateStyles()
 }
 
-const handleCharClick = (event) => {
-  const char = event.srcElement.innerText
-  s.layers[s.current.layer][s.current.row][s.current.col] = char
-  if (!s.freqChars.includes(char)) {
-    s.freqChars.push(char)
-  }
-  updateOtherCharacters(event.srcElement.innerText)
-  render()
-}
+// const handleCharClick = (event) => {
+//   const char = event.srcElement.innerText
+//   s.layers[s.current.layer][s.current.row][s.current.col] = char
+//   if (!s.freqChars.includes(char)) {
+//     s.freqChars.push(char)
+//   }
+//   updateOtherCharacters(event.srcElement.innerText)
+//   render()
+// }
 
-const isPixelSelected = (r, c) => {
-  if (s.selected.col !== null) {
-    let turnItOn = 0
-    if (r >= s.selected.row && r <= s.current.row) {
-      turnItOn += 1
-    } else if (r >= s.current.row && r <= s.selected.row) {
-      turnItOn += 1
-    }
-    if (c >= s.selected.col && c <= s.current.col) {
-      turnItOn += 1
-    } else if (c >= s.current.col && c <= s.selected.col) {
-      turnItOn += 1
-    }
-    if (turnItOn === 2) {
-      return true
-    }
-  } else {
-    return false
-  }
-}
+// const isPixelSelected = (r, c) => {
+//   if (s.selected.col !== null) {
+//     let turnItOn = 0
+//     if (r >= s.selected.row && r <= s.current.row) {
+//       turnItOn += 1
+//     } else if (r >= s.current.row && r <= s.selected.row) {
+//       turnItOn += 1
+//     }
+//     if (c >= s.selected.col && c <= s.current.col) {
+//       turnItOn += 1
+//     } else if (c >= s.current.col && c <= s.selected.col) {
+//       turnItOn += 1
+//     }
+//     if (turnItOn === 2) {
+//       return true
+//     }
+//   } else {
+//     return false
+//   }
+// }
 
-const keydownHandler = (event) => {
-  // console.log(event)
-  if (event.code === "KeyA" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.col != 0) {
-      s.current.col = s.current.col - 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyD" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.col < s.cols - 1) {
-      s.current.col = s.current.col + 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyW" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.row != 0) {
-      s.current.row = s.current.row - 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyS" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.row < s.rows - 1) {
-      s.current.row = s.current.row + 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyF" && event.metaKey === false) {
-    event.preventDefault()
-    s.layers[s.current.layer][s.current.row][s.current.col] = " "
-    updateOtherCharacters(" ")
-    render()
-  }
-}
+// const keydownHandler = (event) => {
+//   // console.log(event)
+//   if (event.code === "KeyA" && event.metaKey === false) {
+//     event.preventDefault()
+//     if (s.current.col != 0) {
+//       s.current.col = s.current.col - 1
+//     }
+//     updateStyles()
+//   } else if (event.code === "KeyD" && event.metaKey === false) {
+//     event.preventDefault()
+//     if (s.current.col < s.cols - 1) {
+//       s.current.col = s.current.col + 1
+//     }
+//     updateStyles()
+//   } else if (event.code === "KeyW" && event.metaKey === false) {
+//     event.preventDefault()
+//     if (s.current.row != 0) {
+//       s.current.row = s.current.row - 1
+//     }
+//     updateStyles()
+//   } else if (event.code === "KeyS" && event.metaKey === false) {
+//     event.preventDefault()
+//     if (s.current.row < s.rows - 1) {
+//       s.current.row = s.current.row + 1
+//     }
+//     updateStyles()
+//   } else if (event.code === "KeyF" && event.metaKey === false) {
+//     event.preventDefault()
+//     s.layers[s.current.layer][s.current.row][s.current.col] = " "
+//     updateOtherCharacters(" ")
+//     render()
+//   }
+// }
 
 const loadFile = () => {
-  console.log("Load File")
+  console.log("Loading Data")
   const reader = new FileReader()
   const theFile = loadButton.files[0]
-  reader.onload = function(e) {
+  reader.onload = (e) => {
     const rawFileData = e.target.result
-    const layers = rawFileData.split("ASCIISHOPLAYER\n")
-    s.visibleLayers = []
-    s.layers = []
-    layers.forEach((layer, layerIndex) => {
-      if (layerIndex !== 0) {
-        const newLayer = []
-        const rows = layer.split("\n")
-        rows.forEach((row, rowIndex) => {
-          const newRow = []
-          const chars = row.split("")
-          chars.forEach((char) => {
-            newRow.push(char)
-          })
-          newLayer.push(newRow)
-        })
-        s.layers.push(newLayer)
-        s.visibleLayers.push(true)
-      }
+    d = JSON.parse(rawFileData)
+    d.layers.forEach((layer, layerIndex) => {
+      s.visibleLayers.push(true)
     })
-    s.current.layer = s.layers.length - 1
-    render()
+    buildCanvas(d.metadata.rows, d.metadata.cols)
   }
-  reader.readAsText(theFile)
-  buildCanvas(80, 80)
 
+  reader.readAsText(theFile)
 }
 
-
 const buildCanvas = (rows, cols) => {
+  console.log(rows)
+  console.log(cols)
   const tableFrame = document.createElement("table")
   tableFrame.id = "canvas"
   for (let r = 0; r <= rows; r++) {
@@ -158,16 +144,17 @@ const buildCanvas = (rows, cols) => {
   }
   bg.appendChild(tableFrame)
   canvas.addEventListener("click", handleCanvasClick)
+  render()
 }
 
 const render = () => {
+  console.log("alfa")
   while (layerControls.children.length > 0) {
     layerControls.children[0].remove()
   }
   while (freqChars.children.length > 0) {
     freqChars.children[0].remove()
   }
-
   s.freqChars.forEach((char) => {
     const charButton = document.createElement("button")
     charButton.innerText = char
@@ -175,12 +162,13 @@ const render = () => {
     freqChars.appendChild(charButton)
   })
 
-  for (let r = 0; r <= s.rows; r++) {
-    for (let c = 0; c <= s.cols; c++) {
+  for (let r = 0; r <= d.metadata.rows; r++) {
+    for (let c = 0; c <= d.metadata.cols; c++) {
       document.getElementById(`cell_${r}_${c}`).innerHTML = " "
     }
   }
-  s.layers.forEach((layer, layerIndex) => {
+
+  d.layers.forEach((layer, layerIndex) => {
     const layerControl = document.createElement("div")
     if (layerIndex === s.current.layer) {
       layerControl.classList.add("currentLayerControl")
@@ -204,11 +192,13 @@ const render = () => {
 }
 
 const renderLayer = (layerIndex) => {
-  s.layers[layerIndex].forEach((row, rowIndex) => {
+  console.log("ping")
+  d.layers[layerIndex].rows.forEach((row, rowIndex) => {
     row.forEach((char, charIndex) => {
       const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
       if (char !== " ") {
         theCell.innerHTML = char
+        console.log(char)
         if (layerIndex === s.current.layer) {
           theCell.classList.add("activeLayer")
           theCell.classList.remove("lowerLayer")
@@ -230,7 +220,7 @@ const renderLayer = (layerIndex) => {
 const saveFile = () => {
   console.log("Saving File")
   const data = new Blob(
-    [JSON.stringify(s.layers, null, 2)],
+    [JSON.stringify(asciiData, null, 2)],
     { type: "application/octet-stream" }
   )
   const link = document.createElement("a")
@@ -238,7 +228,6 @@ const saveFile = () => {
   link.setAttribute("download", "ascii-shop.txt");
   link.click()
 }
-
 
 const selectLayer = (event) => {
   const el = event.srcElement
@@ -257,45 +246,45 @@ const toggleLayer = (event) => {
   render()
 }
 
-const updateOtherCharacters = (char) => {
-  for (let r = 0; r <= s.rows; r++) {
-    for (let c = 0; c <= s.cols; c++) {
-      if (isPixelSelected(r, c)) {
-        s.layers[s.current.layer][r][c] = char
-      }
-    }
-  }
-}
+// const updateOtherCharacters = (char) => {
+//   for (let r = 0; r <= s.rows; r++) {
+//     for (let c = 0; c <= s.cols; c++) {
+//       if (isPixelSelected(r, c)) {
+//         s.layers[s.current.layer][r][c] = char
+//       }
+//     }
+//   }
+// }
 
-const updateStyles = () => {
-  for (let r = 0; r < s.rows; r++) {
-    for (let c = 0; c < s.cols; c++) {
-      const theCell = document.getElementById(`cell_${r}_${c}`)
-      if (isPixelSelected(r, c)) {
-        theCell.classList.remove("activePixel")
-        theCell.classList.remove("inactivePixel")
-        theCell.classList.add("selectedPixel")
-      } else {
-        theCell.classList.remove("activePixel")
-        theCell.classList.remove("selectedPixel")
-        theCell.classList.add("inactivePixel")
-      }
-    }
-  }
-  const currentPixel = document.getElementById(`cell_${s.current.row}_${s.current.col}`)
-  if (currentPixel !== null) {
-    currentPixel.classList.remove("inactivePixel")
-    currentPixel.classList.add("activePixel")
-  }
-}
+// const updateStyles = () => {
+//   for (let r = 0; r < s.rows; r++) {
+//     for (let c = 0; c < s.cols; c++) {
+//       const theCell = document.getElementById(`cell_${r}_${c}`)
+//       if (isPixelSelected(r, c)) {
+//         theCell.classList.remove("activePixel")
+//         theCell.classList.remove("inactivePixel")
+//         theCell.classList.add("selectedPixel")
+//       } else {
+//         theCell.classList.remove("activePixel")
+//         theCell.classList.remove("selectedPixel")
+//         theCell.classList.add("inactivePixel")
+//       }
+//     }
+//   }
+//   const currentPixel = document.getElementById(`cell_${s.current.row}_${s.current.col}`)
+//   if (currentPixel !== null) {
+//     currentPixel.classList.remove("inactivePixel")
+//     currentPixel.classList.add("activePixel")
+//   }
+// }
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  charContainer.addEventListener("click", handleCharClick)
-  duplicateButton.addEventListener("click", duplicateLayer)
+  // charContainer.addEventListener("click", handleCharClick)
+  // duplicateButton.addEventListener("click", duplicateLayer)
   loadButton.addEventListener("change", loadFile)
   saveButton.addEventListener("click", saveFile)
-  document.addEventListener("keydown", keydownHandler)
+  // document.addEventListener("keydown", keydownHandler)
 })
 
 
