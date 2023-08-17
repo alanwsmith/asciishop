@@ -18,12 +18,14 @@ let s = {
 let d = {}
 
 const duplicateLayer = () => {
-  if (s.layers[s.current.layer] !== undefined) {
-    const newLayer = JSON.parse(JSON.stringify(s.layers[s.current.layer]))
-    s.layers.splice(s.current.layer + 1, 0, newLayer)
-    s.visibleLayers.splice(s.current.layer + 1, 0, true)
-    s.current.layer = s.current.layer + 1
-    render()
+  if (d.layers[s.current.layer] !== undefined) {
+
+    // const newLayer = JSON.parse(JSON.stringify(d.layers[s.current.layer]))
+    // s.layers.splice(s.current.layer + 1, 0, newLayer)
+    // s.visibleLayers.splice(s.current.layer + 1, 0, true)
+    // s.current.layer = s.current.layer + 1
+    // render()
+
   }
 }
 
@@ -46,7 +48,7 @@ const handleCharClick = (event) => {
   const char = event.srcElement.innerText
   // debugger
 
-  d.layers[s.current.layer].rows[s.current.row][s.current.col] = char
+  d.layers[s.current.layer].rows[s.current.row][s.current.col].char = char
   if (!s.freqChars.includes(char)) {
     s.freqChars.push(char)
   }
@@ -103,7 +105,7 @@ const keydownHandler = (event) => {
     updateStyles()
   } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
-    s.layers[s.current.layer][s.current.row][s.current.col] = " "
+    d.layers[s.current.layer].rows[s.current.row][s.current.col].char = " "
     updateOtherCharacters(" ")
     render()
   }
@@ -199,9 +201,9 @@ const renderLayer = (layerIndex) => {
   d.layers[layerIndex].rows.forEach((row, rowIndex) => {
     row.forEach((char, charIndex) => {
       const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
-      if (char !== " ") {
-        theCell.innerHTML = char
-        console.log(char)
+      if (char.char !== " ") {
+        theCell.innerHTML = char.char
+        console.log(char.char)
         if (layerIndex === s.current.layer) {
           theCell.classList.add("activeLayer")
           theCell.classList.remove("lowerLayer")
@@ -253,7 +255,7 @@ const updateOtherCharacters = (char) => {
   for (let r = 0; r <= d.metadata.rows; r++) {
     for (let c = 0; c <= d.metadata.cols; c++) {
       if (isPixelSelected(r, c)) {
-        d.layers[s.current.layer].rows[r][c] = char
+        d.layers[s.current.layer].rows[r][c].char = char
       }
     }
   }
