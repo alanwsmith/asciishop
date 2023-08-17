@@ -229,18 +229,8 @@ const renderLayer = (layerIndex) => {
 
 const saveFile = () => {
   console.log("Saving File")
-  let savedata = ""
-  s.layers.forEach((t) => {
-    savedata += "ASCIISHOPLAYER\n"
-    t.forEach((r) => {
-      r.forEach((c) => {
-        savedata += c
-      })
-      savedata += "\n"
-    })
-  })
   const data = new Blob(
-    [savedata],
+    [JSON.stringify(s.layers, null, 2)],
     { type: "application/octet-stream" }
   )
   const link = document.createElement("a")
