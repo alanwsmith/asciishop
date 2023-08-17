@@ -249,8 +249,6 @@ const selectLayer = (event) => {
 
 const toggleLayer = (event) => {
   const el = event.srcElement
-  // console.log(event)
-  // console.log(event.srcElement.checked)
   if (el.checked) {
     s.visibleLayers[parseInt(el.dataset.layer, 10)] = true
   } else {
@@ -293,10 +291,8 @@ const updateStyles = () => {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  // bg.addEventListener("click", handlePixelClick)
   charContainer.addEventListener("click", handleCharClick)
   duplicateButton.addEventListener("click", duplicateLayer)
-  // layerSelects.addEventListener("click", handleSelectClick)
   loadButton.addEventListener("change", loadFile)
   saveButton.addEventListener("click", saveFile)
   document.addEventListener("keydown", keydownHandler)
@@ -389,28 +385,6 @@ document.addEventListener("DOMContentLoaded", () => {
 //     bg.appendChild(renderTable)
 //   })
 //   updateStyles()
-// }
-
-// const saveFile = () => {
-//   console.log("saving 2")
-//   let savedata = ""
-//   s.tables.forEach((t) => {
-//     savedata += "ASCIISHOPLAYER\n"
-//     t.forEach((r) => {
-//       r.forEach((c) => {
-//         savedata += c
-//       })
-//       savedata += "\n"
-//     })
-//   })
-//   const data = new Blob(
-//     [savedata],
-//     { type: "application/octet-stream" }
-//   )
-//   const link = document.createElement("a")
-//   link.href = URL.createObjectURL(data)
-//   link.setAttribute("download", "ascii-shop.txt");
-//   link.click()
 // }
 
 
