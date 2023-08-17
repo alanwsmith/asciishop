@@ -42,70 +42,72 @@ const handleCanvasClick = (event) => {
   updateStyles()
 }
 
-// const handleCharClick = (event) => {
-//   const char = event.srcElement.innerText
-//   s.layers[s.current.layer][s.current.row][s.current.col] = char
-//   if (!s.freqChars.includes(char)) {
-//     s.freqChars.push(char)
-//   }
-//   updateOtherCharacters(event.srcElement.innerText)
-//   render()
-// }
+const handleCharClick = (event) => {
+  const char = event.srcElement.innerText
+  // debugger
 
-// const isPixelSelected = (r, c) => {
-//   if (s.selected.col !== null) {
-//     let turnItOn = 0
-//     if (r >= s.selected.row && r <= s.current.row) {
-//       turnItOn += 1
-//     } else if (r >= s.current.row && r <= s.selected.row) {
-//       turnItOn += 1
-//     }
-//     if (c >= s.selected.col && c <= s.current.col) {
-//       turnItOn += 1
-//     } else if (c >= s.current.col && c <= s.selected.col) {
-//       turnItOn += 1
-//     }
-//     if (turnItOn === 2) {
-//       return true
-//     }
-//   } else {
-//     return false
-//   }
-// }
+  d.layers[s.current.layer].rows[s.current.row][s.current.col] = char
+  if (!s.freqChars.includes(char)) {
+    s.freqChars.push(char)
+  }
+  updateOtherCharacters(event.srcElement.innerText)
+  render()
+}
 
-// const keydownHandler = (event) => {
-//   // console.log(event)
-//   if (event.code === "KeyA" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.col != 0) {
-//       s.current.col = s.current.col - 1
-//     }
-//     updateStyles()
-//   } else if (event.code === "KeyD" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.col < s.cols - 1) {
-//       s.current.col = s.current.col + 1
-//     }
-//     updateStyles()
-//   } else if (event.code === "KeyW" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.row != 0) {
-//       s.current.row = s.current.row - 1
-//     }
-//     updateStyles()
-//   } else if (event.code === "KeyS" && event.metaKey === false) {
-//     event.preventDefault()
-//     if (s.current.row < s.rows - 1) {
-//       s.current.row = s.current.row + 1
-//     }
-//     updateStyles()
-//   } else if (event.code === "KeyF" && event.metaKey === false) {
-//     event.preventDefault()
-//     s.layers[s.current.layer][s.current.row][s.current.col] = " "
-//     updateOtherCharacters(" ")
-//     render()
-//   }
-// }
+const isPixelSelected = (r, c) => {
+  if (s.selected.col !== null) {
+    let turnItOn = 0
+    if (r >= s.selected.row && r <= s.current.row) {
+      turnItOn += 1
+    } else if (r >= s.current.row && r <= s.selected.row) {
+      turnItOn += 1
+    }
+    if (c >= s.selected.col && c <= s.current.col) {
+      turnItOn += 1
+    } else if (c >= s.current.col && c <= s.selected.col) {
+      turnItOn += 1
+    }
+    if (turnItOn === 2) {
+      return true
+    }
+  } else {
+    return false
+  }
+}
+
+const keydownHandler = (event) => {
+  // console.log(event)
+  if (event.code === "KeyA" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.col != 0) {
+      s.current.col = s.current.col - 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyD" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.col < s.cols - 1) {
+      s.current.col = s.current.col + 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyW" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.row != 0) {
+      s.current.row = s.current.row - 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyS" && event.metaKey === false) {
+    event.preventDefault()
+    if (s.current.row < s.rows - 1) {
+      s.current.row = s.current.row + 1
+    }
+    updateStyles()
+  } else if (event.code === "KeyF" && event.metaKey === false) {
+    event.preventDefault()
+    s.layers[s.current.layer][s.current.row][s.current.col] = " "
+    updateOtherCharacters(" ")
+    render()
+  }
+}
 
 const loadFile = () => {
   console.log("Loading Data")
@@ -117,6 +119,7 @@ const loadFile = () => {
     d.layers.forEach((layer, layerIndex) => {
       s.visibleLayers.push(true)
     })
+    s.current.layer = 0
     buildCanvas(d.metadata.rows, d.metadata.cols)
   }
 
@@ -220,7 +223,7 @@ const renderLayer = (layerIndex) => {
 const saveFile = () => {
   console.log("Saving File")
   const data = new Blob(
-    [JSON.stringify(asciiData, null, 2)],
+    [JSON.stringify(d, null, 2)],
     { type: "application/octet-stream" }
   )
   const link = document.createElement("a")
@@ -246,74 +249,73 @@ const toggleLayer = (event) => {
   render()
 }
 
-// const updateOtherCharacters = (char) => {
-//   for (let r = 0; r <= s.rows; r++) {
-//     for (let c = 0; c <= s.cols; c++) {
-//       if (isPixelSelected(r, c)) {
-//         s.layers[s.current.layer][r][c] = char
-//       }
-//     }
-//   }
-// }
+const updateOtherCharacters = (char) => {
+  for (let r = 0; r <= d.metadata.rows; r++) {
+    for (let c = 0; c <= d.metadata.cols; c++) {
+      if (isPixelSelected(r, c)) {
+        d.layers[s.current.layer].rows[r][c] = char
+      }
+    }
+  }
+}
 
-// const updateStyles = () => {
-//   for (let r = 0; r < s.rows; r++) {
-//     for (let c = 0; c < s.cols; c++) {
-//       const theCell = document.getElementById(`cell_${r}_${c}`)
-//       if (isPixelSelected(r, c)) {
-//         theCell.classList.remove("activePixel")
-//         theCell.classList.remove("inactivePixel")
-//         theCell.classList.add("selectedPixel")
-//       } else {
-//         theCell.classList.remove("activePixel")
-//         theCell.classList.remove("selectedPixel")
-//         theCell.classList.add("inactivePixel")
-//       }
-//     }
-//   }
-//   const currentPixel = document.getElementById(`cell_${s.current.row}_${s.current.col}`)
-//   if (currentPixel !== null) {
-//     currentPixel.classList.remove("inactivePixel")
-//     currentPixel.classList.add("activePixel")
-//   }
-// }
-
+const updateStyles = () => {
+  for (let r = 0; r < d.metadata.rows; r++) {
+    for (let c = 0; c < d.metadata.cols; c++) {
+      const theCell = document.getElementById(`cell_${r}_${c}`)
+      if (isPixelSelected(r, c)) {
+        theCell.classList.remove("activePixel")
+        theCell.classList.remove("inactivePixel")
+        theCell.classList.add("selectedPixel")
+      } else {
+        theCell.classList.remove("activePixel")
+        theCell.classList.remove("selectedPixel")
+        theCell.classList.add("inactivePixel")
+      }
+    }
+  }
+  const currentPixel = document.getElementById(`cell_${s.current.row}_${s.current.col}`)
+  if (currentPixel !== null) {
+    currentPixel.classList.remove("inactivePixel")
+    currentPixel.classList.add("activePixel")
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-  // charContainer.addEventListener("click", handleCharClick)
-  // duplicateButton.addEventListener("click", duplicateLayer)
+  charContainer.addEventListener("click", handleCharClick)
+  duplicateButton.addEventListener("click", duplicateLayer)
   loadButton.addEventListener("change", loadFile)
   saveButton.addEventListener("click", saveFile)
-  // document.addEventListener("keydown", keydownHandler)
+  document.addEventListener("keydown", keydownHandler)
 })
 
 
 
-// const handlePixelClick = (event) => {
-//   console.log(event)
-//   let data = event.srcElement.dataset
-//   if (event.shiftKey == true) {
-//     s.selectedChars = []
-//     s.selected.col = s.current.col
-//     s.selected.row = s.current.row
-//     s.current.col = parseInt(data.col, 10)
-//     s.current.row = parseInt(data.row, 10)
-//   } else if (event.metaKey == true) {
-//     s.selectedChars.push([s.current.col, s.current.row])
-//     s.selected.col = null
-//     s.selected.row = null
-//     s.current.col = parseInt(data.col, 10)
-//     s.current.row = parseInt(data.row, 10)
-//     // debugger
-//   } else {
-//     s.selectedChars = []
-//     s.selected.col = null
-//     s.selected.row = null
-//     s.current.col = parseInt(data.col, 10)
-//     s.current.row = parseInt(data.row, 10)
-//   }
-//   updateStyles()
-// }
+const handlePixelClick = (event) => {
+  console.log(event)
+  let data = event.srcElement.dataset
+  if (event.shiftKey == true) {
+    s.selectedChars = []
+    s.selected.col = s.current.col
+    s.selected.row = s.current.row
+    s.current.col = parseInt(data.col, 10)
+    s.current.row = parseInt(data.row, 10)
+  } else if (event.metaKey == true) {
+    s.selectedChars.push([s.current.col, s.current.row])
+    s.selected.col = null
+    s.selected.row = null
+    s.current.col = parseInt(data.col, 10)
+    s.current.row = parseInt(data.row, 10)
+    // debugger
+  } else {
+    s.selectedChars = []
+    s.selected.col = null
+    s.selected.row = null
+    s.current.col = parseInt(data.col, 10)
+    s.current.row = parseInt(data.row, 10)
+  }
+  updateStyles()
+}
 
 
 
