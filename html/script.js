@@ -25,12 +25,12 @@ const colCount = () => {
 }
 
 const duplicateLayer = () => {
-  if (d.layers[s.current.layer] !== undefined) {
+  if (d.layers[d.metadata.currentLayer] !== undefined) {
 
-    // const newLayer = JSON.parse(JSON.stringify(d.layers[s.current.layer]))
-    // s.layers.splice(s.current.layer + 1, 0, newLayer)
-    // s.visibleLayers.splice(s.current.layer + 1, 0, true)
-    // s.current.layer = s.current.layer + 1
+    // const newLayer = JSON.parse(JSON.stringify(d.layers[d.metadata.currentLayer]))
+    // s.layers.splice(d.metadata.currentLayer + 1, 0, newLayer)
+    // s.visibleLayers.splice(d.metadata.currentLayer + 1, 0, true)
+    // d.metadata.currentLayer = d.metadata.currentLayer + 1
     // render()
 
   }
@@ -54,8 +54,7 @@ const handleCanvasClick = (event) => {
 const handleCharClick = (event) => {
   const char = event.srcElement.innerText
   // debugger
-
-  d.layers[s.current.layer].rows[s.current.row][s.current.col].char = char
+  d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col].char = char
   if (!s.freqChars.includes(char)) {
     s.freqChars.push(char)
   }
@@ -112,7 +111,7 @@ const keydownHandler = (event) => {
     updateStyles()
   } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
-    d.layers[s.current.layer].rows[s.current.row][s.current.col].char = ""
+    d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col].char = ""
     updateOtherCharacters("")
     render()
   }
@@ -125,11 +124,8 @@ const loadFile = () => {
   reader.onload = (e) => {
     const rawFileData = e.target.result
     d = JSON.parse(rawFileData)
-    s.current.layer = 0
-
     buildCanvas()
   }
-
   reader.readAsText(theFile)
 }
 
@@ -171,16 +167,14 @@ const render = () => {
     charButton.classList.add("char")
     freqChars.appendChild(charButton)
   })
-
   for (let r = 0; r <= rowCount(); r++) {
     for (let c = 0; c <= colCount(); c++) {
       document.getElementById(`cell_${r}_${c}`).innerHTML = ""
     }
   }
-
   d.layers.forEach((layer, layerIndex) => {
     const layerControl = document.createElement("div")
-    if (layerIndex === s.current.layer) {
+    if (layerIndex === d.metadata.currentLayer) {
       layerControl.classList.add("currentLayerControl")
     }
     const layerSelect = document.createElement("button")
@@ -209,15 +203,15 @@ const renderLayer = (layerIndex) => {
       if (char.char !== "") {
         theCell.innerHTML = char.char
         // console.log(char.char)
-        if (layerIndex === s.current.layer) {
+        if (layerIndex === d.metadata.currentLayer) {
           theCell.classList.add("activeLayer")
           theCell.classList.remove("lowerLayer")
           theCell.classList.remove("upperLayer")
-        } else if (layerIndex < s.current.layer) {
+        } else if (layerIndex < d.metadata.currentLayer) {
           theCell.classList.remove("activeLayer")
           theCell.classList.add("lowerLayer")
           theCell.classList.remove("upperLayer")
-        } else if (layerIndex > s.current.layer) {
+        } else if (layerIndex > d.metadata.currentLayer) {
           theCell.classList.remove("activeLayer")
           theCell.classList.remove("lowerLayer")
           theCell.classList.add("upperLayer")
@@ -249,8 +243,8 @@ const saveFile = () => {
 
 const selectLayer = (event) => {
   const el = event.srcElement
-  s.current.layer = parseInt(el.dataset.layer, 10)
-  d.layers[s.current.layer].visible = true
+  d.metadata.currentLayer = parseInt(el.dataset.layer, 10)
+  d.layers[d.metadata.currentLayer].visible = true
   render()
 }
 
@@ -258,6 +252,7 @@ const toggleLayer = (event) => {
   const el = event.srcElement
   if (el.checked) {
     d.layers[parseInt(el.dataset.layer, 10)].visible = true
+    d.metadata.currentLayer = parseInt(el.dataset.layer, 10)
   } else {
     d.layers[parseInt(el.dataset.layer, 10)].visible = false
   }
@@ -268,7 +263,7 @@ const updateOtherCharacters = (char) => {
   for (let r = 0; r <= rowCount(); r++) {
     for (let c = 0; c <= colCount(); c++) {
       if (isPixelSelected(r, c)) {
-        d.layers[s.current.layer].rows[r][c].char = char
+        d.layers[d.metadata.currentLayer].rows[r][c].char = char
       }
     }
   }
