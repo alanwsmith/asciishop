@@ -12,6 +12,17 @@ let s = {
 
 let d = {}
 
+
+const addColumn = () => {
+  console.log("Adding column")
+  d.layers.forEach((layer) => {
+    layer.rows.forEach((row) => {
+      row.push({ char: "", hex_color: "#aa00aa" })
+    })
+  })
+  buildCanvas()
+}
+ 
 const addRow = () => {
   console.log("adding row")
   d.layers.forEach((layer) => {
@@ -24,6 +35,11 @@ const addRow = () => {
   buildCanvas()
 }
  
+const changeLayerType = (event) => {
+  const theLayer = parseInt(event.target.dataset.layer, 10)
+  const theType = event.target.value
+  d.layers[theLayer].layerType = theType
+}
 
 const colCount = () => {
   let cols = 0
@@ -193,9 +209,17 @@ const render = () => {
     const layerToggle = document.createElement("input")
     layerToggle.type = "checkbox"
     layerToggle.dataset.layer = layerIndex
-    layerToggle.addEventListener("change", toggleLayer)
+    layerToggle.addEventListener("input", toggleLayer)
     layerControl.appendChild(layerToggle)
+
+    const layerType = document.createElement("input")
+    layerType.value = layer.layerType
+    layerType.addEventListener("input", changeLayerType)
+    layerType.dataset.layer = layerIndex
+    layerControl.appendChild(layerType)
+
     layerControls.appendChild(layerControl)
+
     if (d.layers[layerIndex].visible) {
       layerToggle.checked = true
       renderLayer(layerIndex)
@@ -301,6 +325,7 @@ const updateStyles = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   bg.addEventListener("click", handleCanvasClick)
+  addColumnButton.addEventListener("click", addColumn)
   addRowButton.addEventListener("click", addRow)
   charContainer.addEventListener("click", handleCharClick)
   duplicateButton.addEventListener("click", duplicateLayer)
