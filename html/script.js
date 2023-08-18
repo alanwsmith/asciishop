@@ -105,8 +105,8 @@ const keydownHandler = (event) => {
     updateStyles()
   } else if (event.code === "KeyF" && event.metaKey === false) {
     event.preventDefault()
-    d.layers[s.current.layer].rows[s.current.row][s.current.col].char = " "
-    updateOtherCharacters(" ")
+    d.layers[s.current.layer].rows[s.current.row][s.current.col].char = ""
+    updateOtherCharacters("")
     render()
   }
 }
@@ -129,8 +129,8 @@ const loadFile = () => {
 }
 
 const buildCanvas = (rows, cols) => {
-  console.log(rows)
-  console.log(cols)
+  // console.log(rows)
+  // console.log(cols)
   const tableFrame = document.createElement("table")
   tableFrame.id = "canvas"
   for (let r = 0; r <= rows; r++) {
@@ -153,7 +153,7 @@ const buildCanvas = (rows, cols) => {
 }
 
 const render = () => {
-  console.log("alfa")
+  // console.log("alfa")
   while (layerControls.children.length > 0) {
     layerControls.children[0].remove()
   }
@@ -169,7 +169,7 @@ const render = () => {
 
   for (let r = 0; r <= d.metadata.rows; r++) {
     for (let c = 0; c <= d.metadata.cols; c++) {
-      document.getElementById(`cell_${r}_${c}`).innerHTML = " "
+      document.getElementById(`cell_${r}_${c}`).innerHTML = ""
     }
   }
 
@@ -197,13 +197,13 @@ const render = () => {
 }
 
 const renderLayer = (layerIndex) => {
-  console.log("ping")
+  // console.log("ping")
   d.layers[layerIndex].rows.forEach((row, rowIndex) => {
     row.forEach((char, charIndex) => {
       const theCell = document.getElementById(`cell_${rowIndex}_${charIndex}`)
-      if (char.char !== " ") {
+      if (char.char !== "") {
         theCell.innerHTML = char.char
-        console.log(char.char)
+        // console.log(char.char)
         if (layerIndex === s.current.layer) {
           theCell.classList.add("activeLayer")
           theCell.classList.remove("lowerLayer")
@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 const handlePixelClick = (event) => {
-  console.log(event)
+  // console.log(event)
   let data = event.srcElement.dataset
   if (event.shiftKey == true) {
     s.selectedChars = []
