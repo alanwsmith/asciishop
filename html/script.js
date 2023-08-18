@@ -8,6 +8,7 @@ let s = {
     col: null,
   },
   freqChars: [],
+  isTyping: true,
 }
 
 let d = {}
@@ -22,19 +23,19 @@ const addColumn = () => {
   })
   buildCanvas()
 }
- 
+
 const addRow = () => {
   console.log("adding row")
   d.layers.forEach((layer) => {
     const newRow = []
-    for (let x = 0; x < colCount(); x ++) {
+    for (let x = 0; x < colCount(); x++) {
       newRow.push({ char: "", hex_color: "#aa00aa" })
     }
     layer.rows.push(newRow)
   })
   buildCanvas()
 }
- 
+
 const changeLayerType = (event) => {
   const theLayer = parseInt(event.target.dataset.layer, 10)
   const theType = event.target.value
@@ -78,7 +79,7 @@ const handleCharClick = (event) => {
   const char = event.srcElement.innerText
   // add cells if necessary, otherwise update existing ones
   if (!d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col]) {
-    d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col] = {char: char, hex_color: "aa00aa"}
+    d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col] = { char: char, hex_color: "aa00aa" }
   } else {
     d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col].char = char
   }
@@ -111,35 +112,37 @@ const isPixelSelected = (r, c) => {
 }
 
 const keydownHandler = (event) => {
-  if (event.code === "KeyA" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.col != 0) {
-      s.current.col = s.current.col - 1
+  if (s.isTyping === false) {
+    if (event.code === "KeyA" && event.metaKey === false) {
+      event.preventDefault()
+      if (s.current.col != 0) {
+        s.current.col = s.current.col - 1
+      }
+      updateStyles()
+    } else if (event.code === "KeyD" && event.metaKey === false) {
+      event.preventDefault()
+      if (s.current.col < colCount() - 1) {
+        s.current.col = s.current.col + 1
+      }
+      updateStyles()
+    } else if (event.code === "KeyW" && event.metaKey === false) {
+      event.preventDefault()
+      if (s.current.row != 0) {
+        s.current.row = s.current.row - 1
+      }
+      updateStyles()
+    } else if (event.code === "KeyS" && event.metaKey === false) {
+      event.preventDefault()
+      if (s.current.row < rowCount() - 1) {
+        s.current.row = s.current.row + 1
+      }
+      updateStyles()
+    } else if (event.code === "KeyF" && event.metaKey === false) {
+      event.preventDefault()
+      d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col].char = ""
+      updateOtherCharacters("")
+      render()
     }
-    updateStyles()
-  } else if (event.code === "KeyD" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.col < colCount() - 1) {
-      s.current.col = s.current.col + 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyW" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.row != 0) {
-      s.current.row = s.current.row - 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyS" && event.metaKey === false) {
-    event.preventDefault()
-    if (s.current.row < rowCount() - 1) {
-      s.current.row = s.current.row + 1
-    }
-    updateStyles()
-  } else if (event.code === "KeyF" && event.metaKey === false) {
-    event.preventDefault()
-    d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col].char = ""
-    updateOtherCharacters("")
-    render()
   }
 }
 
