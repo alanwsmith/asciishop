@@ -17,6 +17,16 @@ let s = {
 
 let d = {}
 
+const colCount = () => {
+  let cols = 0
+  d.layers.forEach((layer) => {
+    layer.rows.forEach((row) => {
+      cols = Math.max(cols, row.length)
+    })
+  })
+  return cols
+}
+
 const duplicateLayer = () => {
   if (d.layers[s.current.layer] !== undefined) {
 
@@ -122,20 +132,21 @@ const loadFile = () => {
       s.visibleLayers.push(true)
     })
     s.current.layer = 0
-    buildCanvas(d.metadata.rows, d.metadata.cols)
+
+    buildCanvas()
   }
 
   reader.readAsText(theFile)
 }
 
-const buildCanvas = (rows, cols) => {
+const buildCanvas = () => {
   // console.log(rows)
   // console.log(cols)
   const tableFrame = document.createElement("table")
   tableFrame.id = "canvas"
-  for (let r = 0; r <= rows; r++) {
+  for (let r = 0; r <= rowCount(); r++) {
     const tableRow = document.createElement("tr")
-    for (let c = 0; c <= cols; c++) {
+    for (let c = 0; c <= colCount(); c++) {
       const tableCell = document.createElement("td")
       tableCell.id = `cell_${r}_${c}`
       tableCell.dataset.row = r
@@ -167,8 +178,8 @@ const render = () => {
     freqChars.appendChild(charButton)
   })
 
-  for (let r = 0; r <= d.metadata.rows; r++) {
-    for (let c = 0; c <= d.metadata.cols; c++) {
+  for (let r = 0; r <= rowCount(); r++) {
+    for (let c = 0; c <= colCount(); c++) {
       document.getElementById(`cell_${r}_${c}`).innerHTML = ""
     }
   }
@@ -222,6 +233,14 @@ const renderLayer = (layerIndex) => {
   })
 }
 
+const rowCount = () => {
+  let rows = 0
+  d.layers.forEach((layer) => {
+    rows = Math.max(rows, layer.rows.length)
+  })
+  return rows
+}
+
 const saveFile = () => {
   console.log("Saving File")
   const data = new Blob(
@@ -252,8 +271,8 @@ const toggleLayer = (event) => {
 }
 
 const updateOtherCharacters = (char) => {
-  for (let r = 0; r <= d.metadata.rows; r++) {
-    for (let c = 0; c <= d.metadata.cols; c++) {
+  for (let r = 0; r <= rowCount(); r++) {
+    for (let c = 0; c <= colCount(); c++) {
       if (isPixelSelected(r, c)) {
         d.layers[s.current.layer].rows[r][c].char = char
       }
@@ -262,8 +281,8 @@ const updateOtherCharacters = (char) => {
 }
 
 const updateStyles = () => {
-  for (let r = 0; r < d.metadata.rows; r++) {
-    for (let c = 0; c < d.metadata.cols; c++) {
+  for (let r = 0; r <= rowCount(); r++) {
+    for (let c = 0; c <= colCount(); c++) {
       const theCell = document.getElementById(`cell_${r}_${c}`)
       if (isPixelSelected(r, c)) {
         theCell.classList.remove("activePixel")
