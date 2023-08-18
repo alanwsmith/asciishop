@@ -26,13 +26,10 @@ const colCount = () => {
 
 const duplicateLayer = () => {
   if (d.layers[d.metadata.currentLayer] !== undefined) {
-
-    // const newLayer = JSON.parse(JSON.stringify(d.layers[d.metadata.currentLayer]))
-    // s.layers.splice(d.metadata.currentLayer + 1, 0, newLayer)
-    // s.visibleLayers.splice(d.metadata.currentLayer + 1, 0, true)
-    // d.metadata.currentLayer = d.metadata.currentLayer + 1
-    // render()
-
+    const newLayer = JSON.parse(JSON.stringify(d.layers[d.metadata.currentLayer]))
+    d.layers.splice(d.metadata.currentLayer + 1, 0, newLayer)
+    d.metadata.currentLayer = d.metadata.currentLayer + 1
+    render()
   }
 }
 
@@ -237,7 +234,7 @@ const saveFile = () => {
   )
   const link = document.createElement("a")
   link.href = URL.createObjectURL(data)
-  link.setAttribute("download", "ascii-shop.txt");
+  link.setAttribute("download", "ascii-shop.json");
   link.click()
 }
 
