@@ -9,9 +9,6 @@ let s = {
     row: null,
     col: null,
   },
-  // rows: 80,
-  // cols: 80,
-  visibleLayers: [],
   freqChars: [],
 }
 
@@ -128,9 +125,6 @@ const loadFile = () => {
   reader.onload = (e) => {
     const rawFileData = e.target.result
     d = JSON.parse(rawFileData)
-    d.layers.forEach((layer, layerIndex) => {
-      s.visibleLayers.push(true)
-    })
     s.current.layer = 0
 
     buildCanvas()
@@ -200,7 +194,7 @@ const render = () => {
     layerToggle.addEventListener("change", toggleLayer)
     layerControl.appendChild(layerToggle)
     layerControls.appendChild(layerControl)
-    if (s.visibleLayers[layerIndex]) {
+    if (d.layers[layerIndex].visible) {
       layerToggle.checked = true
       renderLayer(layerIndex)
     }
@@ -256,16 +250,16 @@ const saveFile = () => {
 const selectLayer = (event) => {
   const el = event.srcElement
   s.current.layer = parseInt(el.dataset.layer, 10)
-  s.visibleLayers[s.current.layer] = true
+  d.layers[s.current.layer].visible = true
   render()
 }
 
 const toggleLayer = (event) => {
   const el = event.srcElement
   if (el.checked) {
-    s.visibleLayers[parseInt(el.dataset.layer, 10)] = true
+    d.layers[parseInt(el.dataset.layer, 10)].visible = true
   } else {
-    s.visibleLayers[parseInt(el.dataset.layer, 10)] = false
+    d.layers[parseInt(el.dataset.layer, 10)].visible = false
   }
   render()
 }
