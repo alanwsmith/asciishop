@@ -8,7 +8,7 @@ let s = {
     col: null,
   },
   freqChars: [],
-  isTyping: true,
+  isTyping: false,
 }
 
 let d = {}
@@ -34,6 +34,29 @@ const addRow = () => {
     layer.rows.push(newRow)
   })
   buildCanvas()
+}
+
+const buildCanvas = () => {
+  const tableFrame = document.createElement("table")
+  for (let r = 0; r < rowCount(); r++) {
+    const tableRow = document.createElement("tr")
+    for (let c = 0; c < colCount(); c++) {
+      const tableCell = document.createElement("td")
+      tableCell.id = `cell_${r}_${c}`
+      tableCell.dataset.row = r
+      tableCell.dataset.col = c
+      tableCell.innerHTML = ""
+      tableCell.classList.add("pixel")
+      tableCell.classList.add("inactivePixel")
+      tableRow.appendChild(tableCell)
+    }
+    tableFrame.appendChild(tableRow)
+  }
+  while (bg.children.length > 0) {
+    bg.children[0].remove()
+  }
+  bg.appendChild(tableFrame)
+  render()
 }
 
 const changeLayerType = (event) => {
@@ -158,28 +181,6 @@ const loadFile = () => {
   reader.readAsText(theFile)
 }
 
-const buildCanvas = () => {
-  const tableFrame = document.createElement("table")
-  for (let r = 0; r < rowCount(); r++) {
-    const tableRow = document.createElement("tr")
-    for (let c = 0; c < colCount(); c++) {
-      const tableCell = document.createElement("td")
-      tableCell.id = `cell_${r}_${c}`
-      tableCell.dataset.row = r
-      tableCell.dataset.col = c
-      tableCell.innerHTML = ""
-      tableCell.classList.add("pixel")
-      tableCell.classList.add("inactivePixel")
-      tableRow.appendChild(tableCell)
-    }
-    tableFrame.appendChild(tableRow)
-  }
-  while (bg.children.length > 0) {
-    bg.children[0].remove()
-  }
-  bg.appendChild(tableFrame)
-  render()
-}
 
 const render = () => {
   while (layerControls.children.length > 0) {
@@ -214,15 +215,14 @@ const render = () => {
     layerToggle.dataset.layer = layerIndex
     layerToggle.addEventListener("input", toggleLayer)
     layerControl.appendChild(layerToggle)
-
     const layerType = document.createElement("input")
     layerType.value = layer.layerType
     layerType.addEventListener("input", changeLayerType)
+    layerType.addEventListener("focus", () => { s.isTyping = true })
+    layerType.addEventListener("blur", () => { s.isTyping = false })
     layerType.dataset.layer = layerIndex
     layerControl.appendChild(layerType)
-
     layerControls.appendChild(layerControl)
-
     if (d.layers[layerIndex].visible) {
       layerToggle.checked = true
       renderLayer(layerIndex)
