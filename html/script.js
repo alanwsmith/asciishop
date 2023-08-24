@@ -11,7 +11,12 @@ let s = {
   isTyping: false,
 }
 
-let d = {}
+let d = {
+  layers: [],
+  metadata: {
+    currentLayer: 0,
+  },
+}
 
 
 const addColumn = () => {
@@ -374,12 +379,12 @@ const selectLayer = (event) => {
   render()
 }
 
-
 const soloLayer = (event) => {
   const targetLayer = parseInt(event.srcElement.dataset.layer, 10)
   d.layers.forEach((_, lIndex) => {
     if (lIndex === targetLayer) {
       d.layers[lIndex].visible = true
+      d.metadata.currentLayer = lIndex
     } else {
       d.layers[lIndex].visible = false
     }
