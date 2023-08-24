@@ -305,16 +305,16 @@ const render = () => {
     // layerType.addEventListener("blur", updateLayerNames)
     layerType.dataset.layer = layerIndex
     layerControl.appendChild(layerType)
-    const layerSelect = document.createElement("button")
-    layerSelect.innerHTML = `L-${layerIndex}`
-    layerSelect.dataset.layer = layerIndex
-    layerSelect.addEventListener("click", selectLayer)
-    layerControl.appendChild(layerSelect)
     const layerToggle = document.createElement("input")
     layerToggle.type = "checkbox"
     layerToggle.dataset.layer = layerIndex
     layerToggle.addEventListener("input", toggleLayer)
     layerControl.appendChild(layerToggle)
+    const layerSelect = document.createElement("button")
+    layerSelect.innerHTML = `L`
+    layerSelect.dataset.layer = layerIndex
+    layerSelect.addEventListener("click", selectLayer)
+    layerControl.appendChild(layerSelect)
     const layerSolo = document.createElement("button")
     layerSolo.innerHTML = `S`
     layerSolo.dataset.layer = layerIndex
