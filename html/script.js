@@ -212,6 +212,18 @@ const keydownHandler = (event) => {
         render()
       } else if (event.code === "KeyF" && event.metaKey === false) {
         event.preventDefault()
+        for (let r = 0; r < rowCount(); r++) {
+          for (let c = 0; c < colCount(); c++) {
+            if (c >= s.selected.col && c <= s.current.col || c >= s.current.col && c <= s.selected.col) {
+              if (r >= s.selected.row && r <= s.current.row || r >= s.current.row && r <= s.selected.row) {
+                console.log(`${r} ${c}`)
+                d.layers[d.metadata.currentLayer].rows[r][c].char = ""
+              }
+            }
+          }
+        }
+        updateStyles()
+        render()
       }
     } else {
       console.log("Move Cursor")
@@ -245,7 +257,6 @@ const keydownHandler = (event) => {
         updateOtherCharacters("")
         render()
       }
-
     }
   }
 }
