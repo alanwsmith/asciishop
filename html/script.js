@@ -59,11 +59,6 @@ const buildCanvas = () => {
   render()
 }
 
-const changeLayerType = (event) => {
-  const therayer = parseInt(event.target.dataset.layer, 10)
-  const theType = event.target.value
-  d.layers[theLayer].layerType = theType
-}
 
 const colCount = () => {
   let cols = 0
@@ -309,9 +304,10 @@ const render = () => {
     layerControl.appendChild(layerToggle)
     const layerType = document.createElement("input")
     layerType.value = layer.layerType
-    layerType.addEventListener("input", changeLayerType)
+    layerType.addEventListener("input", updateLayerName)
     layerType.addEventListener("focus", () => { s.isTyping = true })
     layerType.addEventListener("blur", () => { s.isTyping = false })
+    // layerType.addEventListener("blur", updateLayerNames)
     layerType.dataset.layer = layerIndex
     layerControl.appendChild(layerType)
     layerControls.appendChild(layerControl)
@@ -382,6 +378,14 @@ const toggleLayer = (event) => {
     d.layers[parseInt(el.dataset.layer, 10)].visible = false
   }
   render()
+}
+
+
+const updateLayerName = (event) => {
+  console.log("Updating layer name")
+  const theLayer = parseInt(event.target.dataset.layer, 10)
+  const theType = event.target.value
+  d.layers[theLayer].layerType = theType
 }
 
 const updateOtherCharacters = (char) => {
