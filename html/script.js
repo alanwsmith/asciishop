@@ -60,7 +60,7 @@ const buildCanvas = () => {
 }
 
 const changeLayerType = (event) => {
-  const theLayer = parseInt(event.target.dataset.layer, 10)
+  const therayer = parseInt(event.target.dataset.layer, 10)
   const theType = event.target.value
   d.layers[theLayer].layerType = theType
 }
@@ -136,35 +136,72 @@ const isPixelSelected = (r, c) => {
 
 const keydownHandler = (event) => {
   if (s.isTyping === false) {
-    if (event.code === "KeyA" && event.metaKey === false) {
-      event.preventDefault()
-      if (s.current.col != 0) {
-        s.current.col = s.current.col - 1
+    if (s.selected.row !== null) {
+      console.log("Shift Pixels")
+      if (event.code === "KeyA" && event.metaKey === false) {
+        console.log("Hit a")
+        for (let r = 0; r < rowCount(); r++) {
+          for (let c = 0; c < colCount(); c++) {
+            if (c >= s.selected.col && c <= s.current.col || c >= s.current.col && c <= s.selected.col)  {
+              if (r >= s.selected.row && r <= s.current.row || r >= s.current.row && r <= s.selected.row) {
+                console.log(`${r} ${c}`)
+                d.layers[d.metadata.currentLayer].rows[r][c - 1].char =
+                d.layers[d.metadata.currentLayer].rows[r][c].char
+                d.layers[d.metadata.currentLayer].rows[r][c].char = ""
+              }
+            }
+          }
+        }
+        s.selected.col -= 1
+        s.current.col -= 1
+        event.preventDefault()
+        updateStyles()
+        render()
+      } else if (event.code === "KeyD" && event.metaKey === false) {
+        event.preventDefault()
+        updateStyles()
+      } else if (event.code === "KeyW" && event.metaKey === false) {
+        event.preventDefault()
+        updateStyles()
+      } else if (event.code === "KeyS" && event.metaKey === false) {
+        event.preventDefault()
+        updateStyles()
+      } else if (event.code === "KeyF" && event.metaKey === false) {
+        event.preventDefault()
       }
-      updateStyles()
-    } else if (event.code === "KeyD" && event.metaKey === false) {
-      event.preventDefault()
-      if (s.current.col < colCount() - 1) {
-        s.current.col = s.current.col + 1
+    } else {
+      console.log("Move Cursor")
+      if (event.code === "KeyA" && event.metaKey === false) {
+        event.preventDefault()
+        if (s.current.col != 0) {
+          s.current.col = s.current.col - 1
+        }
+        updateStyles()
+      } else if (event.code === "KeyD" && event.metaKey === false) {
+        event.preventDefault()
+        if (s.current.col < colCount() - 1) {
+          s.current.col = s.current.col + 1
+        }
+        updateStyles()
+      } else if (event.code === "KeyW" && event.metaKey === false) {
+        event.preventDefault()
+        if (s.current.row != 0) {
+          s.current.row = s.current.row - 1
+        }
+        updateStyles()
+      } else if (event.code === "KeyS" && event.metaKey === false) {
+        event.preventDefault()
+        if (s.current.row < rowCount() - 1) {
+          s.current.row = s.current.row + 1
+        }
+        updateStyles()
+      } else if (event.code === "KeyF" && event.metaKey === false) {
+        event.preventDefault()
+        d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col].char = ""
+        updateOtherCharacters("")
+        render()
       }
-      updateStyles()
-    } else if (event.code === "KeyW" && event.metaKey === false) {
-      event.preventDefault()
-      if (s.current.row != 0) {
-        s.current.row = s.current.row - 1
-      }
-      updateStyles()
-    } else if (event.code === "KeyS" && event.metaKey === false) {
-      event.preventDefault()
-      if (s.current.row < rowCount() - 1) {
-        s.current.row = s.current.row + 1
-      }
-      updateStyles()
-    } else if (event.code === "KeyF" && event.metaKey === false) {
-      event.preventDefault()
-      d.layers[d.metadata.currentLayer].rows[s.current.row][s.current.col].char = ""
-      updateOtherCharacters("")
-      render()
+
     }
   }
 }
@@ -303,8 +340,8 @@ const updateOtherCharacters = (char) => {
 }
 
 const updateStyles = () => {
-  console.log(s.current.row)
-  console.log(s.current.col)
+  // console.log(s.current.row)
+  // console.log(s.current.col)
   for (let r = 0; r < rowCount(); r++) {
     for (let c = 0; c < colCount(); c++) {
       const theCell = document.getElementById(`cell_${r}_${c}`)

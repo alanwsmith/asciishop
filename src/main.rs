@@ -12,7 +12,7 @@ async fn main() {
         .route("/alpine.js", get(ahandler));
     // .route("/test", get(test_page))
     //.layer(LiveReloadLayer::new());
-    let _ = axum::Server::bind(&"0.0.0.0:3100".parse().unwrap())
+    let _ = axum::Server::bind(&"0.0.0.0:3303".parse().unwrap())
         .serve(app.into_make_service())
         .await;
 }
