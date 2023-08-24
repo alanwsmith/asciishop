@@ -292,16 +292,6 @@ const render = () => {
     if (layerIndex === d.metadata.currentLayer) {
       layerControl.classList.add("currentLayerControl")
     }
-    const layerSelect = document.createElement("button")
-    layerSelect.innerHTML = `Layer: ${layerIndex}`
-    layerSelect.dataset.layer = layerIndex
-    layerSelect.addEventListener("click", selectLayer)
-    layerControl.appendChild(layerSelect)
-    const layerToggle = document.createElement("input")
-    layerToggle.type = "checkbox"
-    layerToggle.dataset.layer = layerIndex
-    layerToggle.addEventListener("input", toggleLayer)
-    layerControl.appendChild(layerToggle)
     const layerType = document.createElement("input")
     layerType.value = layer.layerType
     layerType.addEventListener("input", updateLayerName)
@@ -310,6 +300,21 @@ const render = () => {
     // layerType.addEventListener("blur", updateLayerNames)
     layerType.dataset.layer = layerIndex
     layerControl.appendChild(layerType)
+    const layerSelect = document.createElement("button")
+    layerSelect.innerHTML = `L-${layerIndex}`
+    layerSelect.dataset.layer = layerIndex
+    layerSelect.addEventListener("click", selectLayer)
+    layerControl.appendChild(layerSelect)
+    const layerToggle = document.createElement("input")
+    layerToggle.type = "checkbox"
+    layerToggle.dataset.layer = layerIndex
+    layerToggle.addEventListener("input", toggleLayer)
+    layerControl.appendChild(layerToggle)
+    const layerSolo = document.createElement("button")
+    layerSolo.innerHTML = `S`
+    layerSolo.dataset.layer = layerIndex
+    layerSolo.addEventListener("click", soloLayer)
+    layerControl.appendChild(layerSolo)
     layerControls.appendChild(layerControl)
     if (d.layers[layerIndex].visible) {
       layerToggle.checked = true
@@ -366,6 +371,19 @@ const selectLayer = (event) => {
   const el = event.srcElement
   d.metadata.currentLayer = parseInt(el.dataset.layer, 10)
   d.layers[d.metadata.currentLayer].visible = true
+  render()
+}
+
+
+const soloLayer = (event) => {
+  const targetLayer = parseInt(event.srcElement.dataset.layer, 10)
+  d.layers.forEach((_, lIndex) => {
+    if (lIndex === targetLayer) {
+      d.layers[lIndex].visible = true
+    } else {
+      d.layers[lIndex].visible = false
+    }
+  })
   render()
 }
 
