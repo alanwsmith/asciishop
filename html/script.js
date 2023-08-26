@@ -7,6 +7,7 @@ let s = {
     row: null,
     col: null,
   },
+  selectedIndividual: [],
   freqChars: [],
   isTyping: false,
 }
@@ -89,7 +90,16 @@ const handleCanvasClick = (event) => {
   if (event.shiftKey === true) {
     s.selected.row = s.current.row
     s.selected.col = s.current.col
+    s.selectedIndividual = []
+  } else if (event.metaKey === true) {
+    s.selectedIndividual.push(
+      [s.current.row, s.current.col]
+    )
+    console.log(s.selectedIndividual)
+    s.selected.row = null
+    s.selected.col = null
   } else {
+    s.selectedIndividual = []
     s.selected.row = null
     s.selected.col = null
   }
@@ -128,6 +138,20 @@ const isPixelSelected = (r, c) => {
     }
     if (turnItOn === 2) {
       return true
+    }
+  } else if (s.selectedIndividual.length > 0) {
+    let isInIt = false
+    s.selectedIndividual.forEach((ck) => {
+      if (ck[0] === r && ck[1] === c) {
+        console.log(ck)
+        isInIt = true
+      }
+    })
+    if (isInIt) {
+      return true
+    }
+    else {
+      return false
     }
   } else {
     return false
@@ -311,7 +335,7 @@ const render = () => {
     layerToggle.addEventListener("input", toggleLayer)
     layerControl.appendChild(layerToggle)
     const layerSelect = document.createElement("button")
-    layerSelect.innerHTML = `L`
+    layerSelect.innerHTML = `L${layerIndex}`
     layerSelect.dataset.layer = layerIndex
     layerSelect.addEventListener("click", selectLayer)
     layerControl.appendChild(layerSelect)
@@ -419,6 +443,9 @@ const updateOtherCharacters = (char) => {
       }
     }
   }
+  s.selectedIndividual.forEach((si) => {
+    d.layers[d.metadata.currentLayer].rows[si[0]][si[1]].char = char
+  })
 }
 
 const updateStyles = () => {
