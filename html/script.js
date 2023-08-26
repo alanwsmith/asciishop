@@ -334,16 +334,16 @@ const render = () => {
     layerToggle.dataset.layer = layerIndex
     layerToggle.addEventListener("input", toggleLayer)
     layerControl.appendChild(layerToggle)
-    const layerSelect = document.createElement("button")
-    layerSelect.innerHTML = `L${layerIndex}`
-    layerSelect.dataset.layer = layerIndex
-    layerSelect.addEventListener("click", selectLayer)
-    layerControl.appendChild(layerSelect)
     const layerSolo = document.createElement("button")
     layerSolo.innerHTML = `S`
     layerSolo.dataset.layer = layerIndex
     layerSolo.addEventListener("click", soloLayer)
     layerControl.appendChild(layerSolo)
+    const layerSelect = document.createElement("button")
+    layerSelect.innerHTML = `L${layerIndex}`
+    layerSelect.dataset.layer = layerIndex
+    layerSelect.addEventListener("click", selectLayer)
+    layerControl.appendChild(layerSelect)
     layerControls.appendChild(layerControl)
     if (d.layers[layerIndex].visible) {
       layerToggle.checked = true
