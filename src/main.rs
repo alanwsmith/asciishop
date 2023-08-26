@@ -1,22 +1,34 @@
 use axum::response::Html;
 use axum::routing::get;
 use axum::Router;
-use tower_livereload::LiveReloadLayer;
 use std::fs;
+use tower_livereload::LiveReloadLayer;
 
 #[tokio::main]
 async fn main() {
     let app = Router::new()
         .route("/", get(handler))
-        // .route("/test", get(test_page))
-        .layer(LiveReloadLayer::new());
-    let _ = axum::Server::bind(&"0.0.0.0:3100".parse().unwrap())
+        .route("/script.js", get(jshandler))
+        .route("/alpine.js", get(ahandler));
+    // .route("/test", get(test_page))
+    //.layer(LiveReloadLayer::new());
+    let _ = axum::Server::bind(&"0.0.0.0:3303".parse().unwrap())
         .serve(app.into_make_service())
         .await;
 }
 
 async fn handler() -> Html<String> {
     let base = fs::read_to_string("html/index.html").unwrap();
+    Html(base)
+}
+
+async fn jshandler() -> Html<String> {
+    let base = fs::read_to_string("html/script.js").unwrap();
+    Html(base)
+}
+
+async fn ahandler() -> Html<String> {
+    let base = fs::read_to_string("html/alpine.js").unwrap();
     Html(base)
 }
 
