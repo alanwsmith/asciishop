@@ -428,40 +428,25 @@ const renderAsciiOutput = () => {
     }
     asciiOutputLayer.push(newRow)
   }
-
-  // let asciiOutputLayer = Array(
-  //   11
-  //     // d.layers[0].rows[0].length
-  //   ).fill(Array(
-  //   31
-  //     // d.layers[0].rows.length
-  //     ).fill(" "))
-
-  // console.log(asciiOutputLayer)
   d.layers.forEach((layer) => {
-    // console.log(layer)
+    if (layer.visible) {
     layer.rows.forEach((row, rowIndex) => {
-       // console.log(row)
-      // console.log(rowIndex)
       row.forEach((char, charIndex) => {
         if (char.char !== "") {
-           // console.log(`${rowIndex} - ${charIndex} - ${char.char}`)
            asciiOutputLayer[rowIndex][charIndex] = char.char
         }
       })
     })
+    }
   })
-   // console.log(asciiOutputLayer)
   let asciiOutputString = ""
-
   asciiOutputLayer.forEach((asciiOutputRow) => {
     asciiOutputRow.forEach((asciiOutputChar) => {
        asciiOutputString = `${asciiOutputString}${asciiOutputChar}`
     })
-    asciiOutputString = `${asciiOutputString}` + "<br />"
+    asciiOutputString = `${asciiOutputString}` + "\n"
   })
-
-  asciiOutputArea.innerHTML= asciiOutputString
+  asciiOutputArea.innerHTML = asciiOutputString
 }
 
 const rowCount = () => {
