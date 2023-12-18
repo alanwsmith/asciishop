@@ -380,12 +380,16 @@ const render = () => {
     layerSelect.dataset.layer = layerIndex
     layerSelect.addEventListener("click", selectLayer)
     layerControl.appendChild(layerSelect)
+    // The `layerControls.appendChild() line below
+    // throws a linting error, but the code is correct
+    // Don't be fooled
     layerControls.appendChild(layerControl)
     if (d.layers[layerIndex].visible) {
       layerToggle.checked = true
       renderLayer(layerIndex)
     }
   })
+  renderAsciiOutput()
 }
 
 const renderLayer = (layerIndex) => {
@@ -410,6 +414,54 @@ const renderLayer = (layerIndex) => {
       }
     })
   })
+}
+
+const renderAsciiOutput = () => {
+  asciiOutputArea.rows = d.layers[0].rows.length
+  asciiOutputArea.cols = d.layers[0].rows[0].length
+
+  let asciiOutputLayer = []
+  for (r=0; r<d.layers[0].rows.length; r++) {
+    let newRow = []
+    for (c=0; c<d.layers[0].rows[0].length; c++) {
+      newRow.push(" ")
+    }
+    asciiOutputLayer.push(newRow)
+  }
+
+  // let asciiOutputLayer = Array(
+  //   11
+  //     // d.layers[0].rows[0].length
+  //   ).fill(Array(
+  //   31
+  //     // d.layers[0].rows.length
+  //     ).fill(" "))
+
+  // console.log(asciiOutputLayer)
+  d.layers.forEach((layer) => {
+    // console.log(layer)
+    layer.rows.forEach((row, rowIndex) => {
+       // console.log(row)
+      // console.log(rowIndex)
+      row.forEach((char, charIndex) => {
+        if (char.char !== "") {
+           // console.log(`${rowIndex} - ${charIndex} - ${char.char}`)
+           asciiOutputLayer[rowIndex][charIndex] = char.char
+        }
+      })
+    })
+  })
+   // console.log(asciiOutputLayer)
+  let asciiOutputString = ""
+
+  asciiOutputLayer.forEach((asciiOutputRow) => {
+    asciiOutputRow.forEach((asciiOutputChar) => {
+       asciiOutputString = `${asciiOutputString}${asciiOutputChar}`
+    })
+    asciiOutputString = `${asciiOutputString}` + "<br />"
+  })
+
+  asciiOutputArea.innerHTML= asciiOutputString
 }
 
 const rowCount = () => {

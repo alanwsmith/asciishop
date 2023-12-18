@@ -41,6 +41,12 @@
       border: 1px solid #333;
     }
 
+    h4 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #444;
+    }
+
     .activePixel {
       outline: 1px solid green;
     }
@@ -69,6 +75,11 @@
       background-color: red;
     }
 
+    .centerer {
+      display: grid;
+      place-content: center;
+    }
+
     #freqChars {
       display: flex;
       flex-wrap: wrap;
@@ -81,6 +92,12 @@
         width: 3ch;
         font-size: 0.6rem;
       }
+    }
+
+    #asciiOutputArea {
+      white-space: pre;
+      overflow-x: auto;
+      overscroll-behavior-x: none;
     }
 
     #chars {
@@ -149,7 +166,16 @@
       <div id="layerControls"></div>
 
       <div>
+
+        <h4>Canvas</h4>
         <div id="bg"></div>
+
+        <div>
+          <h4>Output</h4>
+          <div class="centerer">
+            <pre id="asciiOutputArea"></pre>
+          </div>
+        </div>
       </div>
 
       <div id="charContainer">
@@ -3206,7 +3232,6 @@
             <button class="char">&#xfe2f;</button>
             <button class="char">&#xfeff;</button>
             <button class="char">&#xfffc;</button>
-
             <button class="char">&#xfffd;</button>
           </div>
         </div>
