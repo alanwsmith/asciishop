@@ -72,12 +72,17 @@
     }
 
     .currentLayerControl {
-      background-color: red;
+      background-color: #522;
     }
 
     .centerer {
       display: grid;
       place-content: center;
+    }
+
+    .padded {
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
     }
 
     #freqChars {
@@ -163,13 +168,14 @@
       <button id="addColumnButton">Add Column</button>
     </div>
     <div class="holder">
-      <div id="layerControls"></div>
+      <div class="padded">
+        <h4>Layers</h4>
+        <div id="layerControls"></div>
+      </div>
 
-      <div>
-
+      <div class="padded">
         <h4>Canvas</h4>
         <div id="bg"></div>
-
         <div>
           <h4>Output</h4>
           <div class="centerer">
@@ -178,7 +184,8 @@
         </div>
       </div>
 
-      <div id="charContainer">
+      <div id="charContainer" class="padded">
+        <h4>Characters</h4>
         <div id="freqChars"></div>
         <div id="charWrapper">
           <div id="chars">

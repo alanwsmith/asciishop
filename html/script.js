@@ -362,6 +362,8 @@ const render = () => {
     layerType.addEventListener("input", updateLayerName)
     layerType.addEventListener("focus", () => { s.isTyping = true })
     layerType.addEventListener("blur", () => { s.isTyping = false })
+    layerType.classList.add("layerLabel")
+    layerType.size = 15
     // layerType.addEventListener("blur", updateLayerNames)
     layerType.dataset.layer = layerIndex
     layerControl.appendChild(layerType)
